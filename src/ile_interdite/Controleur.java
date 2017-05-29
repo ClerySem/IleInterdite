@@ -10,6 +10,6 @@ package ile_interdite;
  * @author semanazc
  */
 public class Controleur {
-    ihm
+    
     
 }

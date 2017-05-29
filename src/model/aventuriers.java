@@ -5,10 +5,17 @@
  */
 package model;
 
+import java.awt.Color;
+
 /**
  *
  * @author semanazc
  */
-public class Aventurier {
+public class aventuriers {
     
-}
+    public static enum Aventurier {
+        
+            
+    }
+    }
+
