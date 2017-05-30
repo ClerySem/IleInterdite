@@ -6,6 +6,7 @@
 package ile_interdite;
 
 import java.awt.Color;
+import java.util.HashMap;
 import model.aventuriers.Aventurier;
 import view.VueAventurier;
 
@@ -14,12 +15,20 @@ import view.VueAventurier;
  * @author semanazc
  */
 public class Controleur implements Observateur {
-    private Aventurier aventurier;
+    private HashMap<NomAventurier, Aventurier> aventuriers;
     private VueAventurier vue;
 
     public Controleur() {
-        ihm = new VueAventurier("Clery", aventurier.getRole().toString, Color.blue);
-        
+        vue = new VueAventurier("Clery", "explorateur", Color.blue);
+        aventurier = new Explorateur();
+        vue.setObservateur(this);
+        vue.affiche();
+    }
+
+    @Override
+    public void traiterMessage(Message msg) {
+        String joueur;
+        int n 
     }
     
     
