@@ -10,5 +10,26 @@ package model.aventuriers;
  * @author sarrasie
  */
 public abstract class Aventurier {
+    private roleAventuriers role;
+    private String capacite;
     
+    public Aventurier(roleAventuriers r,String c){
+        this.role = r;
+        this.capacite = c;
+    }
+    public roleAventuriers getRole(){
+        return role;
+    }
+    public void setRole(roleAventuriers r){
+        this.role = r;
+    }
+    public void assecherTuile(){
+        
+    }
+    public void seDeplacer(){
+        
+    }
+    public void donnerCarteJoueur(){
+        
+    }
 }

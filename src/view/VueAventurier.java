@@ -123,6 +123,30 @@ public class VueAventurier  {
             }
             
         });
+         
+        btnAssecher.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.type = TypesMessages.Assecher;
+                observateur.traiterMessage(m);
+                
+            }
+            
+        });
+         
+        btnTerminerTour.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.type = TypesMessages.Terminer;
+                observateur.traiterMessage(m);
+                
+            }
+            
+        });
         
         
     }  
@@ -156,5 +180,5 @@ public class VueAventurier  {
     }
 }
 
- 
+
 
