@@ -12,5 +12,6 @@ package ile_interdite;
 public enum TypesMessages {
     Deplacer,
     Assecher,
-    Terminer
+    Terminer,
+    autre
 }
