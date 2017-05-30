@@ -5,11 +5,22 @@
  */
 package ile_interdite;
 
+import java.awt.Color;
+import model.aventuriers.Aventurier;
+import view.VueAventurier;
+
 /**
  *
  * @author semanazc
  */
-public class Controleur {
-    private aventurier Aventurier;
+public class Controleur implements Observateur {
+    private Aventurier aventurier;
+    private VueAventurier vue;
+
+    public Controleur() {
+        ihm = new VueAventurier("Clery", aventurier.getRole().toString, Color.blue);
+        
+    }
+    
     
 }
