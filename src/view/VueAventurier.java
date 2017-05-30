@@ -12,10 +12,15 @@ package view;
 
 
 
+import ile_interdite.Message;
+import ile_interdite.Observateur;
+import ile_interdite.TypesMessages;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -41,6 +46,7 @@ public class VueAventurier  {
     private final JButton btnAutreAction;
     private final JButton btnTerminerTour;
     private final JTextField position;
+    private Observateur observateur;
     
     public VueAventurier (String nomJoueur, String nomAventurier, Color couleur){
 
@@ -93,6 +99,56 @@ public class VueAventurier  {
 
         this.window.setVisible(true);
         mainPanel.repaint();
+        
+        btnAller.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.type = TypesMessages.Deplacer;
+                observateur.traiterMessage(m);
+                
+            }
+            
+        });
+        
+        btnAutreAction.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.type = TypesMessages.autre;
+                observateur.traiterMessage(m);
+                
+            }
+            
+        });
+         
+        btnAssecher.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.type = TypesMessages.Assecher;
+                observateur.traiterMessage(m);
+                
+            }
+            
+        });
+         
+        btnTerminerTour.addActionListener(new ActionListener(){
+            
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Message m = new Message();
+                m.type = TypesMessages.Terminer;
+                observateur.traiterMessage(m);
+                
+            }
+            
+        });
+        
+        
     }  
 
      public JButton getBtnAutreAction() {
@@ -120,6 +176,7 @@ public class VueAventurier  {
      public static void main(String [] args) {
         // Instanciation de la fenêtre 
         VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
+        
     }
 }
 
