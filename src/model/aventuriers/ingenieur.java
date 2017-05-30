@@ -3,12 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
+package model.aventuriers;
 
 /**
  *
  * @author sarrasie
  */
-public class Aventurier {
+public class ingenieur extends Aventurier {
     
+    public ingenieur(roleAventuriers r, String c) {
+        super(r, c);
+    }
+    
+    @Override
+    public void seDeplacer(){
+        
+    }
 }

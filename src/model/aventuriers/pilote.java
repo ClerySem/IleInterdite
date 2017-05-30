@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model;
-
-import java.awt.Color;
+package model.aventuriers;
 
 /**
  *
- * @author semanazc
+ * @author sarrasie
  */
-public class aventuriers {
+public class pilote extends Aventurier {
     
-    public static enum Aventurier {
+    public pilote(roleAventuriers r, String c) {
+        super(r,c);
+    }
+    
+    public void voler(){
         
-            
     }
-    }
-
+}
