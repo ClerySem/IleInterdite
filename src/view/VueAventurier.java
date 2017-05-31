@@ -170,7 +170,12 @@ public class VueAventurier  {
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
- 
+    public void setObservateur(Observateur observateur){
+        this.observateur=observateur;
+    }
+    public void affiche(){
+                VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
+    }
 
     
      public static void main(String [] args) {

@@ -13,26 +13,25 @@ import java.util.HashMap;
  */
 public class Grille {
     
-    private int numLigne;
-    private int numColonne;
-    private HashMap<,Tuile> tuiles;
+    
+    private int [][] tuiles;
+
+
+    public Grille() {
+        this.tuiles = new int [6][6];
+        for(int i =0; i< tuiles.length; i++){;
+            int [] colonne = new int[6];
+            for(int j =0; j< colonne.length; j++){
+                this.tuiles[i][j] = new Tuile(i,j);
+            }
+        }
+    }
     
     
-    public int getNumLigne() {
-        return numLigne;
-    }
-
-    public void setNumLigne(int numLigne) {
-        this.numLigne = numLigne;
-    }
-
-    public int getNumColonne() {
-        return numColonne;
-    }
-
-    public void setNumColonne(int numColonne) {
-        this.numColonne = numColonne;
-    }
+    
+    
+    
+    
     
     
 }
