@@ -15,7 +15,7 @@ public class Grille {
     
     
     private HashMap<String, Tuile> tuiles;
-    
+    private final int [] grille = new int[36];
     
     
     
