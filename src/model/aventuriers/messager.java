@@ -11,8 +11,9 @@ package model.aventuriers;
  */
 public class messager extends Aventurier {
     
-    public messager(roleAventuriers r, String c) {
-        super(r, c);
+    public messager(roleAventuriers r, String c, String nom) {
+        super(r, c, nom);
     }
     
+  
 }

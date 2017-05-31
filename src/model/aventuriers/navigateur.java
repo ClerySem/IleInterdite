@@ -10,10 +10,12 @@ package model.aventuriers;
  * @author sarrasie
  */
 public class navigateur extends Aventurier {
-    
-    public navigateur(roleAventuriers r, String c) {
-        super(r, c);
+
+    public navigateur(roleAventuriers r, String c, String nom) {
+        super(r, c, nom);
     }
+    
+
     
     public void deplacerJoueur(){
         

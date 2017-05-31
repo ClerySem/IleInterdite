@@ -29,6 +29,8 @@ public abstract class Aventurier {
         this.nomJ = nom;
     }
     public void assecherTuile(){
+        /*recuperer 4 tuiles et creer 4 tuile et mettre manuellement la position */
+        
     }
     public void seDeplacer(){
         
@@ -37,6 +39,6 @@ public abstract class Aventurier {
         
     }
     private int getTuile(){
-       return estSur.getNumLigne()+estSur.getNumColonne();
+       return (estSur.getNumLigne()+estSur.getNumColonne());
     }
 }
