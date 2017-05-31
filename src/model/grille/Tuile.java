@@ -10,7 +10,7 @@ package model.grille;
  * @author anthoing
  */
 public class Tuile {
-    private String nom;s
+    private String nom;
     private boolean innonde;
     private int numLigne;
     private int numColonne;
