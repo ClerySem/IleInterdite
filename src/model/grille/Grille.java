@@ -16,6 +16,12 @@ public class Grille {
     
     private HashMap<String, Tuile> tuiles;
     private final int [] grille = new int[36];
+
+    public Grille() {
+        for (int i=1; i< grille.length; i++){
+            grille[i]= tuiles.get();
+        }
+    }
     
     
     
