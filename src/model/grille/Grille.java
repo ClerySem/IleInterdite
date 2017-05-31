@@ -14,12 +14,16 @@ import java.util.HashMap;
 public class Grille {
     
     
-    private HashMap<String, Tuile> tuiles;
-    private final int [] grille = new int[36];
+    private int [][] tuiles;
+
 
     public Grille() {
-        for (int i=1; i< grille.length; i++){
-            grille[i]= tuiles.get();
+        this.tuiles = new int [6][6];
+        for(int i =0; i< tuiles.length; i++){;
+            int [] colonne = new int[6];
+            for(int j =0; j< colonne.length; j++){
+                this.tuiles[i][j] = new Tuile(i,j);
+            }
         }
     }
     
