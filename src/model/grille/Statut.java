@@ -10,6 +10,18 @@ package model.grille;
  * @author belhasss
  */
 public enum Statut {
-    sèche, innondée, coulée;
-    
-}
+        ASSECHEE("Asséchée"), 
+        INONDEE("Inondée"),
+        COULEE("Coulée");
+
+        String libelle ;
+        
+        Statut(String libelle) {
+            this.libelle = libelle ;
+        }
+
+        @Override
+        public String toString() {
+            return this.libelle ;
+        }
+    }
