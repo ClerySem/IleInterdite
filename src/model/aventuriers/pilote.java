@@ -10,10 +10,12 @@ package model.aventuriers;
  * @author sarrasie
  */
 public class pilote extends Aventurier {
-    
-    public pilote(roleAventuriers r, String c) {
-        super(r,c);
+
+    public pilote(roleAventuriers r, String c, String nom) {
+        super(r, c, nom);
     }
+    
+   
     
     public void voler(){
         

@@ -117,7 +117,7 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
-                m.type = TypesMessages.autre;
+                m.type = TypesMessages.Autre;
                 observateur.traiterMessage(m);
                 
             }

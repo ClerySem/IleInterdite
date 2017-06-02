@@ -5,6 +5,8 @@
  */
 package model.aventuriers;
 
+import model.grille.Tuile;
+
 /**
  *
  * @author sarrasie
@@ -12,24 +14,32 @@ package model.aventuriers;
 public abstract class Aventurier {
     private roleAventuriers role;
     private String capacite;
+    private String nomJ;
+    private Tuile estSur;
     
-    public Aventurier(roleAventuriers r,String c){
+    public Aventurier(roleAventuriers r,String c,String nom){
         this.role = r;
         this.capacite = c;
+        this.nomJ = nom;
     }
-    public roleAventuriers getRole(){
-        return role;
+    public String getNom(){
+        return nomJ;
     }
-    public void setRole(roleAventuriers r){
-        this.role = r;
+    public void setNom (String nom){
+        this.nomJ = nom;
     }
     public void assecherTuile(){
-        
+        /*recuperer 4 tuiles et creer 4 tuile et mettre manuellement la position */
+        Tuile tuile1 = new Tuile(4,5);
+        Tuile
     }
     public void seDeplacer(){
         
     }
     public void donnerCarteJoueur(){
         
+    }
+    private int getTuile(){
+       return (estSur.getNumLigne()+estSur.getNumColonne());
     }
 }

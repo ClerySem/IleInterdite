@@ -17,6 +17,11 @@ public class Tuile {
     private int numLigne;
     private int numColonne;
 
+    public Tuile(int numLigne , int numColonne) {
+       this.numLigne = numLigne;
+       this.numColonne = numColonne;
+    }
+
     /**
      * @return the nom
      */
