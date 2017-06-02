@@ -5,7 +5,10 @@
  */
 package model.grille;
 
-import static model.grille.Statut.sèche;
+import util.Utils;
+import static util.Utils.EtatTuile.*;
+
+
 
 /**
  *
@@ -13,13 +16,86 @@ import static model.grille.Statut.sèche;
  */
 public class Tuile {
     private String nom;
-    private Statut statut;
+    private Utils.EtatTuile statut;
     private int numLigne;
     private int numColonne;
 
     public Tuile(int numLigne , int numColonne) {
+       this.statut = ASSECHEE;
        this.numLigne = numLigne;
-       this.numColonne = numColonne;
+       this.numColonne =numColonne;
+       if (numLigne == 0 && numColonne ==2){
+           this.nom = "Le Pont Des Avimes";
+       }
+       if (numLigne == 0 && numColonne ==3){
+           this.nom = "La Porte De Bronze";
+       }
+       if (numLigne == 1 && numColonne ==1){
+           this.nom = "La Caverne Des Ombres";
+       }
+       if (numLigne == 1 && numColonne ==2){
+           this.nom = "La Porte De Fer";
+       }
+       if (numLigne == 1 && numColonne ==3){
+           this.nom = "La Porte d'Or";
+       }
+       if (numLigne == 1 && numColonne ==4){
+           this.nom = "Les Falaises De L'Oubli";
+       }
+       if (numLigne == 2 && numColonne ==0){
+           this.nom = "Le Palais De Corail";
+       }
+       if (numLigne == 2 && numColonne ==1){
+           this.nom = "La Porte d'Argent";
+       }
+       if (numLigne == 2 && numColonne ==2){
+           this.nom = "Les Dunes De L'Illusion";
+       }
+       if (numLigne == 2 && numColonne ==3){
+           this.nom = "Heliport";
+       }
+       if (numLigne == 2 && numColonne ==4){
+           this.nom = "La Porte De Cuivre";
+       }
+       if (numLigne == 2 && numColonne ==5){
+           this.nom = "Le Jardin Des Hurlements";
+       }
+       if (numLigne == 3 && numColonne ==0){
+           this.nom = "La Foret Pourpre";
+       }
+       if (numLigne == 3 && numColonne ==1){
+           this.nom = "Le Lagon Perdu";
+       }
+       if (numLigne == 3 && numColonne ==2){
+           this.nom = "Le Marais Brumeux";
+       }
+       if (numLigne == 3 && numColonne ==3){
+           this.nom = "Observatoire";
+       }
+       if (numLigne == 3 && numColonne ==4){
+           this.nom = "Le Rocher Fantome";
+       }
+       if (numLigne == 3 && numColonne ==5){
+           this.nom = "La Caverne Du Brasier";
+       }
+       if (numLigne == 4 && numColonne ==1){
+           this.nom = "Le Temple Du Soleil";
+       }
+       if (numLigne == 4 && numColonne ==2){
+           this.nom = "Le Temple De La Lune";
+       }
+       if (numLigne == 4 && numColonne ==3){
+           this.nom = "Le Palais Des Marais";
+       }
+       if (numLigne == 4 && numColonne ==4){
+           this.nom = "Le Val Du Crepuscule";
+       }
+       if (numLigne == 5 && numColonne ==2){
+           this.nom = "La Tour Du Guet";
+       }
+       if (numLigne == 5 && numColonne ==3){
+           this.nom = "Le Jardin Des Murmures";
+       }
     }
 
     /**
@@ -64,7 +140,7 @@ public class Tuile {
         this.numColonne = numColonne;
     }
     public boolean EstSeche(){
-            return this.statut == sèche;    
+            return this.statut == ASSECHEE;    
     }
     
 }
