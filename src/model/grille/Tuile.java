@@ -57,7 +57,9 @@ public class Tuile {
         this.numColonne = numColonne;
     }
     public void EstSeche(String nom){
-        //if.......
+        if (){
+        
+        }
     }
     
 }
