@@ -5,13 +5,15 @@
  */
 package model.grille;
 
+import static model.grille.Statut.sèche;
+
 /**
  *
  * @author anthoing
  */
 public class Tuile {
     private String nom;
-    private boolean innonde;
+    private Statut statut;
     private int numLigne;
     private int numColonne;
 
@@ -56,10 +58,8 @@ public class Tuile {
     public void setNumColonne(int numColonne) {
         this.numColonne = numColonne;
     }
-    public void EstSeche(String nom){
-        if (){
-        
-        }
+    public boolean EstSeche(){
+            return this.statut == sèche;    
     }
     
 }
