@@ -105,11 +105,13 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
+                setObservateur(observateur);
                 m.type = TypesMessages.Deplacer;
                 observateur.traiterMessage(m);
                 
-            }
             
+            
+        }
         });
         
         btnAutreAction.addActionListener(new ActionListener(){
@@ -117,6 +119,7 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
+                
                 m.type = TypesMessages.Autre;
                 observateur.traiterMessage(m);
                 
@@ -150,6 +153,9 @@ public class VueAventurier  {
         
         
     }  
+      public void setObservateur(Observateur observateur){
+        this.observateur=observateur;
+    }
 
      public JButton getBtnAutreAction() {
         return btnAutreAction;
@@ -170,9 +176,7 @@ public class VueAventurier  {
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
-    public void setObservateur(Observateur observateur){
-        this.observateur=observateur;
-    }
+  
     public void affiche(){
                 VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
     }
