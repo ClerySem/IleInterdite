@@ -30,7 +30,8 @@ public abstract class Aventurier {
     }
     public void assecherTuile(){
         /*recuperer 4 tuiles et creer 4 tuile et mettre manuellement la position */
-        
+        Tuile tuile1 = new Tuile(4,5);
+        Tuile
     }
     public void seDeplacer(){
         
