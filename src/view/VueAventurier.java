@@ -107,6 +107,7 @@ public class VueAventurier  {
                 Message m = new Message();
                 setObservateur(observateur);
                 m.type = TypesMessages.Deplacer;
+             
                 observateur.traiterMessage(m);
                 
             
@@ -119,7 +120,6 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
-                
                 m.type = TypesMessages.Autre;
                 observateur.traiterMessage(m);
                 
