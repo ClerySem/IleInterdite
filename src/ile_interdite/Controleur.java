@@ -8,17 +8,21 @@ package ile_interdite;
 import static ile_interdite.TypesMessages.Deplacer;
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
-import static javax.swing.UIManager.get;
-import static javax.swing.UIManager.put;
+import java.util.List;
 import model.aventuriers.Aventurier;
-import model.aventuriers.explorateur;
+import model.aventuriers.Explorateur;
+import model.aventuriers.Ingenieur;
 import model.aventuriers.roleAventuriers;
 import static model.aventuriers.roleAventuriers.explorateur;
 import model.grille.Grille;
 import model.grille.Tuile;
 import view.VueAventurier;
 import util.Utils;
+import model.aventuriers.*;
+
 
 /**
  *
@@ -29,11 +33,13 @@ public class Controleur implements Observateur {
     private final VueAventurier vue;
     private HashMap<String,Aventurier> aventuriers;
     private Grille grille;
+    private ArrayList<String> nomsJoueurs;
     
 
     public Controleur() {
-        vue = new VueAventurier("Clery", "explorateur", Color.blue);
-        grille= new Grille();
+        
+        demarrerPartie();
+        
         
         vue.setObservateur(this);
         vue.affiche();
@@ -66,6 +72,54 @@ public class Controleur implements Observateur {
        
     }
     
+    public void demarrerPartie() {
+        grille = new Grille();
+        
+        //to-do : récuperer les noms des différents joueurs, pour le moment je les aient initialisés à la main,
+        
+        getNomsJoueurs().add("Gaspard");
+        getNomsJoueurs().add("Eddy");
+        getNomsJoueurs().add("Clery");
+        getNomsJoueurs().add("Sacha");
+        
+        //creation des aventuriers
+        
+        Explorateur explorateur = new Explorateur();
+        Ingenieur ingenieur = new Ingenieur();
+        Messager messager = new Messager();
+        Navigateur navigateur = new Navigateur();
+        Pilote pilote = new Pilote();
+        Plongeur plongeur = new Plongeur();
+        
+        ArrayList<Aventurier> listeaventuriersjouables = new ArrayList();
+        listeaventuriersjouables.add(explorateur);
+        listeaventuriersjouables.add(ingenieur);
+        listeaventuriersjouables.add(messager);
+        listeaventuriersjouables.add(navigateur);
+        listeaventuriersjouables.add(pilote);
+        listeaventuriersjouables.add(plongeur);
+        Collections.shuffle((List<?>) listeaventuriersjouables);
+        
+        
+        for (int k = 0; k < 5; k++){ //comme il y a 4 joueurs on ajoute 4 aventuriers à notre collection aventuriers
+              listeaventuriersjouables.get(k).setNom(getNomsJoueurs().get(k)); // on donne un nom à l'aventurier
+            getAventuriers().put(getNomsJoueurs().get(k), listeaventuriersjouables.get(k)); // on l'ajoute à aventuriers
+        }pions.get(i)
+        
+       
+                
+
+
+        //Creation de la vue des joueurs
+                
+        
+        
+/*        aventuriers.forEach((nomjoueur, aventurier) -> {
+            setVue(nomjoueur, aventurier.getRole().getNom(), aventurier.getCouleur()); 
+            
+        }); */
+                
+    }
     public Tuile getPosition(Aventurier aventurier){
         Tuile position = aventurier.getEstSur();
         return position;
@@ -173,12 +227,20 @@ public class Controleur implements Observateur {
              System.out.print("\n");
          }
      }
- 
-    
 
-  
-    
+    public ArrayList<String> getNomsJoueurs() {
+        return nomsJoueurs;
+    }
 
+    public HashMap<String, Aventurier> getAventuriers() {
+        return aventuriers;
+    }
+
+    public void setVue(String nomJoueur, String nomAventurier, Color couleur) {
+       this.vue = new VueAventurier(nomJoueur, nomAventurier, couleur);
+    }
+    
+    
   
     
 }

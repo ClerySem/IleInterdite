@@ -9,16 +9,11 @@ package model.aventuriers;
  *
  * @author sarrasie
  */
-public class ingenieur extends Aventurier {
-
-    public ingenieur(roleAventuriers r, String c, String nom) {
-        super(r, c, nom);
+public class Messager extends Aventurier {
+    
+    public Messager() {
+        super(roleAventuriers.messager, "capacite");
     }
     
   
-    
-    @Override
-    public void seDeplacer(){
-        
-    }
 }

@@ -9,18 +9,15 @@ package model.aventuriers;
  *
  * @author sarrasie
  */
-public class explorateur extends Aventurier {
+public class Plongeur extends Aventurier{
 
-    public explorateur(roleAventuriers r, String c, String nom) {
-        super(r, c, nom);
+    public Plongeur() {
+        super(roleAventuriers.plongeur, "capacite");
     }
     
-   
+ 
+    public void nager(){
+        
+    }
     
-    public void deplacerDiagonale(){
-        
-    }
-    public void assecherdiagonale(){
-        
-    }
 }

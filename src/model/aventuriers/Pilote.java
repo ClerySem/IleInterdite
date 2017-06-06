@@ -9,11 +9,15 @@ package model.aventuriers;
  *
  * @author sarrasie
  */
-public class messager extends Aventurier {
-    
-    public messager(roleAventuriers r, String c, String nom) {
-        super(r, c, nom);
+public class Pilote extends Aventurier {
+
+    public Pilote() {
+        super(roleAventuriers.pilote, "capacite");
     }
     
-  
+   
+    
+    public void voler(){
+        
+    }
 }

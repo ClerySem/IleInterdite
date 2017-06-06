@@ -10,10 +10,22 @@ package model.aventuriers;
  * @author sarrasie
  */
 public enum roleAventuriers {
-    pilote,
-    plongeur,
-    navigateur,
-    explorateur,
-    ingenieur,
-    messager;
+    pilote ("Pilote"),
+    plongeur ("Plongeur"),
+    navigateur ("Navigateur"),
+    explorateur ("Explorateur"),
+    ingenieur ("Ingénieur"),
+    messager ("Messager");
+    
+    private final String nom;
+
+    private roleAventuriers (String nom ) {
+        this.nom = nom;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+    
+    
 }

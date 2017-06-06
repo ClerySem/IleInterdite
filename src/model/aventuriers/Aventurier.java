@@ -19,10 +19,9 @@ public abstract class Aventurier {
     private Grille grille;
     private int nbaction;
     
-    public Aventurier(roleAventuriers r,String c,String nom){
-        this.role = r;
-        this.capacite = c;
-        this.nomJ = nom;
+    public Aventurier(roleAventuriers role ,String capacite){
+        this.role = role;
+        this.capacite = capacite;
         this.nbaction = 0;
     }
     public String getNom(){
@@ -37,6 +36,12 @@ public abstract class Aventurier {
         return nbaction;
     }
 
+    public roleAventuriers getRole() {
+        return role;
+    }
+
+    
+    
     private int getTuile(){
        return (estSur.getNumLigne()+estSur.getNumColonne());
     }    
