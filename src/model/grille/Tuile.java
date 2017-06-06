@@ -156,11 +156,18 @@ public class Tuile {
     }
     
     public boolean EstSeche(){
-            return this.statut == ASSECHEE;    
+            return this.getStatut() == ASSECHEE;    
     }
     
     public void ajouterAventurier(Aventurier aventurier){
         getPossede().add(aventurier);
+    }
+
+    /**
+     * @return the statut
+     */
+    public Utils.EtatTuile getStatut() {
+        return statut;
     }
     
 }

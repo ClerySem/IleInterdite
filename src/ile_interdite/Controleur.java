@@ -18,6 +18,7 @@ import static model.aventuriers.roleAventuriers.explorateur;
 import model.grille.Grille;
 import model.grille.Tuile;
 import view.VueAventurier;
+import util.Utils;
 
 /**
  *
@@ -113,11 +114,64 @@ public class Controleur implements Observateur {
         }
            
         for (Tuile tuile : tuiles) {
-            if (tuile!=null){
+            if (tuile!=null && tuile.getStatut()!=Utils.EtatTuile.INONDEE ){
                 tuilesFin.add(tuile);
             }
         }
        return tuilesFin;
+     }
+     
+     
+     public ArrayList<Tuile> AssecherTuile(Tuile position){
+        int y = getLigne(position);
+        int x = getColonne(position);
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        ArrayList<Tuile> tuilesFin = new ArrayList<>();
+        
+        
+        //tuile du joueur//
+        tuiles.add(grille.getTuiles()[x][y]);
+        //tuile dessus//
+        if (y>=1){
+            int yDessus= y-1;
+            int xDessus= x;
+            tuiles.add(grille.getTuiles()[xDessus][yDessus]);
+            
+        }
+        //tuile Dessous//
+        if (y<=4){
+            int yDessous= y+1;
+            int xDessous= x;
+            tuiles.add(grille.getTuiles()[xDessous][yDessous]);
+        }
+        //tuile gauche//
+        if (x>=1){
+            int yGauche= y;
+            int xGauche= x-1;
+            tuiles.add(grille.getTuiles()[xGauche][yGauche]);
+        }
+        //tuile droite//
+        if (x<=4){
+            int yDroite=y;
+            int xDroite=x+1;
+            tuiles.add(grille.getTuiles()[xDroite][yDroite]);
+        }
+           
+        for (Tuile tuile : tuiles) {
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE ){
+                tuilesFin.add(tuile);
+            }
+        }
+       return tuilesFin;
+     }
+     
+     public void afficherGrille(){
+         for (int i = 0; i <6; i ++) {
+             for (int k = 0; k <6; k++) {
+                 System.out.print(" | " +grille.getTuiles()[i][k].getNom() + " | ");
+            }
+             System.out.print("\n");
+         }
      }
  
     
