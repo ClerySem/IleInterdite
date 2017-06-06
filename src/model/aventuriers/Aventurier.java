@@ -5,8 +5,7 @@
  */
 package model.aventuriers;
 
-import model.grille.Tuile;
-
+import model.grille.*;
 /**
  *
  * @author sarrasie
@@ -16,6 +15,7 @@ public abstract class Aventurier {
     private String capacite;
     private String nomJ;
     private Tuile estSur;
+    private Grille grille;
     
     public Aventurier(roleAventuriers r,String c,String nom){
         this.role = r;
@@ -25,13 +25,20 @@ public abstract class Aventurier {
     public String getNom(){
         return nomJ;
     }
+
+    public Tuile getEstSur() {
+        return estSur;
+    }
+    
+    
     public void setNom (String nom){
         this.nomJ = nom;
     }
     public void assecherTuile(){
-        /*recuperer 4 tuiles et creer 4 tuile et mettre manuellement la position */
-        Tuile tuile1 = new Tuile(4,5);
-        Tuile
+        int posx = this.getEstSur().getNumLigne(); // on récupère la position du joueur
+        int posy = this.getEstSur().getNumColonne();
+        
+        
     }
     public void seDeplacer(){
         
