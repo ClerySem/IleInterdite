@@ -5,6 +5,8 @@
  */
 package model.grille;
 
+import java.util.ArrayList;
+import model.aventuriers.Aventurier;
 import util.Utils;
 import static util.Utils.EtatTuile.*;
 
@@ -19,13 +21,14 @@ public class Tuile {
     private Utils.EtatTuile statut;
     private int numLigne;
     private int numColonne;
+    private ArrayList<Aventurier> possede;
 
     public Tuile(int numLigne , int numColonne) {
        this.statut = ASSECHEE;
        this.numLigne = numLigne;
        this.numColonne =numColonne;
        if (numLigne == 0 && numColonne ==2){
-           this.nom = "Le Pont Des Avimes";
+           this.nom = "Le Pont Des Abimes";
        }
        if (numLigne == 0 && numColonne ==3){
            this.nom = "La Porte De Bronze";
@@ -96,6 +99,8 @@ public class Tuile {
        if (numLigne == 5 && numColonne ==3){
            this.nom = "Le Jardin Des Murmures";
        }
+       this.possede = new ArrayList<>();
+       
     }
 
     /**
@@ -111,6 +116,11 @@ public class Tuile {
     public void setNom(String nom) {
         this.nom = nom;
     }
+
+    public void setStatut(Utils.EtatTuile statut) {
+        this.statut = statut;
+    }
+    
 
     /**
      * @return the numLigne
@@ -133,14 +143,24 @@ public class Tuile {
         return numColonne;
     }
 
+    public ArrayList<Aventurier> getPossede() {
+        return possede;
+    }
+    
+
     /**
      * @param numColonne the numColonne to set
      */
     public void setNumColonne(int numColonne) {
         this.numColonne = numColonne;
     }
+    
     public boolean EstSeche(){
             return this.statut == ASSECHEE;    
+    }
+    
+    public void ajouterAventurier(Aventurier aventurier){
+        getPossede().add(aventurier);
     }
     
 }
