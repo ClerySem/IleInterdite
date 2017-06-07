@@ -21,6 +21,8 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -100,7 +102,7 @@ public class VueAventurier  {
         this.window.setVisible(true);
         mainPanel.repaint();
         
-        btnAller.addActionListener(new ActionListener(){
+        /*btnAller.addActionListener(new ActionListener(){
             
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,6 +115,37 @@ public class VueAventurier  {
             
             
         }
+        });*/
+        
+        btnAller.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent me) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mousePressed(MouseEvent me) {
+                Message m = new Message();
+                setObservateur(observateur);
+                m.type = TypesMessages.Deplacer;
+                m.texte = position.getText();
+                observateur.traiterMessage(m);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent me) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent me) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+
+            @Override
+            public void mouseExited(MouseEvent me) {
+                //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
         });
         
         btnAutreAction.addActionListener(new ActionListener(){

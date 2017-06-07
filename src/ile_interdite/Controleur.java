@@ -61,13 +61,14 @@ public class Controleur implements Observateur {
             case Deplacer:
                 
                 ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
-                tuilesAutours.forEach(tuile -> {
+                System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
+                /*tuilesAutours.forEach(tuile -> {
                     System.out.println(tuile.getNumLigne()+","+tuile.getNumColonne());
-                });
+                });*/
                 
                 boolean deplacementPossible = false;
                 String positionPossible = "";
-                if (tuilesAutours.size() != 0){
+                if (!tuilesAutours.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
                     for(int k = 0; k < tuilesAutours.size() - 1; k++){
                         positionPossible += (tuilesAutours.get(k).getNumLigne()+","+tuilesAutours.get(k).getNumColonne()+" ou ");
                     }
@@ -77,22 +78,23 @@ public class Controleur implements Observateur {
                     positionPossible = "Impossible de se déplacer";
                 }
                 
-                vue.setPosition(positionPossible);
+                System.out.println(positionPossible);
                 
-                if (deplacementPossible){
-                    Scanner scanner = new Scanner(System.in);
+                if (deplacementPossible && !msg.texte.equals("")){
+                    /*Scanner scanner = new Scanner(System.in);
                     System.out.println("Après avoir entré un champ dans le champ sur la fenêtre, cliquer ici puis taper sur la touche Entrée");
-                    String suite = scanner.nextLine();
-                    String Texte = vue.getTexte();
-                    System.out.println("Vous avez saisi : " + Texte);
+                    String suite = scanner.nextLine();*/
+                    String Texte = msg.texte;
+                    //System.out.println("Vous avez saisi : " + Texte);
+                    
                    
-                    /*String[] positionString = new String[2];
+                    String[] positionString;
                     positionString = Texte.split(",");
                     int[] position = new int[2];
                     position[0] = Integer.parseInt(positionString[0]);
                     position[1] = Integer.parseInt(positionString[1]);
   
-                    aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);*/
+                    aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
                 }
                 System.out.println(aventuriers.get("Gaspard").getEstSur().getNumLigne());
                 System.out.println(aventuriers.get("Gaspard").getEstSur().getNumColonne());

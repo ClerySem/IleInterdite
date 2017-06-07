@@ -12,5 +12,5 @@ package ile_interdite;
 public class Message {
     //Liste des types de message
     public TypesMessages type; //type de message
-    
+    public String texte;
 }
