@@ -22,7 +22,7 @@ public class Grille {
         for(int i =0; i< tuiles.length; i++){;
             int [] colonne = new int[6];
             for(int j =0; j< colonne.length; j++){
-                if (    i == 0 && j == 0
+                if (       i == 0 && j == 0
                         || i == 0 && j == 1
                         || i == 0 && j == 4
                         || i == 0 && j == 5 // toutes les cases vides de la première ligne
@@ -30,10 +30,10 @@ public class Grille {
                         || i == 1 && j == 5 // toutes les cases vides de la 2eme ligne
                         || i == 4 && j == 0
                         || i == 4 && j == 5 // toutes les cases vides de la 5eme ligne
-                        || i == 0 && j == 0
-                        || i == 0 && j == 1
-                        || i == 0 && j == 4
-                        || i == 0 && j == 5 // toutes les cases vides de la 6eme ligne
+                        || i == 5 && j == 0
+                        || i == 5 && j == 1
+                        || i == 5 && j == 4
+                        || i == 5 && j == 5 // toutes les cases vides de la 6eme ligne
                         ) {
                     this.tuiles[i][j] = null;
                 } else {                    // les tuiles non vide 

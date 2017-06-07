@@ -178,7 +178,7 @@ public class VueAventurier  {
     }
   
     public void affiche(){
-                VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
+        
     }
 
     

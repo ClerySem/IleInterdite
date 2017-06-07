@@ -33,16 +33,22 @@ public class Controleur implements Observateur {
     private final VueAventurier vue;
     private HashMap<String,Aventurier> aventuriers;
     private Grille grille;
-    private ArrayList<String> nomsJoueurs;
     
 
     public Controleur() {
         
+        //initialisation des attributs
+        this.aventuriers = new HashMap<>();
+        
+        System.out.println("Lancement de la partie");
         demarrerPartie();
         
-        
+        vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
+        afficherGrilleConsole();
         vue.setObservateur(this);
-        vue.affiche();
+        
+        
+        //vue.affiche();
         
     }
 
@@ -51,6 +57,7 @@ public class Controleur implements Observateur {
         
         switch(msg.type){
             case Deplacer:
+                ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
                 vue.setPosition("deplacement réalisé");
                 //...
             break;
@@ -72,15 +79,15 @@ public class Controleur implements Observateur {
        
     }
     
-    public void demarrerPartie() {
-        grille = new Grille();
+    public final void demarrerPartie() {
+        this.grille = new Grille();
         
         //to-do : récuperer les noms des différents joueurs, pour le moment je les aient initialisés à la main,
-        
-        getNomsJoueurs().add("Gaspard");
-        getNomsJoueurs().add("Eddy");
-        getNomsJoueurs().add("Clery");
-        getNomsJoueurs().add("Sacha");
+        ArrayList<String> joueurs = new ArrayList<>();
+        joueurs.add("Gaspard");
+        joueurs.add("Eddy");
+        joueurs.add("Clery");
+        joueurs.add("Sacha");
         
         //creation des aventuriers
         
@@ -98,28 +105,17 @@ public class Controleur implements Observateur {
         listeaventuriersjouables.add(navigateur);
         listeaventuriersjouables.add(pilote);
         listeaventuriersjouables.add(plongeur);
-        Collections.shuffle((List<?>) listeaventuriersjouables);
+        Collections.shuffle((List<?>) listeaventuriersjouables); //melange des aventuriers
         
         
-        for (int k = 0; k < 5; k++){ //comme il y a 4 joueurs on ajoute 4 aventuriers à notre collection aventuriers
-              listeaventuriersjouables.get(k).setNom(getNomsJoueurs().get(k)); // on donne un nom à l'aventurier
-            getAventuriers().put(getNomsJoueurs().get(k), listeaventuriersjouables.get(k)); // on l'ajoute à aventuriers
-        }pions.get(i)
-        
-       
-                
-
-
-        //Creation de la vue des joueurs
-                
+        for (int k = 0; k < 4; k++){ //comme il y a 4 joueurs on ajoute 4 aventuriers à notre collection aventuriers
+              listeaventuriersjouables.get(k).setNom(joueurs.get(k)); // on donne un nom à l'aventurier
+            getAventuriers().put(joueurs.get(k), listeaventuriersjouables.get(k)); // on l'ajoute à aventuriers
+        }
         
         
-/*        aventuriers.forEach((nomjoueur, aventurier) -> {
-            setVue(nomjoueur, aventurier.getRole().getNom(), aventurier.getCouleur()); 
-            
-        }); */
-                
     }
+    
     public Tuile getPosition(Aventurier aventurier){
         Tuile position = aventurier.getEstSur();
         return position;
@@ -219,26 +215,27 @@ public class Controleur implements Observateur {
        return tuilesFin;
      }
      
-     public void afficherGrille(){
+     public void afficherGrilleConsole(){
          for (int i = 0; i <6; i ++) {
              for (int k = 0; k <6; k++) {
-                 System.out.print(" | " +grille.getTuiles()[i][k].getNom() + " | ");
+                 if(grille.getTuiles()[i][k] != null){
+                     System.out.print(" |" + i + ","+ k + "| ");
+                 } else {
+                     System.out.print( " |   | ");
+                 }
             }
              System.out.print("\n");
          }
      }
 
-    public ArrayList<String> getNomsJoueurs() {
-        return nomsJoueurs;
-    }
 
     public HashMap<String, Aventurier> getAventuriers() {
         return aventuriers;
     }
 
-    public void setVue(String nomJoueur, String nomAventurier, Color couleur) {
+/*    public void setVue(String nomJoueur, String nomAventurier, Color couleur) {
        this.vue = new VueAventurier(nomJoueur, nomAventurier, couleur);
-    }
+    }*/
     
     
   

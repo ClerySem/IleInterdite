@@ -109,4 +109,8 @@ public class Utils {
     public static void afficherInformation(String message) {
         JOptionPane.showMessageDialog(null, message, "Information", JOptionPane.OK_OPTION);
     }
+   
+
+        
+    }
 }
