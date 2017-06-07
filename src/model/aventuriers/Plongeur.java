@@ -5,14 +5,18 @@
  */
 package model.aventuriers;
 
+import model.grille.Tuile;
+
 /**
  *
  * @author sarrasie
  */
 public class Plongeur extends Aventurier{
 
-    public Plongeur() {
+    public Plongeur(Tuile positionDepart) {
         super(roleAventuriers.plongeur, "capacite");
+        this.setEstSur(positionDepart);
+
     }
     
  

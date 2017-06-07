@@ -5,14 +5,18 @@
  */
 package model.aventuriers;
 
+import model.grille.Tuile;
+
 /**
  *
  * @author sarrasie
  */
 public class Ingenieur extends Aventurier {
 
-    public Ingenieur() {
+    public Ingenieur(Tuile positionDepart) {
         super(roleAventuriers.ingenieur, "capacite");
+        
+        this.setEstSur(positionDepart);
     }
   
     

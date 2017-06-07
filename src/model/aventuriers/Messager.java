@@ -5,14 +5,18 @@
  */
 package model.aventuriers;
 
+import model.grille.Tuile;
+
 /**
  *
  * @author sarrasie
  */
 public class Messager extends Aventurier {
     
-    public Messager() {
+    public Messager(Tuile positionDepart) {
         super(roleAventuriers.messager, "capacite");
+        this.setEstSur(positionDepart);
+
     }
     
   

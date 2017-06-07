@@ -12,6 +12,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Scanner;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -51,26 +52,69 @@ public class Controleur implements Observateur {
         //vue.affiche();
         
     }
-
+    
+   
     @Override
     public void traiterMessage(Message msg) {
         
         switch(msg.type){
             case Deplacer:
+                
                 ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
-                vue.setPosition("deplacement réalisé");
+                tuilesAutours.forEach(tuile -> {
+                    System.out.println(tuile.getNumLigne()+","+tuile.getNumColonne());
+                });
+                
+                boolean deplacementPossible = false;
+                String positionPossible = "";
+                if (tuilesAutours.size() != 0){
+                    for(int k = 0; k < tuilesAutours.size() - 1; k++){
+                        positionPossible += (tuilesAutours.get(k).getNumLigne()+","+tuilesAutours.get(k).getNumColonne()+" ou ");
+                    }
+                    positionPossible += tuilesAutours.get(tuilesAutours.size()-1).getNumLigne()+","+tuilesAutours.get(tuilesAutours.size()-1).getNumColonne();
+                    deplacementPossible = true;
+                } else {
+                    positionPossible = "Impossible de se déplacer";
+                }
+                
+                vue.setPosition(positionPossible);
+                
+                if (deplacementPossible){
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Après avoir entré un champ dans le champ sur la fenêtre, cliquer ici puis taper sur la touche Entrée");
+                    String suite = scanner.nextLine();
+                    String Texte = vue.getTexte();
+                    System.out.println("Vous avez saisi : " + Texte);
+                   
+                    /*String[] positionString = new String[2];
+                    positionString = Texte.split(",");
+                    int[] position = new int[2];
+                    position[0] = Integer.parseInt(positionString[0]);
+                    position[1] = Integer.parseInt(positionString[1]);
+  
+                    aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);*/
+                }
+                System.out.println(aventuriers.get("Gaspard").getEstSur().getNumLigne());
+                System.out.println(aventuriers.get("Gaspard").getEstSur().getNumColonne());
+                
+              
                 //...
             break;
             case Assecher:
+                ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
+                tuilesaAssecher.forEach(tuile -> {
+                    System.out.println(tuile.getNumLigne()+","+tuile.getNumColonne());
+                   
+                });
                 vue.setPosition("assechement tuile");
-                //...
+                
             break;
             case Autre:
                 vue.setPosition("autre");
                 //...
             break;
             case Terminer:
-                vue.setPosition("terminer tour");
+                vue.setPosition("Tour terminer, joueur suivant");
                 //...
             break;
                 
@@ -91,12 +135,17 @@ public class Controleur implements Observateur {
         
         //creation des aventuriers
         
-        Explorateur explorateur = new Explorateur();
-        Ingenieur ingenieur = new Ingenieur();
-        Messager messager = new Messager();
-        Navigateur navigateur = new Navigateur();
-        Pilote pilote = new Pilote();
-        Plongeur plongeur = new Plongeur();
+        Explorateur explorateur = new Explorateur(getGrille().getTuiles()[2][3]);
+        
+        Ingenieur ingenieur = new Ingenieur(getGrille().getTuiles()[1][2]);
+        
+        Messager messager = new Messager(getGrille().getTuiles()[1][3]);
+        
+        Navigateur navigateur = new Navigateur(getGrille().getTuiles()[2][4]);
+        
+        Pilote pilote = new Pilote(getGrille().getTuiles()[0][3]);
+        
+        Plongeur plongeur = new Plongeur(getGrille().getTuiles()[2][1]);
         
         ArrayList<Aventurier> listeaventuriersjouables = new ArrayList();
         listeaventuriersjouables.add(explorateur);
@@ -122,45 +171,53 @@ public class Controleur implements Observateur {
     }
     
     public int getLigne(Tuile position){
-       int y =position.getNumLigne();
-       return y;
+       int c =position.getNumLigne();
+       return c;
     }
     
      public int getColonne(Tuile position){
-       int x =position.getNumColonne();
-       return x;
+       int l =position.getNumColonne();
+       return l;
+    }
+
+    public Grille getGrille() {
+        return grille;
     }
      
+     
+     
      public ArrayList<Tuile> RecupererTuile(Tuile position){
-        int y = getLigne(position);
-        int x = getColonne(position);
+        
+         int l = getLigne(position);
+        int c = getColonne(position);
+         System.out.println("Vous etes en "+ l +","+ c);
         ArrayList<Tuile> tuiles = new ArrayList<>();
         ArrayList<Tuile> tuilesFin = new ArrayList<>();
         
         //tuile dessus//
-        if (y>=1){
-            int yDessus= y-1;
-            int xDessus= x;
-            tuiles.add(grille.getTuiles()[xDessus][yDessus]);
+        if (l<=4){
+            int cDessus= c;
+            int lDessus= l + 1;
+            tuiles.add(grille.getTuiles()[lDessus][cDessus]);
             
         }
         //tuile Dessous//
-        if (y<=4){
-            int yDessous= y+1;
-            int xDessous= x;
-            tuiles.add(grille.getTuiles()[xDessous][yDessous]);
+        if (l>=1){
+            int cDessous= c;
+            int lDessous= l - 1;
+            tuiles.add(grille.getTuiles()[lDessous][cDessous]);
         }
         //tuile gauche//
-        if (x>=1){
-            int yGauche= y;
-            int xGauche= x-1;
-            tuiles.add(grille.getTuiles()[xGauche][yGauche]);
+        if (c>=1){
+            int cGauche= c -1 ;
+            int lGauche= l;
+            tuiles.add(grille.getTuiles()[lGauche][cGauche]);
         }
         //tuile droite//
-        if (x<=4){
-            int yDroite=y;
-            int xDroite=x+1;
-            tuiles.add(grille.getTuiles()[xDroite][yDroite]);
+        if (c<=4){
+            int cDroite=c + 1;
+            int lDroite=l;
+            tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
            
         for (Tuile tuile : tuiles) {
@@ -173,38 +230,39 @@ public class Controleur implements Observateur {
      
      
      public ArrayList<Tuile> AssecherTuile(Tuile position){
-        int y = getLigne(position);
-        int x = getColonne(position);
+        int l = getLigne(position);
+        int c = getColonne(position);
+         System.out.println("Vous etes en "+ l+ ","+c);
         ArrayList<Tuile> tuiles = new ArrayList<>();
         ArrayList<Tuile> tuilesFin = new ArrayList<>();
         
         
         //tuile du joueur//
-        tuiles.add(grille.getTuiles()[x][y]);
+        tuiles.add(grille.getTuiles()[l][c]);
         //tuile dessus//
-        if (y>=1){
-            int yDessus= y-1;
-            int xDessus= x;
-            tuiles.add(grille.getTuiles()[xDessus][yDessus]);
+        if (c>=1){
+            int cDessus= c-1;
+            int lDessus= l;
+            tuiles.add(grille.getTuiles()[lDessus][cDessus]);
             
         }
         //tuile Dessous//
-        if (y<=4){
-            int yDessous= y+1;
-            int xDessous= x;
-            tuiles.add(grille.getTuiles()[xDessous][yDessous]);
+        if (c<=4){
+            int cDessous= c+1;
+            int lDessous= l;
+            tuiles.add(grille.getTuiles()[lDessous][cDessous]);
         }
         //tuile gauche//
-        if (x>=1){
-            int yGauche= y;
-            int xGauche= x-1;
-            tuiles.add(grille.getTuiles()[xGauche][yGauche]);
+        if (l>=1){
+            int cGauche= c;
+            int lGauche= l-1;
+            tuiles.add(grille.getTuiles()[lGauche][cGauche]);
         }
         //tuile droite//
-        if (x<=4){
-            int yDroite=y;
-            int xDroite=x+1;
-            tuiles.add(grille.getTuiles()[xDroite][yDroite]);
+        if (l<=4){
+            int cDroite=c;
+            int lDroite=l+1;
+            tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
            
         for (Tuile tuile : tuiles) {

@@ -5,14 +5,17 @@
  */
 package model.aventuriers;
 
+import model.grille.Tuile;
+
 /**
  *
  * @author sarrasie
  */
 public class Explorateur extends Aventurier {
 
-    public Explorateur() {
+    public Explorateur(Tuile positionDepart) {
         super(roleAventuriers.explorateur, "capacite");
+        this.setEstSur(positionDepart);
     }
     
    

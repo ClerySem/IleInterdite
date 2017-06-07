@@ -152,6 +152,7 @@ public class VueAventurier  {
         });
         
         
+        
     }  
       public void setObservateur(Observateur observateur){
         this.observateur=observateur;
@@ -163,6 +164,9 @@ public class VueAventurier  {
 
     public void setPosition(String pos) {
         this.position.setText(pos);
+    }
+    public String getTexte(){
+        return this.position.getText();
     }
 
     public JButton getBtnAller() {
@@ -176,11 +180,13 @@ public class VueAventurier  {
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
+    
   
     public void affiche(){
         
     }
 
+   
     
      public static void main(String [] args) {
         // Instanciation de la fenêtre 

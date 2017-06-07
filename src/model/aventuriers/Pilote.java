@@ -5,14 +5,18 @@
  */
 package model.aventuriers;
 
+import model.grille.Tuile;
+
 /**
  *
  * @author sarrasie
  */
 public class Pilote extends Aventurier {
 
-    public Pilote() {
+    public Pilote(Tuile positionDepart) {
         super(roleAventuriers.pilote, "capacite");
+        this.setEstSur(positionDepart);
+
     }
     
    
