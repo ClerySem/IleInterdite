@@ -56,36 +56,12 @@ public class Controleur implements Observateur {
    
     @Override
     public void traiterMessage(Message msg) {
-        
+
         switch(msg.type){
             case Deplacer:
                 
-                ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
-                System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
-                /*tuilesAutours.forEach(tuile -> {
-                    System.out.println(tuile.getNumLigne()+","+tuile.getNumColonne());
-                });*/
-                
-                boolean deplacementPossible = false;
-                String positionPossible = "";
-                if (!tuilesAutours.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
-                    for(int k = 0; k < tuilesAutours.size() - 1; k++){
-                        positionPossible += (tuilesAutours.get(k).getNumLigne()+","+tuilesAutours.get(k).getNumColonne()+" ou ");
-                    }
-                    positionPossible += tuilesAutours.get(tuilesAutours.size()-1).getNumLigne()+","+tuilesAutours.get(tuilesAutours.size()-1).getNumColonne();
-                    deplacementPossible = true;
-                } else {
-                    positionPossible = "Impossible de se déplacer";
-                }
-                
-                System.out.println(positionPossible);
-                
-                if (deplacementPossible && !msg.texte.equals("")){
-                    /*Scanner scanner = new Scanner(System.in);
-                    System.out.println("Après avoir entré un champ dans le champ sur la fenêtre, cliquer ici puis taper sur la touche Entrée");
-                    String suite = scanner.nextLine();*/
+                if (!msg.texte.equals("")){
                     String Texte = msg.texte;
-                    //System.out.println("Vous avez saisi : " + Texte);
                     
                    
                     String[] positionString;
@@ -93,22 +69,41 @@ public class Controleur implements Observateur {
                     int[] position = new int[2];
                     position[0] = Integer.parseInt(positionString[0]);
                     position[1] = Integer.parseInt(positionString[1]);
-  
+                    
+                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
                     aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                    
+                
                 }
-                System.out.println(aventuriers.get("Gaspard").getEstSur().getNumLigne());
-                System.out.println(aventuriers.get("Gaspard").getEstSur().getNumColonne());
+                
+                ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                
+                
+                
                 
               
                 //...
             break;
             case Assecher:
-                ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
-                tuilesaAssecher.forEach(tuile -> {
-                    System.out.println(tuile.getNumLigne()+","+tuile.getNumColonne());
+                
+                if (!msg.texte.equals("")){
+                    String Texte = msg.texte;
+                    
                    
-                });
-                vue.setPosition("assechement tuile");
+                    String[] positionString;
+                    positionString = Texte.split(",");
+                    int[] position = new int[2];
+                    position[0] = Integer.parseInt(positionString[0]);
+                    position[1] = Integer.parseInt(positionString[1]);
+                    
+                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
+                    aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
+                    
+                
+                }
+                ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
+                
+                
                 
             break;
             case Autre:
@@ -223,10 +218,25 @@ public class Controleur implements Observateur {
         }
            
         for (Tuile tuile : tuiles) {
-            if (tuile!=null && tuile.getStatut()!=Utils.EtatTuile.INONDEE ){
+            if (tuile!=null && tuile.getStatut()!=Utils.EtatTuile.INONDEE || tuile.getStatut()!=Utils.EtatTuile.COULEE ){
                 tuilesFin.add(tuile);
             }
         }
+        System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
+                
+               
+                String positionPossible = "";
+                if (!tuilesFin.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
+                    for(int k = 0; k < tuilesFin.size() - 1; k++){
+                        positionPossible += (tuilesFin.get(k).getNumLigne()+","+tuilesFin.get(k).getNumColonne()+" ou ");
+                    }
+                    positionPossible += tuilesFin.get(tuilesFin.size()-1).getNumLigne()+","+tuilesFin.get(tuilesFin.size()-1).getNumColonne();
+                   
+                } else {
+                    positionPossible = "Impossible de se déplacer";
+                }
+                
+                System.out.println(positionPossible);
        return tuilesFin;
      }
      
@@ -272,6 +282,21 @@ public class Controleur implements Observateur {
                 tuilesFin.add(tuile);
             }
         }
+        System.out.println("Les tuiles que vous pouvez assécher : ");
+                
+               
+                String positionPossible = "";
+                if (!tuilesFin.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
+                    for(int k = 0; k < tuilesFin.size() - 1; k++){
+                        positionPossible += (tuilesFin.get(k).getNumLigne()+","+tuilesFin.get(k).getNumColonne()+" ou ");
+                    }
+                    positionPossible += tuilesFin.get(tuilesFin.size()-1).getNumLigne()+","+tuilesFin.get(tuilesFin.size()-1).getNumColonne();
+                   
+                } else {
+                    positionPossible = "Impossible d'assecher";
+                }
+                
+                System.out.println(positionPossible);
        return tuilesFin;
      }
      

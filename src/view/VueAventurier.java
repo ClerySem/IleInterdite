@@ -165,7 +165,9 @@ public class VueAventurier  {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
+                setObservateur(observateur);
                 m.type = TypesMessages.Assecher;
+                m.texte = position.getText();
                 observateur.traiterMessage(m);
                 
             }
