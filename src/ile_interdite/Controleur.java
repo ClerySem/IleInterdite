@@ -23,7 +23,41 @@ import model.grille.Tuile;
 import view.VueAventurier;
 import util.Utils;
 import model.aventuriers.*;
-
+/////////////////////////////////////////////////////////CA MARCHE PAS ///////////////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////* ca met deplacement impossible tout le temps meme si tu peux te deplacer
+ /*case Deplacer:
+                ArrayList<Tuile> tuilesAutours = new ArrayList<>();
+                if (premierClic){
+                    tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                    System.out.println(tuilesAutours.get(1));
+                    setPremierClic(false);
+                }else {
+                                        tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                                            
+                if (!msg.texte.equals("")){
+                    String Texte = msg.texte;
+                    
+                   
+                    String[] positionString;
+                    positionString = Texte.split(",");
+                    int[] position = new int[2];
+                    position[0] = Integer.parseInt(positionString[0]);
+                    position[1] = Integer.parseInt(positionString[1]);
+                    System.out.print(position[0] + "," + position[1]);
+                    System.out.println(tuilesAutours.get(1));
+                    if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){
+                        System.out.println("Deplacement impossible");
+                    }else{
+                        
+                        aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                        
+                 
+                    
+                }
+                
+                }
+                    setPremierClic(true);
+                }*/
 
 /**
  *
@@ -59,8 +93,7 @@ public class Controleur implements Observateur {
 
         switch(msg.type){
             case Deplacer:
-                if (aventuriers.get("Gaspard").getRole()== roleAventuriers.ingenieur || aventuriers.get("Gaspard").getRole()== roleAventuriers.messager ||
-                    aventuriers.get("Gaspard").getRole()== roleAventuriers.navigateur){
+               
                     
                 if (!msg.texte.equals("")){
                     String Texte = msg.texte;
@@ -71,34 +104,15 @@ public class Controleur implements Observateur {
                     int[] position = new int[2];
                     position[0] = Integer.parseInt(positionString[0]);
                     position[1] = Integer.parseInt(positionString[1]);
-                    
                     //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
                     aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
                 }
-                ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
-                }
+                    ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
                 
                 
                 
-                if (aventuriers.get("Gaspard").getRole()==roleAventuriers.explorateur){
-                    
-                    if (!msg.texte.equals("")){
-                    String Texte = msg.texte;
-                    
-                   
-                    String[] positionString;
-                    positionString = Texte.split(",");
-                    int[] position = new int[2];
-                    position[0] = Integer.parseInt(positionString[0]);
-                    position[1] = Integer.parseInt(positionString[1]);
-                    
-                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
-                    aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
-                }
-                 ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());   
-                }
-                
-                
+               
+                vue.setPosition("");
                 
                 
                 
@@ -106,8 +120,7 @@ public class Controleur implements Observateur {
                 //...
             break;
             case Assecher:
-                if (aventuriers.get("Gaspard").getRole()== roleAventuriers.ingenieur || aventuriers.get("Gaspard").getRole()== roleAventuriers.messager ||
-                    aventuriers.get("Gaspard").getRole()== roleAventuriers.navigateur){
+               
                 if (!msg.texte.equals("")){
                     String Texte = msg.texte;
                     
@@ -123,26 +136,10 @@ public class Controleur implements Observateur {
                     
                 }
                 ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
-                }
-                if (aventuriers.get("Gaspard").getRole()==roleAventuriers.explorateur){
-                     if (!msg.texte.equals("")){
-                    String Texte = msg.texte;
-                    
-                   
-                    String[] positionString;
-                    positionString = Texte.split(",");
-                    int[] position = new int[2];
-                    position[0] = Integer.parseInt(positionString[0]);
-                    position[1] = Integer.parseInt(positionString[1]);
-                    
-                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
-                    aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
-                }
-                    
-                ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
                 
-                }
+               
                 
+                vue.setPosition("");
                 
             break;
             case Autre:
@@ -158,8 +155,9 @@ public class Controleur implements Observateur {
                         position[0] = Integer.parseInt(positionString[0]);
                         position[1] = Integer.parseInt(positionString[1]);
 
-                        //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
+                        //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");
                         aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                        
                      }
                 }
                 //...
