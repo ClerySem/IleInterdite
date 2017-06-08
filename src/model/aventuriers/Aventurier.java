@@ -16,7 +16,6 @@ public abstract class Aventurier {
     private String capacite;
     private String nomJ;
     private Tuile estSur;
-    private Grille grille;
     private int nbaction;
     
     public Aventurier(roleAventuriers role ,String capacite){
