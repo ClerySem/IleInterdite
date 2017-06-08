@@ -28,7 +28,8 @@ public class Pilote extends Aventurier {
     }
 }
 
-    if (aventuriers.get("Gaspard").getRole()==pilote){
+
+    /*if (aventuriers.get("Gaspard").getRole()==pilote){
                     if (!msg.texte.equals("")){
                         String Texte = msg.texte;
 
@@ -41,7 +42,8 @@ public class Pilote extends Aventurier {
 
                         //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
                         aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
-                     }
-                }
+                     }*/
+                
 
                 
+
