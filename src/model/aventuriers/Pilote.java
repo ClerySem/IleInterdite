@@ -28,7 +28,7 @@ public class Pilote extends Aventurier {
     }
 }
 
-    /*if (aventuriers.get("Gaspard").getRole()==pilote){
+    if (aventuriers.get("Gaspard").getRole()==pilote){
                     if (!msg.texte.equals("")){
                         String Texte = msg.texte;
 
@@ -44,4 +44,4 @@ public class Pilote extends Aventurier {
                      }
                 }
 
-                */
+                

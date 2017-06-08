@@ -59,7 +59,9 @@ public class Controleur implements Observateur {
 
         switch(msg.type){
             case Deplacer:
-                
+                if (aventuriers.get("Gaspard").getRole()== roleAventuriers.ingenieur || aventuriers.get("Gaspard").getRole()== roleAventuriers.messager ||
+                    aventuriers.get("Gaspard").getRole()== roleAventuriers.navigateur){
+                    
                 if (!msg.texte.equals("")){
                     String Texte = msg.texte;
                     
@@ -72,11 +74,30 @@ public class Controleur implements Observateur {
                     
                     //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
                     aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
-                    
-                
+                }
+                ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
                 }
                 
-                ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                
+                
+                if (aventuriers.get("Gaspard").getRole()==roleAventuriers.explorateur){
+                    
+                    if (!msg.texte.equals("")){
+                    String Texte = msg.texte;
+                    
+                   
+                    String[] positionString;
+                    positionString = Texte.split(",");
+                    int[] position = new int[2];
+                    position[0] = Integer.parseInt(positionString[0]);
+                    position[1] = Integer.parseInt(positionString[1]);
+                    
+                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
+                    aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                }
+                 ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());   
+                }
+                
                 
                 
                 
@@ -85,7 +106,8 @@ public class Controleur implements Observateur {
                 //...
             break;
             case Assecher:
-                
+                if (aventuriers.get("Gaspard").getRole()== roleAventuriers.ingenieur || aventuriers.get("Gaspard").getRole()== roleAventuriers.messager ||
+                    aventuriers.get("Gaspard").getRole()== roleAventuriers.navigateur){
                 if (!msg.texte.equals("")){
                     String Texte = msg.texte;
                     
@@ -99,15 +121,47 @@ public class Controleur implements Observateur {
                     //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
                     aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
                     
-                
                 }
                 ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
+                }
+                if (aventuriers.get("Gaspard").getRole()==roleAventuriers.explorateur){
+                     if (!msg.texte.equals("")){
+                    String Texte = msg.texte;
+                    
+                   
+                    String[] positionString;
+                    positionString = Texte.split(",");
+                    int[] position = new int[2];
+                    position[0] = Integer.parseInt(positionString[0]);
+                    position[1] = Integer.parseInt(positionString[1]);
+                    
+                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
+                    aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
+                }
+                    
+                ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
                 
+                }
                 
                 
             break;
             case Autre:
-                vue.setPosition("autre");
+                
+                 if (aventuriers.get("Gaspard").getRole()==roleAventuriers.pilote){
+                    if (!msg.texte.equals("")){
+                        String Texte = msg.texte;
+
+
+                        String[] positionString;
+                        positionString = Texte.split(",");
+                        int[] position = new int[2];
+                        position[0] = Integer.parseInt(positionString[0]);
+                        position[1] = Integer.parseInt(positionString[1]);
+
+                        //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
+                        aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                     }
+                }
                 //...
             break;
             case Terminer:
@@ -181,27 +235,26 @@ public class Controleur implements Observateur {
         return grille;
     }
      
-     
+   
+    ////SE DEPLACER///////////////////////////////////////////////////
      
      public ArrayList<Tuile> RecupererTuile(Tuile position){
-        
-         int l = getLigne(position);
+        int l = getLigne(position);
         int c = getColonne(position);
          System.out.println("Vous etes en "+ l +","+ c);
         ArrayList<Tuile> tuiles = new ArrayList<>();
         ArrayList<Tuile> tuilesFin = new ArrayList<>();
         
         //tuile dessus//
-        if (l<=4){
+        if (l>=1){
             int cDessus= c;
-            int lDessus= l + 1;
+            int lDessus= l - 1;
             tuiles.add(grille.getTuiles()[lDessus][cDessus]);
-            
         }
         //tuile Dessous//
-        if (l>=1){
+        if (l<=4){
             int cDessous= c;
-            int lDessous= l - 1;
+            int lDessous= l + 1;
             tuiles.add(grille.getTuiles()[lDessous][cDessous]);
         }
         //tuile gauche//
@@ -216,23 +269,49 @@ public class Controleur implements Observateur {
             int lDroite=l;
             tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
+        if(aventuriers.get("Gaspard").getRole()==roleAventuriers.explorateur){
+          //tuile hautGauche//
+        if(c>=1 && l>=1){
+            int cHGauche=c -1;
+            int lHGauche=l - 1;
+            tuiles.add(grille.getTuiles()[lHGauche][cHGauche]);
+        }
+        //tuile hautDroit//
+        if(c<=4 && l>=1){
+            int cHDroite=c +1;
+            int lHDroite=l - 1;
+            tuiles.add(grille.getTuiles()[lHDroite][cHDroite]);
+        }
+        //tuile basGauche//
+        if(c>=1 && l<=4){
+            int cBGauche=c -1;
+            int lBGauche=l + 1;
+            tuiles.add(grille.getTuiles()[lBGauche][cBGauche]);
+        }
+        //tuile basDroite//
+        if (c<=4 && l<=4){
+            int cBDroite=c +1;
+            int lBDroite=l + 1;
+            tuiles.add(grille.getTuiles()[lBDroite][cBDroite]);
+        }
+        }
            
         for (Tuile tuile : tuiles) {
-            if (tuile!=null && tuile.getStatut()!=Utils.EtatTuile.INONDEE || tuile.getStatut()!=Utils.EtatTuile.COULEE ){
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.ASSECHEE ){
                 tuilesFin.add(tuile);
             }
         }
+        
         System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
-                
-               
+        
                 String positionPossible = "";
                 if (!tuilesFin.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
-                    for(int k = 0; k < tuilesFin.size() - 1; k++){
-                        positionPossible += (tuilesFin.get(k).getNumLigne()+","+tuilesFin.get(k).getNumColonne()+" ou ");
-                    }
+                        for(int k = 0; k < tuilesFin.size() - 1; k++){
+                            positionPossible += (tuilesFin.get(k).getNumLigne()+","+tuilesFin.get(k).getNumColonne()+" ou ");
+                        }
                     positionPossible += tuilesFin.get(tuilesFin.size()-1).getNumLigne()+","+tuilesFin.get(tuilesFin.size()-1).getNumColonne();
                    
-                } else {
+                }else{
                     positionPossible = "Impossible de se déplacer";
                 }
                 
@@ -240,6 +319,9 @@ public class Controleur implements Observateur {
        return tuilesFin;
      }
      
+     
+     
+     /////////////ASSECHER TUILE ///////////////////////////////////////////////
      
      public ArrayList<Tuile> AssecherTuile(Tuile position){
         int l = getLigne(position);
@@ -276,9 +358,35 @@ public class Controleur implements Observateur {
             int lDroite=l+1;
             tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
+        if(aventuriers.get("Gaspard").getRole()==roleAventuriers.explorateur){
+          //tuile hautGauche//
+        if(c>=1 && l>=1){
+            int cHGauche=c -1;
+            int lHGauche=l - 1;
+            tuiles.add(grille.getTuiles()[lHGauche][cHGauche]);
+        }
+        //tuile hautDroit//
+        if(c<=4 && l>=1){
+            int cHDroite=c +1;
+            int lHDroite=l - 1;
+            tuiles.add(grille.getTuiles()[lHDroite][cHDroite]);
+        }
+        //tuile basGauche//
+        if(c>=1 && l<=4){
+            int cBGauche=c -1;
+            int lBGauche=l + 1;
+            tuiles.add(grille.getTuiles()[lBGauche][cBGauche]);
+        }
+        //tuile basDroite//
+        if (c<=4 && l<=4){
+            int cBDroite=c +1;
+            int lBDroite=l + 1;
+            tuiles.add(grille.getTuiles()[lBDroite][cBDroite]);
+        }
+        }
            
         for (Tuile tuile : tuiles) {
-            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE ){
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE  ){
                 tuilesFin.add(tuile);
             }
         }
@@ -297,8 +405,12 @@ public class Controleur implements Observateur {
                 }
                 
                 System.out.println(positionPossible);
-       return tuilesFin;
+       
+     
+        return tuilesFin;
      }
+     
+    
      
      public void afficherGrilleConsole(){
          for (int i = 0; i <6; i ++) {
@@ -318,9 +430,6 @@ public class Controleur implements Observateur {
         return aventuriers;
     }
 
-/*    public void setVue(String nomJoueur, String nomAventurier, Color couleur) {
-       this.vue = new VueAventurier(nomJoueur, nomAventurier, couleur);
-    }*/
     
     
   
