@@ -24,80 +24,105 @@ public class Tuile {
     private ArrayList<Aventurier> possede;
 
     public Tuile(int numLigne , int numColonne) {
-       this.statut = ASSECHEE;
+       
        this.numLigne = numLigne;
        this.numColonne =numColonne;
        if (numLigne == 0 && numColonne ==2){
            this.nom = "Le Pont Des Abimes";
+           
        }
        if (numLigne == 0 && numColonne ==3){
            this.nom = "La Porte De Bronze";
+           this.statut = COULEE;
        }
        if (numLigne == 1 && numColonne ==1){
            this.nom = "La Caverne Des Ombres";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 1 && numColonne ==2){
            this.nom = "La Porte De Fer";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 1 && numColonne ==3){
            this.nom = "La Porte d'Or";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 1 && numColonne ==4){
            this.nom = "Les Falaises De L'Oubli";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 2 && numColonne ==0){
            this.nom = "Le Palais De Corail";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 2 && numColonne ==1){
            this.nom = "La Porte d'Argent";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 2 && numColonne ==2){
            this.nom = "Les Dunes De L'Illusion";
+           this.statut = INONDEE;
        }
        if (numLigne == 2 && numColonne ==3){
            this.nom = "Heliport";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 2 && numColonne ==4){
            this.nom = "La Porte De Cuivre";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 2 && numColonne ==5){
            this.nom = "Le Jardin Des Hurlements";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 3 && numColonne ==0){
            this.nom = "La Foret Pourpre";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 3 && numColonne ==1){
            this.nom = "Le Lagon Perdu";
+           this.statut = INONDEE;
        }
        if (numLigne == 3 && numColonne ==2){
            this.nom = "Le Marais Brumeux";
+           this.statut = COULEE;
+           
        }
        if (numLigne == 3 && numColonne ==3){
            this.nom = "Observatoire";
+           this.statut = INONDEE;
        }
        if (numLigne == 3 && numColonne ==4){
            this.nom = "Le Rocher Fantome";
+           this.statut = COULEE;
        }
        if (numLigne == 3 && numColonne ==5){
            this.nom = "La Caverne Du Brasier";
+           this.statut = INONDEE;
        }
        if (numLigne == 4 && numColonne ==1){
            this.nom = "Le Temple Du Soleil";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 4 && numColonne ==2){
            this.nom = "Le Temple De La Lune";
+           this.statut = COULEE;
        }
        if (numLigne == 4 && numColonne ==3){
            this.nom = "Le Palais Des Marais";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 4 && numColonne ==4){
            this.nom = "Le Val Du Crepuscule";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 5 && numColonne ==2){
            this.nom = "La Tour Du Guet";
+           this.statut = ASSECHEE;
        }
        if (numLigne == 5 && numColonne ==3){
            this.nom = "Le Jardin Des Murmures";
+           this.statut = INONDEE;
        }
        this.possede = new ArrayList<>();
        
