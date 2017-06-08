@@ -21,7 +21,9 @@ public class Pilote extends Aventurier {
     
    
     
-    public void voler(){
-        
+    public void voler(Tuile tuile){
+        setEstSur(tuile);
+        tuile.ajouterAventurier(this);
+        setNbaction(getNbaction() + 1);
     }
 }
