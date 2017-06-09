@@ -14,8 +14,7 @@ import model.grille.Tuile;
 public class Messager extends Aventurier {
     
     public Messager(Tuile positionDepart) {
-        super(roleAventuriers.messager, "capacite");
-        this.setEstSur(positionDepart);
+        super(roleAventuriers.messager, "capacite",positionDepart);
 
     }
     

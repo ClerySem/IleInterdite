@@ -14,8 +14,7 @@ import model.grille.Tuile;
 public class Navigateur extends Aventurier {
 
     public Navigateur(Tuile positionDepart) {
-        super(roleAventuriers.navigateur, "capacite");
-        this.setEstSur(positionDepart);
+        super(roleAventuriers.navigateur, "capacite",positionDepart);
 
     }
     

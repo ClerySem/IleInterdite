@@ -192,8 +192,10 @@ public class VueAventurier  {
     public void affiche(){
         
     }
-
-   
+    
+    public void close(){
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
     
      public static void main(String [] args) {
         // Instanciation de la fenêtre 

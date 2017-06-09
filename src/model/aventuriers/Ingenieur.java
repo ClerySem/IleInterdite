@@ -14,9 +14,7 @@ import model.grille.Tuile;
 public class Ingenieur extends Aventurier {
 
     public Ingenieur(Tuile positionDepart) {
-        super(roleAventuriers.ingenieur, "capacite");
-        
-        this.setEstSur(positionDepart);
+        super(roleAventuriers.ingenieur, "capacite",positionDepart);
     }
   
     
