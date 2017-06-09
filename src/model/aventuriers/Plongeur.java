@@ -14,8 +14,7 @@ import model.grille.Tuile;
 public class Plongeur extends Aventurier{
 
     public Plongeur(Tuile positionDepart) {
-        super(roleAventuriers.plongeur, "capacite");
-        this.setEstSur(positionDepart);
+        super(roleAventuriers.plongeur, "capacite",positionDepart);
 
     }
     

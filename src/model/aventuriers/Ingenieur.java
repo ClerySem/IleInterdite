@@ -15,9 +15,7 @@ import util.Utils;
 public class Ingenieur extends Aventurier {
 
     public Ingenieur(Tuile positionDepart) {
-        super(roleAventuriers.ingenieur, "capacite");
-        
-        this.setEstSur(positionDepart);
+        super(roleAventuriers.ingenieur, "capacite",positionDepart);
     }
   
         public void assecher2Tuiles(Tuile tuile1,Tuile tuile2){

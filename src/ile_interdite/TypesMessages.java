@@ -13,6 +13,5 @@ public enum TypesMessages {
     Deplacer,
     Assecher,
     Terminer,
-    Autre,
-    Attente;
+    Autre;
 }

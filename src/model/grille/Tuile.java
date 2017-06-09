@@ -29,6 +29,7 @@ public class Tuile {
        this.numColonne =numColonne;
        if (numLigne == 0 && numColonne ==2){
            this.nom = "Le Pont Des Abimes";
+           this.statut = ASSECHEE;
            
        }
        if (numLigne == 0 && numColonne ==3){

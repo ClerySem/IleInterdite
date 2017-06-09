@@ -16,13 +16,13 @@ public abstract class Aventurier {
     private String capacite;
     private String nomJ;
     private Tuile estSur;
-    private Grille grille;
     private int nbaction;
     
-    public Aventurier(roleAventuriers role ,String capacite){
+    public Aventurier(roleAventuriers role ,String capacite, Tuile estSur){
         this.role = role;
         this.capacite = capacite;
         this.nbaction = 0;
+        this.estSur = estSur;
     }
     public String getNom(){
         return nomJ;
@@ -75,4 +75,9 @@ public abstract class Aventurier {
         
     }
 
+    public void setRole(roleAventuriers role) {
+        this.role = role;
+    }
+    
+    
 }

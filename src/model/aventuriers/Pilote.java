@@ -14,14 +14,35 @@ import model.grille.Tuile;
 public class Pilote extends Aventurier {
 
     public Pilote(Tuile positionDepart) {
-        super(roleAventuriers.pilote, "capacite");
-        this.setEstSur(positionDepart);
+        super(roleAventuriers.pilote, "capacite",positionDepart);
 
     }
     
    
     
-    public void voler(){
-        
+    public void voler(Tuile tuile){
+        setEstSur(tuile);
+        tuile.ajouterAventurier(this);
+        setNbaction(getNbaction() + 1);
     }
 }
+
+
+    /*if (aventuriers.get("Gaspard").getRole()==pilote){
+                    if (!msg.texte.equals("")){
+                        String Texte = msg.texte;
+
+
+                        String[] positionString;
+                        positionString = Texte.split(",");
+                        int[] position = new int[2];
+                        position[0] = Integer.parseInt(positionString[0]);
+                        position[1] = Integer.parseInt(positionString[1]);
+
+                        //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
+                        aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                     }*/
+                
+
+                
+

@@ -7,10 +7,12 @@ package ile_interdite;
 
 import static ile_interdite.TypesMessages.Deplacer;
 import java.awt.Color;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import model.aventuriers.Aventurier;
@@ -24,7 +26,6 @@ import view.VueAventurier;
 import util.Utils;
 import model.aventuriers.*;
 
-
 /**
  *
  * @author semanazc
@@ -32,22 +33,39 @@ import model.aventuriers.*;
 public class Controleur implements Observateur {
     
     private final VueAventurier vue;
-    private HashMap<String,Aventurier> aventuriers;
+    private final HashMap<String,Aventurier> aventuriers;
     private Grille grille;
+    private boolean premierClic;
+    private ArrayList<Tuile> tuilesAutours;
+    private ArrayList<Tuile> tuilesAutoursNonSeches;
+    private boolean choixFinTour;
     
-
     public Controleur() {
         
         //initialisation des attributs
         this.aventuriers = new HashMap<>();
+        this.premierClic = true;
+        this.tuilesAutours = new ArrayList<>();
+        this.tuilesAutoursNonSeches = new ArrayList<>();
+        this.choixFinTour = false;
+        
+        /*
+         --------------------------------------------------------------
+         |                  Lancement de la partie                    |
+         --------------------------------------------------------------
+        */
         
         System.out.println("Lancement de la partie");
         demarrerPartie();
         
+        aventuriers.put("Gaspard", new Plongeur(getGrille().getTuiles()[1][2]));
         vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
         vue.setObservateur(this);
-        
+        if(aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
+            //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
+            vue.close();
+        }
         
         //vue.affiche();
         
@@ -56,67 +74,127 @@ public class Controleur implements Observateur {
    
     @Override
     public void traiterMessage(Message msg) {
-
+        Exception AucunePositionEntreeException = new Exception();
+        
         switch(msg.type){
+ 
             case Deplacer:
+                Exception DeplacementImpossibleException = new Exception();
                 
-                if (!msg.texte.equals("")){
-                    String Texte = msg.texte;
-                    
-                   
-                    String[] positionString;
-                    positionString = Texte.split(",");
-                    int[] position = new int[2];
-                    position[0] = Integer.parseInt(positionString[0]);
-                    position[1] = Integer.parseInt(positionString[1]);
-                    
-                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
-                    aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
-                    
+                try{
+                    if (premierClic){
+                        tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                        setPremierClic(false);
+                    }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
+                        if (!msg.texte.equals("")){ //si la case message à été remplie
+                            String Texte = msg.texte;
+
+                            System.out.println("Deplacement en cours");
+
+                            String[] positionString;
+                            positionString = Texte.split(","); //parsing des coordonnées
+                            int[] position = new int[2];
+                            position[0] = Integer.parseInt(positionString[0]); //ligne
+                            position[1] = Integer.parseInt(positionString[1]); //colonne
+                            
+                            if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){
+                                System.err.println("Deplacement impossible");
+                                throw DeplacementImpossibleException;
+                            }else{ //on finalise la procédure de déplacement
+
+                                aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                                System.out.println("Deplacement bien effectué, vous êtes maintenant en : " + aventuriers.get("Gaspard").getEstSur().getNumLigne()+ "," + aventuriers.get("Gaspard").getEstSur().getNumColonne());
+                                premierClic = true;
+                            }  
+
+                        }else {
+                            System.err.println("Aucune position entrée");
+                            throw AucunePositionEntreeException;
+                        }
+
+                    }
+                }catch(Exception e){
+                    System.err.println("Une erreur c'est produite merci de recommencer");
+                    setPremierClic(true);
+                }       
                 
-                }
-                
-                ArrayList<Tuile> tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
-                
-                
-                
-                
-              
-                //...
+                vue.setPosition(""); //clear de la zone de texte de la vue
+                System.out.println(aventuriers.get("Gaspard").getNbaction());
             break;
-            case Assecher:
+           case Assecher:
+                Exception AssechementImpossibleException = new Exception();
                 
-                if (!msg.texte.equals("")){
-                    String Texte = msg.texte;
-                    
-                   
-                    String[] positionString;
-                    positionString = Texte.split(",");
-                    int[] position = new int[2];
-                    position[0] = Integer.parseInt(positionString[0]);
-                    position[1] = Integer.parseInt(positionString[1]);
-                    
-                    //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
-                    aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
-                    
-                
+                try {
+                    if (premierClic){
+                        tuilesAutoursNonSeches = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
+                        setPremierClic(false);
+                    }else { //on entamme la procédure d'asséchement
+                        System.out.println("Vous avez choisit de sécher une case : \n ");
+                        if (!msg.texte.equals("")){ //si la case message à été remplie
+                            String Texte = msg.texte;
+
+                            System.out.println("Assechement en cours");
+
+                            String[] positionString;
+                            positionString = Texte.split(","); //parsing des coordonnées
+                            int[] position = new int[2];
+                            position[0] = Integer.parseInt(positionString[0]); //ligne
+                            position[1] = Integer.parseInt(positionString[1]); //colonne
+                            
+                            if (!tuilesAutoursNonSeches.contains(grille.getTuiles()[position[0]][position[1]])){
+                                System.err.println("Assechement impossible");
+                                throw AssechementImpossibleException;
+                            }else{ //on finalise la procédure d'asséchement
+
+                                aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
+                                System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
+                                        + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
+                                premierClic = true;
+                            }
+
+                        }else {
+                            System.err.println("Aucune position entrée");
+                            throw AucunePositionEntreeException;
+                        }
+
+                    }
+                }catch(Exception e){
+                    System.err.println("Une erreur c'est produite merci de recommencer");
+                    setPremierClic(true);
                 }
-                ArrayList<Tuile> tuilesaAssecher = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
+               
                 
-                
-                
+                vue.setPosition(""); //clear de la zone de texte de la vue
             break;
             case Autre:
-                vue.setPosition("autre");
+                
+                 if (aventuriers.get("Gaspard").getRole()==roleAventuriers.pilote){
+                    if (!msg.texte.equals("")){
+                        String Texte = msg.texte;
+
+
+                        String[] positionString;
+                        positionString = Texte.split(",");
+                        int[] position = new int[2];
+                        position[0] = Integer.parseInt(positionString[0]);
+                        position[1] = Integer.parseInt(positionString[1]);
+
+                        //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");
+                        aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                        
+                     }
+                }
                 //...
             break;
             case Terminer:
                 vue.setPosition("Tour terminer, joueur suivant");
-                //...
+                choixFinTour = true;
             break;
                 
             
         }
+        
+        if (aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour) System.out.println("fin du tour");
        
     }
     
@@ -132,17 +210,17 @@ public class Controleur implements Observateur {
         
         //creation des aventuriers
         
-        Explorateur explorateur = new Explorateur(getGrille().getTuiles()[2][3]);
+        Explorateur explorateur = new Explorateur(getGrille().getTuiles()[2][4]);
         
-        Ingenieur ingenieur = new Ingenieur(getGrille().getTuiles()[1][2]);
+        Ingenieur ingenieur = new Ingenieur(getGrille().getTuiles()[0][3]);
         
         Messager messager = new Messager(getGrille().getTuiles()[1][3]);
         
-        Navigateur navigateur = new Navigateur(getGrille().getTuiles()[2][4]);
+        Navigateur navigateur = new Navigateur(getGrille().getTuiles()[1][3]);
         
-        Pilote pilote = new Pilote(getGrille().getTuiles()[0][3]);
+        Pilote pilote = new Pilote(getGrille().getTuiles()[2][1]);
         
-        Plongeur plongeur = new Plongeur(getGrille().getTuiles()[2][1]);
+        Plongeur plongeur = new Plongeur(getGrille().getTuiles()[1][2]);
         
         ArrayList<Aventurier> listeaventuriersjouables = new ArrayList();
         listeaventuriersjouables.add(explorateur);
@@ -168,40 +246,40 @@ public class Controleur implements Observateur {
     }
     
     public int getLigne(Tuile position){
-       int c =position.getNumLigne();
-       return c;
+       int l =position.getNumLigne();
+       return l;
     }
     
      public int getColonne(Tuile position){
-       int l =position.getNumColonne();
-       return l;
+       int c =position.getNumColonne();
+       return c;
     }
 
     public Grille getGrille() {
         return grille;
     }
      
-     
+   
+    ////SE DEPLACER///////////////////////////////////////////////////
      
      public ArrayList<Tuile> RecupererTuile(Tuile position){
-        
-         int l = getLigne(position);
+        int l = getLigne(position);
         int c = getColonne(position);
+        roleAventuriers roleAventurierCourant = aventuriers.get("Gaspard").getRole();
          System.out.println("Vous etes en "+ l +","+ c);
         ArrayList<Tuile> tuiles = new ArrayList<>();
         ArrayList<Tuile> tuilesFin = new ArrayList<>();
         
         //tuile dessus//
-        if (l<=4){
+        if (l>=1){
             int cDessus= c;
-            int lDessus= l + 1;
+            int lDessus= l - 1;
             tuiles.add(grille.getTuiles()[lDessus][cDessus]);
-            
         }
         //tuile Dessous//
-        if (l>=1){
+        if (l<=4){
             int cDessous= c;
-            int lDessous= l - 1;
+            int lDessous= l + 1;
             tuiles.add(grille.getTuiles()[lDessous][cDessous]);
         }
         //tuile gauche//
@@ -216,23 +294,67 @@ public class Controleur implements Observateur {
             int lDroite=l;
             tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
+        
+        /*
+        -----------------------------------------------------------
+                      On va gérer les cas particuliers
+                           (explorateur et plongeur)
+        -----------------------------------------------------------
+        */
+        
+        if(roleAventurierCourant == roleAventuriers.explorateur){ //peut se déplacer en diagonale
+              //tuile hautGauche//
+            if(c>=1 && l>=1){
+                int cHGauche=c -1;
+                int lHGauche=l - 1;
+                tuiles.add(grille.getTuiles()[lHGauche][cHGauche]);
+            }
+            //tuile hautDroit//
+            if(c<=4 && l>=1){
+                int cHDroite=c +1;
+                int lHDroite=l - 1;
+                tuiles.add(grille.getTuiles()[lHDroite][cHDroite]);
+            }
+            //tuile basGauche//
+            if(c>=1 && l<=4){
+                int cBGauche=c -1;
+                int lBGauche=l + 1;
+                tuiles.add(grille.getTuiles()[lBGauche][cBGauche]);
+            }
+            //tuile basDroite//
+            if (c<=4 && l<=4){
+                int cBDroite=c +1;
+                int lBDroite=l + 1;
+                tuiles.add(grille.getTuiles()[lBDroite][cBDroite]);
+            }
+        }
            
-        for (Tuile tuile : tuiles) {
-            if (tuile!=null && tuile.getStatut()!=Utils.EtatTuile.INONDEE || tuile.getStatut()!=Utils.EtatTuile.COULEE ){
+        for (Tuile tuile : tuiles) { //on ajoute toutes les tuiles sèche à tuilesFin
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.ASSECHEE ){
                 tuilesFin.add(tuile);
             }
         }
+        
+        //Gestion du cas du plongeur, il faut ajouter toutes les tuiles à cotée d'une tuile mouillée
+        if(roleAventurierCourant == roleAventuriers.plongeur){
+            HashSet<Tuile> tuilesPlongeur = new HashSet<>();
+            deplacementPlongeur(position, position, tuilesPlongeur);
+            tuilesFin.clear();
+            tuilesPlongeur.forEach(tuile -> {
+                if(!position.equals(tuile))tuilesFin.add(tuile);
+            });
+        }
+        
         System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
-                
-               
+        
                 String positionPossible = "";
                 if (!tuilesFin.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
-                    for(int k = 0; k < tuilesFin.size() - 1; k++){
-                        positionPossible += (tuilesFin.get(k).getNumLigne()+","+tuilesFin.get(k).getNumColonne()+" ou ");
-                    }
+                        for(int k = 0; k < tuilesFin.size() - 1; k++){
+                            positionPossible += (tuilesFin.get(k).getNumLigne()+","+tuilesFin.get(k).getNumColonne()+" ou ");
+                        }
                     positionPossible += tuilesFin.get(tuilesFin.size()-1).getNumLigne()+","+tuilesFin.get(tuilesFin.size()-1).getNumColonne();
                    
-                } else {
+                }else{
                     positionPossible = "Impossible de se déplacer";
                 }
                 
@@ -240,6 +362,9 @@ public class Controleur implements Observateur {
        return tuilesFin;
      }
      
+     
+     
+     /////////////ASSECHER TUILE ///////////////////////////////////////////////
      
      public ArrayList<Tuile> AssecherTuile(Tuile position){
         int l = getLigne(position);
@@ -276,9 +401,35 @@ public class Controleur implements Observateur {
             int lDroite=l+1;
             tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
+        if(aventuriers.get("Gaspard").getRole()==roleAventuriers.explorateur){
+          //tuile hautGauche//
+        if(c>=1 && l>=1){
+            int cHGauche=c -1;
+            int lHGauche=l - 1;
+            tuiles.add(grille.getTuiles()[lHGauche][cHGauche]);
+        }
+        //tuile hautDroit//
+        if(c<=4 && l>=1){
+            int cHDroite=c +1;
+            int lHDroite=l - 1;
+            tuiles.add(grille.getTuiles()[lHDroite][cHDroite]);
+        }
+        //tuile basGauche//
+        if(c>=1 && l<=4){
+            int cBGauche=c -1;
+            int lBGauche=l + 1;
+            tuiles.add(grille.getTuiles()[lBGauche][cBGauche]);
+        }
+        //tuile basDroite//
+        if (c<=4 && l<=4){
+            int cBDroite=c +1;
+            int lBDroite=l + 1;
+            tuiles.add(grille.getTuiles()[lBDroite][cBDroite]);
+        }
+        }
            
         for (Tuile tuile : tuiles) {
-            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE ){
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE  ){
                 tuilesFin.add(tuile);
             }
         }
@@ -297,8 +448,12 @@ public class Controleur implements Observateur {
                 }
                 
                 System.out.println(positionPossible);
-       return tuilesFin;
+       
+     
+        return tuilesFin;
      }
+     
+    
      
      public void afficherGrilleConsole(){
          for (int i = 0; i <6; i ++) {
@@ -318,10 +473,53 @@ public class Controleur implements Observateur {
         return aventuriers;
     }
 
-/*    public void setVue(String nomJoueur, String nomAventurier, Color couleur) {
-       this.vue = new VueAventurier(nomJoueur, nomAventurier, couleur);
-    }*/
-    
+    private void setPremierClic(boolean b) {
+        this.premierClic = b;
+    }
+
+    public void deplacementPlongeur(Tuile anciennePosition,Tuile position, HashSet<Tuile> tuilesPlongeur){
+        
+        int l = getLigne(position);
+        int c = getColonne(position);
+        
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        
+        //tuile dessus//
+        if (l>=1){
+            int cDessus= c;
+            int lDessus= l - 1;
+            tuiles.add(grille.getTuiles()[lDessus][cDessus]);
+        }
+        //tuile Dessous//
+        if (l<=4){
+            int cDessous= c;
+            int lDessous= l + 1;
+            tuiles.add(grille.getTuiles()[lDessous][cDessous]);
+        }
+        //tuile gauche//
+        if (c>=1){
+            int cGauche= c -1 ;
+            int lGauche= l;
+            tuiles.add(grille.getTuiles()[lGauche][cGauche]);
+        }
+        //tuile droite//
+        if (c<=4){
+            int cDroite=c + 1;
+            int lDroite=l;
+            tuiles.add(grille.getTuiles()[lDroite][cDroite]);
+        }
+
+            for(Tuile tuile : tuiles){
+                if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.ASSECHEE){ //si la tuile autour de lui est seche alors on ajoute la tuile
+                    tuilesPlongeur.add(tuile);
+                } else if ((tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE || tuile!=null && tuile.getStatut()==Utils.EtatTuile.COULEE)
+                            && !anciennePosition.equals(tuile)){ // si la tuile est innondée au coulée on ajoute les tuiles sèches autours
+                    
+                    deplacementPlongeur(position,tuile,tuilesPlongeur);
+                }
+            }
+
+    }
     
   
     
