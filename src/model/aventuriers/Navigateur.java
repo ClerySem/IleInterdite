@@ -20,7 +20,5 @@ public class Navigateur extends Aventurier {
     
 
     
-    public void deplacerJoueur(){
-        
-    }
+   
 }

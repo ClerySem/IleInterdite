@@ -19,8 +19,6 @@ public class Plongeur extends Aventurier{
     }
     
  
-    public void nager(){
-        
-    }
+    
     
 }

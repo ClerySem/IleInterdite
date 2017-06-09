@@ -22,6 +22,7 @@ public class Pilote extends Aventurier {
     
    
     
+
     public void voler(Tuile tuile){
         setEstSur(tuile);
         tuile.ajouterAventurier(this);
@@ -41,11 +42,9 @@ public class Pilote extends Aventurier {
     public void setAvole(boolean avole) {
         this.avole = avole;
     }
+
+
 }
 
 
-   
-                
-
-                
-
+ 
