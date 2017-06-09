@@ -6,6 +6,7 @@
 package model.aventuriers;
 
 import model.grille.Tuile;
+import util.Utils;
 
 /**
  *
@@ -19,6 +20,10 @@ public class Ingenieur extends Aventurier {
         this.setEstSur(positionDepart);
     }
   
-    
-    
-}
+        public void assecher2Tuiles(Tuile tuile1,Tuile tuile2){
+            tuile1.setStatut(Utils.EtatTuile.ASSECHEE);
+            tuile2.setStatut(Utils.EtatTuile.ASSECHEE);
+            setNbaction(getNbaction()+1);
+        }
+  }
+

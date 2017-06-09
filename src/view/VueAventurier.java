@@ -215,7 +215,6 @@ public class VueAventurier  {
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
-    
   
     public void affiche(){
         
