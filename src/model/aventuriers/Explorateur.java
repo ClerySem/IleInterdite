@@ -19,10 +19,5 @@ public class Explorateur extends Aventurier {
     
    
     
-    public void deplacerDiagonale(){
-        
-    }
-    public void assecherdiagonale(){
-        
-    }
+   
 }
