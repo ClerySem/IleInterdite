@@ -75,6 +75,7 @@ public class Controleur implements Observateur {
     @Override
     public void traiterMessage(Message msg) {
         Exception AucunePositionEntreeException = new Exception();
+        
         switch(msg.type){
  
             case Deplacer:
@@ -118,7 +119,7 @@ public class Controleur implements Observateur {
                 }       
                 
                 vue.setPosition(""); //clear de la zone de texte de la vue
-                
+                System.out.println(aventuriers.get("Gaspard").getNbaction());
             break;
            case Assecher:
                 Exception AssechementImpossibleException = new Exception();
@@ -192,6 +193,8 @@ public class Controleur implements Observateur {
                 
             
         }
+        
+        if (aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour) System.out.println("fin du tour");
        
     }
     
@@ -506,10 +509,7 @@ public class Controleur implements Observateur {
             tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
 
-        System.out.println(tuiles.size());
             for(Tuile tuile : tuiles){
-                System.out.println(anciennePosition.getNom());
-                System.out.println(position.getNom());
                 if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.ASSECHEE){ //si la tuile autour de lui est seche alors on ajoute la tuile
                     tuilesPlongeur.add(tuile);
                 } else if ((tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE || tuile!=null && tuile.getStatut()==Utils.EtatTuile.COULEE)
