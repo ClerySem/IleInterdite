@@ -13,7 +13,7 @@ import util.Utils;
  */
 public abstract class Aventurier {
     private roleAventuriers role;
-    private String capacite;
+    private final String capacite;
     private String nomJ;
     private Tuile estSur;
     private int nbaction;
@@ -21,7 +21,7 @@ public abstract class Aventurier {
     public Aventurier(roleAventuriers role ,String capacite, Tuile estSur){
         this.role = role;
         this.capacite = capacite;
-        this.nbaction = 0;
+        this.nbaction = 1;
         this.estSur = estSur;
     }
     public String getNom(){
@@ -79,5 +79,6 @@ public abstract class Aventurier {
         this.role = role;
     }
     
+   
     
 }

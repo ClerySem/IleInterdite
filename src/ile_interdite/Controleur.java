@@ -6,20 +6,15 @@
 package ile_interdite;
 
 import static ile_interdite.TypesMessages.Deplacer;
-import java.awt.Color;
-import java.io.Console;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
 import model.aventuriers.roleAventuriers;
-import static model.aventuriers.roleAventuriers.explorateur;
 import model.grille.Grille;
 import model.grille.Tuile;
 import view.VueAventurier;
@@ -39,6 +34,7 @@ public class Controleur implements Observateur {
     private ArrayList<Tuile> tuilesAutours;
     private ArrayList<Tuile> tuilesAutoursNonSeches;
     private boolean choixFinTour;
+    private boolean veutVoler;
     
     public Controleur() {
         
@@ -48,6 +44,7 @@ public class Controleur implements Observateur {
         this.tuilesAutours = new ArrayList<>();
         this.tuilesAutoursNonSeches = new ArrayList<>();
         this.choixFinTour = false;
+        this.veutVoler=false;
         
         /*
          --------------------------------------------------------------
@@ -57,8 +54,10 @@ public class Controleur implements Observateur {
         
         System.out.println("Lancement de la partie");
         demarrerPartie();
-        
-        aventuriers.put("Gaspard", new Plongeur(getGrille().getTuiles()[1][2]));
+        /*
+            La ligne ci-dessous est à utiliser si l'on veut forcer un aventurier en particulier à une position particulière (/!\ Constructeur de pilote différent des autres)
+        */
+        //aventuriers.put("Gaspard", new Pilote(getGrille().getTuiles()[4][3],false));
         vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
         vue.setObservateur(this);
@@ -75,24 +74,28 @@ public class Controleur implements Observateur {
     @Override
     public void traiterMessage(Message msg) {
         Exception AucunePositionEntreeException = new Exception();
-        
+        Exception AssechementImpossibleException = new Exception();
+        Exception DeplacementImpossibleException = new Exception();
+         
         switch(msg.type){
  
             case Deplacer:
-                Exception DeplacementImpossibleException = new Exception();
                 
-                try{
+                try{if(aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
+            //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
+            vue.close();
+        }
                     if (premierClic){
                         tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
                         setPremierClic(false);
                     }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
                         if (!msg.texte.equals("")){ //si la case message à été remplie
-                            String Texte = msg.texte;
+                            String texte = msg.texte;
 
                             System.out.println("Deplacement en cours");
 
                             String[] positionString;
-                            positionString = Texte.split(","); //parsing des coordonnées
+                            positionString = texte.split(","); //parsing des coordonnées
                             int[] position = new int[2];
                             position[0] = Integer.parseInt(positionString[0]); //ligne
                             position[1] = Integer.parseInt(positionString[1]); //colonne
@@ -119,10 +122,10 @@ public class Controleur implements Observateur {
                 }       
                 
                 vue.setPosition(""); //clear de la zone de texte de la vue
-                System.out.println(aventuriers.get("Gaspard").getNbaction());
+               
             break;
            case Assecher:
-                Exception AssechementImpossibleException = new Exception();
+               
                 
                 try {
                     if (premierClic){
@@ -131,12 +134,12 @@ public class Controleur implements Observateur {
                     }else { //on entamme la procédure d'asséchement
                         System.out.println("Vous avez choisit de sécher une case : \n ");
                         if (!msg.texte.equals("")){ //si la case message à été remplie
-                            String Texte = msg.texte;
+                            String texte = msg.texte;
 
                             System.out.println("Assechement en cours");
 
                             String[] positionString;
-                            positionString = Texte.split(","); //parsing des coordonnées
+                            positionString = texte.split(","); //parsing des coordonnées
                             int[] position = new int[2];
                             position[0] = Integer.parseInt(positionString[0]); //ligne
                             position[1] = Integer.parseInt(positionString[1]); //colonne
@@ -167,23 +170,109 @@ public class Controleur implements Observateur {
                 vue.setPosition(""); //clear de la zone de texte de la vue
             break;
             case Autre:
+                veutVoler=true;
                 
-                 if (aventuriers.get("Gaspard").getRole()==roleAventuriers.pilote){
-                    if (!msg.texte.equals("")){
-                        String Texte = msg.texte;
+             ////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////Pilote////////////////////////////////////////
+           ////////////////////////////////////////////////////////////////////////////
+
+                try{
+                    if (aventuriers.get("Gaspard").getRole()==roleAventuriers.pilote){
 
 
-                        String[] positionString;
-                        positionString = Texte.split(",");
-                        int[] position = new int[2];
-                        position[0] = Integer.parseInt(positionString[0]);
-                        position[1] = Integer.parseInt(positionString[1]);
+                        if (premierClic){
+                            tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                            setPremierClic(false);
+                        }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
+                            if (!msg.texte.equals("")){ //si la case message à été remplie
+                                String texte = msg.texte;
+                                System.out.println("Deplacement en cours");
 
-                        //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");
-                        aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
-                        
-                     }
+                                String[] positionString;
+                                positionString = texte.split(","); //parsing des coordonnées
+                                int[] position = new int[2];
+                                position[0] = Integer.parseInt(positionString[0]); //ligne
+                                position[1] = Integer.parseInt(positionString[1]); //colonne
+
+                                if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){
+                                    System.err.println("Deplacement impossible");
+                                    throw DeplacementImpossibleException;
+
+                                }else{ //on finalise la procédure de déplacement
+
+                                    aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
+                                    System.out.println("Deplacement bien effectué, vous êtes maintenant en : " + aventuriers.get("Gaspard").getEstSur().getNumLigne()+ "," + aventuriers.get("Gaspard").getEstSur().getNumColonne());
+                                    premierClic = true;
+                                }  
+                            }else {
+                                System.err.println("Aucune position entrée");
+                                throw AucunePositionEntreeException;
+                            }
+                        }
+                    }
+                } catch(Exception e){
+                    System.err.println("Une erreur c'est produite merci de recommencer");
+                    setPremierClic(true);                    
                 }
+                
+                 /////////////////////////////////////////////////////////////////////////////////
+                ////////////////////////////////INGENIEUR////////////////////////////////////////
+               /////////////////////////////////////////////////////////////////////////////////
+                
+                  if (aventuriers.get("Gaspard").getRole()==roleAventuriers.ingenieur){
+                       
+                
+                try {
+                    if (premierClic){
+                        tuilesAutoursNonSeches = AssecherTuile(aventuriers.get("Gaspard").getEstSur());
+                        setPremierClic(false);
+                    }else { //on entamme la procédure d'asséchement
+                        System.out.println("Vous avez choisit de sécher une case : \n ");
+                        if (!msg.texte.equals("")){ //si la case message à été remplie
+                            String texte = msg.texte;
+
+                            System.out.println("Assechement en cours");
+
+                            String[] positionString;
+                            positionString = texte.split(","); //parsing des coordonnées
+                            int[] position = new int[4];
+                            position[0] = Integer.parseInt(positionString[0]); //ligne
+                            position[1] = Integer.parseInt(positionString[1]); //colonne
+                            position[2] = Integer.parseInt(positionString[2]);
+                            position[3] = Integer.parseInt(positionString[3]);
+                            
+                            
+                            
+                            if(!tuilesAutoursNonSeches.contains(grille.getTuiles()[position[0]][position[1]]) || (!tuilesAutoursNonSeches.contains(grille.getTuiles()[position[2]][position[3]]))){
+                                System.err.println("Assechement impossible");
+                                throw AssechementImpossibleException;
+                            }else{ //on finalise la procédure d'asséchement
+
+                                ((Ingenieur)aventuriers.get("Gaspard")).assecher2Tuiles(getGrille().getTuiles()[position[0]][position[1]],getGrille().getTuiles()[position[2]][position[3]]);
+                                System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
+                                        + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
+                                
+                                System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[2]][position[3]].getNumLigne()+ ","
+                                        + getGrille().getTuiles()[position[2]][position[3]].getNumColonne() + " est " + getGrille().getTuiles()[position[2]][position[3]].getStatut().toString());
+                                premierClic = true;
+                                
+                            }
+
+                        }else {
+                            System.err.println("Aucune position entrée");
+                            throw AucunePositionEntreeException;
+                        }
+
+                    }
+                }catch(Exception e){
+                    System.err.println("Une erreur c'est produite merci de recommencer");
+                    setPremierClic(true);
+                }
+               
+                
+                  }
+                    
+                vue.setPosition("");
                 //...
             break;
             case Terminer:
@@ -194,7 +283,16 @@ public class Controleur implements Observateur {
             
         }
         
-        if (aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour) System.out.println("fin du tour");
+        if (aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
+            System.out.println("fin du tour");
+            vue.close();
+            aventuriers.get("Gaspard").setNbaction(1);
+            System.exit(0);
+            
+             
+        }
+         System.out.println("Action n°"+ aventuriers.get("Gaspard").getNbaction());
+         
        
     }
     
@@ -218,7 +316,7 @@ public class Controleur implements Observateur {
         
         Navigateur navigateur = new Navigateur(getGrille().getTuiles()[1][3]);
         
-        Pilote pilote = new Pilote(getGrille().getTuiles()[2][1]);
+        Pilote pilote = new Pilote(getGrille().getTuiles()[2][1],false);
         
         Plongeur plongeur = new Plongeur(getGrille().getTuiles()[1][2]);
         
@@ -259,10 +357,13 @@ public class Controleur implements Observateur {
         return grille;
     }
      
-   
-    ////SE DEPLACER///////////////////////////////////////////////////
-     
-     public ArrayList<Tuile> RecupererTuile(Tuile position){
+      ////////////////////////////////////////////////////////////////////////////////////
+     ////////////////////////////////////////////////////////////////////////////////////  
+    ////////////////////////////////SE DEPLACER/////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////////////////////     
+    
+     public ArrayList<Tuile> RecupererTuile(Tuile position) throws Exception{
         int l = getLigne(position);
         int c = getColonne(position);
         roleAventuriers roleAventurierCourant = aventuriers.get("Gaspard").getRole();
@@ -345,6 +446,36 @@ public class Controleur implements Observateur {
             });
         }
         
+        
+        //Gestion du cas du pilote, il faut ajouter toute les tuiles seches
+        
+        if(roleAventurierCourant == roleAventuriers.pilote){
+            Exception aDejaVoleException = new Exception();
+             if (((Pilote)aventuriers.get("Gaspard")).getAvole()==false && veutVoler==true){
+                ((Pilote)aventuriers.get("Gaspard")).setAvole(true);
+                 setVeutVoler(false);
+                tuiles.clear();
+                for(int i = 0; i <6; i++){
+                    for (int j = 0; j < 6; j++){
+                        tuiles.add(grille.getTuiles()[i][j]);
+                    }
+                }
+                tuilesFin.clear();
+                for (Tuile tuilePilote : tuiles){
+                    if(tuilePilote!=null && tuilePilote.getStatut()==Utils.EtatTuile.ASSECHEE && tuilePilote!= aventuriers.get("Gaspard").getEstSur()){
+                        tuilesFin.add(tuilePilote);
+                    }
+
+
+                }
+
+            }else if (((Pilote)aventuriers.get("Gaspard")).getAvole()== true  && veutVoler==true){
+            System.err.println("Erreur vous avez déjà volé");
+                setVeutVoler(false);
+                throw aDejaVoleException;
+            }
+        }
+        
         System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
         
                 String positionPossible = "";
@@ -362,9 +493,11 @@ public class Controleur implements Observateur {
        return tuilesFin;
      }
      
-     
-     
-     /////////////ASSECHER TUILE ///////////////////////////////////////////////
+       ////////////////////////////////////////////////////////////////////////////////////
+      ////////////////////////////////////////////////////////////////////////////////////
+     //////////////////////////ASSECHER TUILE ///////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////
+   ////////////////////////////////////////////////////////////////////////////////////
      
      public ArrayList<Tuile> AssecherTuile(Tuile position){
         int l = getLigne(position);
@@ -519,6 +652,10 @@ public class Controleur implements Observateur {
                 }
             }
 
+    }
+
+    public void setVeutVoler(boolean veutVoler) {
+        this.veutVoler = veutVoler;
     }
     
   

@@ -61,6 +61,8 @@ public class VueAventurier  {
 
         mainPanel.setBackground(new Color(230, 230, 230));
         mainPanel.setBorder(BorderFactory.createLineBorder(couleur, 2)) ;
+        
+        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
 
         // =================================================================================
         // NORD : le titre = nom de l'aventurier + nom du joueur sur la couleurActive du pion
@@ -126,6 +128,7 @@ public class VueAventurier  {
             public void actionPerformed(ActionEvent e) {
                 Message m = new Message();
                 m.type = TypesMessages.Autre;
+                m.texte = position.getText();
                 observateur.traiterMessage(m);
                 
             }
@@ -193,7 +196,9 @@ public class VueAventurier  {
     }
     
     public void close(){
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setVisible(false);
+        
+                
     }
     
      public static void main(String [] args) {

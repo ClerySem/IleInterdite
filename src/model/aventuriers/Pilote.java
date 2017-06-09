@@ -12,9 +12,11 @@ import model.grille.Tuile;
  * @author sarrasie
  */
 public class Pilote extends Aventurier {
+    private boolean avole;
 
-    public Pilote(Tuile positionDepart) {
+    public Pilote(Tuile positionDepart,boolean avole) {
         super(roleAventuriers.pilote, "capacite",positionDepart);
+        this.avole=avole;
 
     }
     
@@ -25,23 +27,24 @@ public class Pilote extends Aventurier {
         tuile.ajouterAventurier(this);
         setNbaction(getNbaction() + 1);
     }
+
+    /**
+     * @return the avole
+     */
+    public boolean getAvole() {
+        return avole;
+    }
+
+    /**
+     * @param avole the avole to set
+     */
+    public void setAvole(boolean avole) {
+        this.avole = avole;
+    }
 }
 
 
-    /*if (aventuriers.get("Gaspard").getRole()==pilote){
-                    if (!msg.texte.equals("")){
-                        String Texte = msg.texte;
-
-
-                        String[] positionString;
-                        positionString = Texte.split(",");
-                        int[] position = new int[2];
-                        position[0] = Integer.parseInt(positionString[0]);
-                        position[1] = Integer.parseInt(positionString[1]);
-
-                        //if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){System.out.println("Deplacement impossible");}else{
-                        aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
-                     }*/
+   
                 
 
                 
