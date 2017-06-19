@@ -62,7 +62,7 @@ public class Tuile {
        }
        if (numLigne == 2 && numColonne ==2){
            this.nom = "Les Dunes De L'Illusion";
-           this.statut = INONDEE;
+           this.statut = COULEE;
        }
        if (numLigne == 2 && numColonne ==3){
            this.nom = "Heliport";

@@ -148,7 +148,67 @@ public abstract class Aventurier {
                 System.out.println(positionPossible);
                 
      }
+    public ArrayList<Tuile> AssecherTuile(Tuile position,Grille grille){
+        int l = position.getNumLigne();
+        int c = position.getNumColonne();
+         System.out.println("Vous etes en "+ l+ ","+c);
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        ArrayList<Tuile> tuilesFin = new ArrayList<>();
+        
+        
+        //tuile du joueur//
+        tuiles.add(grille.getTuiles()[l][c]);
+        //tuile dessus//
+        if (c>=1){
+            int cDessus= c-1;
+            int lDessus= l;
+            tuiles.add(grille.getTuiles()[lDessus][cDessus]);
+            
+        }
+        //tuile Dessous//
+        if (c<=4){
+            int cDessous= c+1;
+            int lDessous= l;
+            tuiles.add(grille.getTuiles()[lDessous][cDessous]);
+        }
+        //tuile gauche//
+        if (l>=1){
+            int cGauche= c;
+            int lGauche= l-1;
+            tuiles.add(grille.getTuiles()[lGauche][cGauche]);
+        }
+        //tuile droite//
+        if (l<=4){
+            int cDroite=c;
+            int lDroite=l+1;
+            tuiles.add(grille.getTuiles()[lDroite][cDroite]);
+        }
+         for (Tuile tuile : tuiles) {
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE  ){
+                tuilesFin.add(tuile);
+            }
+         }
    
+        return tuilesFin;
+}
     
+    public void AfficherAssecher(ArrayList<Tuile> tuiles){
+         System.out.println("Les tuiles que vous pouvez assécher : ");
+                
+               
+                String positionPossible = "";
+                if (!tuiles.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
+                    for(int k = 0; k < tuiles.size() - 1; k++){
+                        positionPossible += (tuiles.get(k).getNumLigne()+","+tuiles.get(k).getNumColonne()+" ou ");
+                    }
+                    positionPossible += tuiles.get(tuiles.size()-1).getNumLigne()+","+tuiles.get(tuiles.size()-1).getNumColonne();
+                   
+                } else {
+                    positionPossible = "Impossible d'assecher";
+                }
+                
+                System.out.println(positionPossible);
+        
+    }
 }
 

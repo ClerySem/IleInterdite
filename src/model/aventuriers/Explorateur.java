@@ -81,7 +81,48 @@ public class Explorateur extends Aventurier {
                 }
                 System.out.println(positionPossible);
      }
+    
+    @Override
+    public ArrayList<Tuile> AssecherTuile(Tuile position,Grille grille){  
+         ArrayList<Tuile> tuilesExp = new ArrayList<>();
+        ArrayList<Tuile> tuilesFin = new ArrayList<>();
+        tuilesFin = super.AssecherTuile(position,grille);
+        int l = position.getNumLigne();
+        int c = position.getNumColonne();
+        
+        //tuile hautGauche//
+        if(c>=1 && l>=1){
+            int cHGauche=c -1;
+            int lHGauche=l - 1;
+            tuilesExp.add(grille.getTuiles()[lHGauche][cHGauche]);
+        }
+        //tuile hautDroit//
+        if(c<=4 && l>=1){
+            int cHDroite=c +1;
+            int lHDroite=l - 1;
+            tuilesExp.add(grille.getTuiles()[lHDroite][cHDroite]);
+        }
+        //tuile basGauche//
+        if(c>=1 && l<=4){
+            int cBGauche=c -1;
+            int lBGauche=l + 1;
+            tuilesExp.add(grille.getTuiles()[lBGauche][cBGauche]);
+        }
+        //tuile basDroite//
+        if (c<=4 && l<=4){
+            int cBDroite=c +1;
+            int lBDroite=l + 1;
+            tuilesExp.add(grille.getTuiles()[lBDroite][cBDroite]);
+        }
+          for (Tuile tuile : tuilesExp) {
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE  ){
+                tuilesFin.add(tuile);
+            }
+         }
+            return tuilesFin;
+    
     }
+}
     
     
     

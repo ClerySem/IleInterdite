@@ -16,7 +16,8 @@ import util.Utils;
  */
 public class Pilote extends Aventurier {
 
-    private boolean avole;
+    private boolean avole = false;
+    private boolean veutVoler = false;
 
     public Pilote(Tuile positionDepart, boolean avole) {
         super(roleAventuriers.pilote, "capacite", positionDepart);
@@ -43,45 +44,57 @@ public class Pilote extends Aventurier {
     public void setAvole(boolean avole) {
         this.avole = avole;
     }
-
-    public ArrayList<Tuile> RecupererTuileVole(Tuile position, Grille grille) throws Exception  {
-
-        ArrayList<Tuile> tuilespilote = new ArrayList<>();
-
-        int l = position.getNumLigne();
-        int c = position.getNumColonne();
-
+    @Override
+    public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille){
         
-        Exception aDejaVoleException = new Exception();
-        if (!getAvole()) {
+        ArrayList<Tuile> tuilespilote = new ArrayList<>();
+        ArrayList<Tuile> tuilesFin = new ArrayList<>();
+
+        if (!getAvole() && getVeutVoler()) {
             setAvole(true);
+           
             for (int i = 0; i < 6; i++) {
                 for (int j = 0; j < 6; j++) {
                     tuilespilote.add(grille.getTuiles()[i][j]);
                 }
             }
             for (Tuile tuile : tuilespilote) {
+               
                 if(tuile != null && tuile.getStatut() == Utils.EtatTuile.ASSECHEE && tuile !=getEstSur()){
-                    tuilespilote.add(tuile);
+                    tuilesFin.add(tuile);
                 }
             }
-            
-        }
-        else if (getAvole()) {
+          
+        }else if (getAvole()&&getVeutVoler()) {
             System.err.println("Erreur vous avez déjà volé");
-            throw aDejaVoleException;
+            
+        }else{
+            tuilesFin= super.RecupererTuile(position, grille);
         }
-        System.out.println("les tuiles dispo sont : ");
+       
+        
+        /*System.out.println("les tuiles dispo sont : ");
         for (Tuile tuile : tuilespilote) {
             System.out.println(tuile.getNom());
-        }
-        
-        return tuilespilote;
+        }*/
+        setVeutVoler(false);
+        return tuilesFin;
     }
 
-    @Override
-    public void Afficher(ArrayList<Tuile> tuiles) {
-        
+    
+
+    /**
+     * @return the veutVoler
+     */
+    public boolean getVeutVoler() {
+        return veutVoler;
+    }
+
+    /**
+     * @param veutVoler the veutVoler to set
+     */
+    public void setVeutVoler(boolean veutVoler) {
+        this.veutVoler = veutVoler;
     }
     
     
