@@ -57,7 +57,7 @@ public class Controleur implements Observateur {
         /*
             La ligne ci-dessous est à utiliser si l'on veut forcer un aventurier en particulier à une position particulière (/!\ Constructeur de pilote différent des autres)
         */
-        //aventuriers.put("Gaspard", new Pilote(getGrille().getTuiles()[4][3],false));
+        aventuriers.put("Gaspard", new Messager(getGrille().getTuiles()[1][2]));
         vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
         vue.setObservateur(this);
@@ -86,7 +86,7 @@ public class Controleur implements Observateur {
             vue.close();
         }
                     if (premierClic){
-                        tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                        tuilesAutours = aventuriers.get("Gaspard").RecupererTuile(aventuriers.get("Gaspard").getEstSur(),grille);
                         setPremierClic(false);
                     }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
                         if (!msg.texte.equals("")){ //si la case message à été remplie
@@ -112,10 +112,10 @@ public class Controleur implements Observateur {
 
                         }else {
                             System.err.println("Aucune position entrée");
-                            throw AucunePositionEntreeException;
+                           throw AucunePositionEntreeException;
                         }
 
-                    }
+                    }    
                 }catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
@@ -362,7 +362,7 @@ public class Controleur implements Observateur {
     ////////////////////////////////SE DEPLACER/////////////////////////////////////////
    ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////     
-    
+    /*
      public ArrayList<Tuile> RecupererTuile(Tuile position) throws Exception{
         int l = getLigne(position);
         int c = getColonne(position);
@@ -401,7 +401,7 @@ public class Controleur implements Observateur {
                       On va gérer les cas particuliers
                            (explorateur et plongeur)
         -----------------------------------------------------------
-        */
+        
         
         if(roleAventurierCourant == roleAventuriers.explorateur){ //peut se déplacer en diagonale
               //tuile hautGauche//
@@ -491,8 +491,8 @@ public class Controleur implements Observateur {
                 
                 System.out.println(positionPossible);
        return tuilesFin;
-     }
-     
+     }*/
+    
        ////////////////////////////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////////////////////////////
      //////////////////////////ASSECHER TUILE ///////////////////////////////////////////

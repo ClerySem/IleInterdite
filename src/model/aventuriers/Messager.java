@@ -18,5 +18,9 @@ public class Messager extends Aventurier {
 
     }
     
+    @Override
+    public void seDeplacer(Tuile tuile){
+        super.seDeplacer(tuile);
+    }
   
 }
