@@ -8,6 +8,7 @@ package model.aventuriers;
 import java.util.ArrayList;
 import model.grille.Grille;
 import model.grille.Tuile;
+import util.Utils;
 
 /**
  *
@@ -25,7 +26,8 @@ public class Explorateur extends Aventurier {
     @Override
     public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
         ArrayList<Tuile> tuilesExp = new ArrayList<>();
-        tuilesExp = super.RecupererTuile(position, grille);
+        ArrayList<Tuile> tuilesFin = new ArrayList<>();
+        tuilesFin = super.RecupererTuile(position, grille);
         int l = position.getNumLigne();
         int c = position.getNumColonne();
         
@@ -53,13 +55,18 @@ public class Explorateur extends Aventurier {
                 int lBDroite=l + 1;
                 tuilesExp.add(grille.getTuiles()[lBDroite][cBDroite]);
             }
-      
-    return tuilesExp;
-    }
+                
+      for (Tuile tuile : tuilesExp) { //on ajoute toutes les tuiles sèche à tuilesFin
+            if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.ASSECHEE ){
+                tuilesFin.add(tuile);
+            }
+      }
+    return tuilesFin;
+    
+      }
 
     @Override
     public void Afficher(ArrayList<Tuile> tuiles) {
-        tuiles=RecupererTuile(getEstSur(),grille);
           System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
         
                 String positionPossible = "";

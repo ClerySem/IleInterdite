@@ -57,7 +57,7 @@ public class Controleur implements Observateur {
         /*
             La ligne ci-dessous est à utiliser si l'on veut forcer un aventurier en particulier à une position particulière (/!\ Constructeur de pilote différent des autres)
         */
-        aventuriers.put("Gaspard", new Explorateur(getGrille().getTuiles()[1][2]));
+        aventuriers.put("Gaspard", new Plongeur(getGrille().getTuiles()[1][2]));
         vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
         vue.setObservateur(this);
@@ -87,7 +87,7 @@ public class Controleur implements Observateur {
         }
                     if (premierClic){
                         tuilesAutours = aventuriers.get("Gaspard").RecupererTuile(aventuriers.get("Gaspard").getEstSur(),grille);
-                        
+                       aventuriers.get("Gaspard").Afficher(tuilesAutours);
                         setPremierClic(false);
                     }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
                         if (!msg.texte.equals("")){ //si la case message à été remplie
@@ -117,10 +117,10 @@ public class Controleur implements Observateur {
                         }
 
                     }    
-                }catch(Exception e){
+               }catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
-                }       
+                }      
                 
                 vue.setPosition(""); //clear de la zone de texte de la vue
                

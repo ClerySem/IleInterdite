@@ -126,11 +126,13 @@ public abstract class Aventurier {
                 tuilesFin.add(tuile);
             }
         }
-     
-      return tuilesFin;
-     }
-     public void Afficher(ArrayList<Tuile> tuiles){
-         tuiles=RecupererTuile(estSur, grille);
+      
+     return tuilesFin;
+      
+    }
+
+    public void Afficher(ArrayList<Tuile> tuiles){
+        tuiles=new ArrayList<>();
           System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
         
                 String positionPossible = "";
@@ -144,7 +146,9 @@ public abstract class Aventurier {
                     positionPossible = "Impossible de se déplacer";
                 }
                 System.out.println(positionPossible);
+                
      }
    
     
 }
+
