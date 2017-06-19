@@ -57,7 +57,7 @@ public class Controleur implements Observateur {
         /*
             La ligne ci-dessous est à utiliser si l'on veut forcer un aventurier en particulier à une position particulière (/!\ Constructeur de pilote différent des autres)
         */
-        //aventuriers.put("Gaspard", new Pilote(getGrille().getTuiles()[4][3],false));
+        aventuriers.put("Gaspard", new Plongeur(getGrille().getTuiles()[1][2]));
         vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
         vue.setObservateur(this);
@@ -86,7 +86,8 @@ public class Controleur implements Observateur {
             vue.close();
         }
                     if (premierClic){
-                        tuilesAutours = RecupererTuile(aventuriers.get("Gaspard").getEstSur());
+                        tuilesAutours = aventuriers.get("Gaspard").RecupererTuile(aventuriers.get("Gaspard").getEstSur(),grille);
+                       aventuriers.get("Gaspard").Afficher(tuilesAutours);
                         setPremierClic(false);
                     }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
                         if (!msg.texte.equals("")){ //si la case message à été remplie
@@ -112,14 +113,14 @@ public class Controleur implements Observateur {
 
                         }else {
                             System.err.println("Aucune position entrée");
-                            throw AucunePositionEntreeException;
+                           throw AucunePositionEntreeException;
                         }
 
-                    }
-                }catch(Exception e){
+                    }    
+               }catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
-                }       
+                }      
                 
                 vue.setPosition(""); //clear de la zone de texte de la vue
                
@@ -362,7 +363,7 @@ public class Controleur implements Observateur {
     ////////////////////////////////SE DEPLACER/////////////////////////////////////////
    ////////////////////////////////////////////////////////////////////////////////////
   ////////////////////////////////////////////////////////////////////////////////////     
-    
+    /*
      public ArrayList<Tuile> RecupererTuile(Tuile position) throws Exception{
         int l = getLigne(position);
         int c = getColonne(position);
@@ -401,7 +402,7 @@ public class Controleur implements Observateur {
                       On va gérer les cas particuliers
                            (explorateur et plongeur)
         -----------------------------------------------------------
-        */
+        
         
         if(roleAventurierCourant == roleAventuriers.explorateur){ //peut se déplacer en diagonale
               //tuile hautGauche//
@@ -491,8 +492,8 @@ public class Controleur implements Observateur {
                 
                 System.out.println(positionPossible);
        return tuilesFin;
-     }
-     
+     }*/
+    
        ////////////////////////////////////////////////////////////////////////////////////
       ////////////////////////////////////////////////////////////////////////////////////
      //////////////////////////ASSECHER TUILE ///////////////////////////////////////////
@@ -610,49 +611,7 @@ public class Controleur implements Observateur {
         this.premierClic = b;
     }
 
-    public void deplacementPlongeur(Tuile anciennePosition,Tuile position, HashSet<Tuile> tuilesPlongeur){
-        
-        int l = getLigne(position);
-        int c = getColonne(position);
-        
-        ArrayList<Tuile> tuiles = new ArrayList<>();
-        
-        //tuile dessus//
-        if (l>=1){
-            int cDessus= c;
-            int lDessus= l - 1;
-            tuiles.add(grille.getTuiles()[lDessus][cDessus]);
-        }
-        //tuile Dessous//
-        if (l<=4){
-            int cDessous= c;
-            int lDessous= l + 1;
-            tuiles.add(grille.getTuiles()[lDessous][cDessous]);
-        }
-        //tuile gauche//
-        if (c>=1){
-            int cGauche= c -1 ;
-            int lGauche= l;
-            tuiles.add(grille.getTuiles()[lGauche][cGauche]);
-        }
-        //tuile droite//
-        if (c<=4){
-            int cDroite=c + 1;
-            int lDroite=l;
-            tuiles.add(grille.getTuiles()[lDroite][cDroite]);
-        }
-
-            for(Tuile tuile : tuiles){
-                if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.ASSECHEE){ //si la tuile autour de lui est seche alors on ajoute la tuile
-                    tuilesPlongeur.add(tuile);
-                } else if ((tuile!=null && tuile.getStatut()==Utils.EtatTuile.INONDEE || tuile!=null && tuile.getStatut()==Utils.EtatTuile.COULEE)
-                            && !anciennePosition.equals(tuile)){ // si la tuile est innondée au coulée on ajoute les tuiles sèches autours
-                    
-                    deplacementPlongeur(position,tuile,tuilesPlongeur);
-                }
-            }
-
-    }
+    
 
     public void setVeutVoler(boolean veutVoler) {
         this.veutVoler = veutVoler;
