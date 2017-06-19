@@ -5,6 +5,8 @@
  */
 package model.aventuriers;
 
+import java.util.ArrayList;
+import model.grille.Grille;
 import model.grille.Tuile;
 import util.Utils;
 
@@ -23,5 +25,12 @@ public class Ingenieur extends Aventurier {
             tuile2.setStatut(Utils.EtatTuile.ASSECHEE);
             setNbaction(getNbaction()+1);
         }
+
+    @Override
+    public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
+        return super.RecupererTuile(position, grille); //To change body of generated methods, choose Tools | Templates.
+    }
+        
+        
   }
 

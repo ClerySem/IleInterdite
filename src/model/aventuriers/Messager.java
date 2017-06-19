@@ -5,6 +5,8 @@
  */
 package model.aventuriers;
 
+import java.util.ArrayList;
+import model.grille.Grille;
 import model.grille.Tuile;
 
 /**
@@ -22,5 +24,12 @@ public class Messager extends Aventurier {
     public void seDeplacer(Tuile tuile){
         super.seDeplacer(tuile);
     }
+
+    @Override
+    public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
+        return super.RecupererTuile(position, grille); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
   
 }

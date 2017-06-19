@@ -5,6 +5,8 @@
  */
 package model.aventuriers;
 
+import java.util.ArrayList;
+import model.grille.Grille;
 import model.grille.Tuile;
 
 /**
@@ -17,6 +19,12 @@ public class Navigateur extends Aventurier {
         super(roleAventuriers.navigateur, "capacite",positionDepart);
 
     }
+
+    @Override
+    public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
+        return super.RecupererTuile(position, grille); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     
 
     
