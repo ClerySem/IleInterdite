@@ -126,20 +126,24 @@ public abstract class Aventurier {
                 tuilesFin.add(tuile);
             }
         }
-      System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
+     
+      return tuilesFin;
+     }
+     public void Afficher(ArrayList<Tuile> tuiles){
+         tuiles=RecupererTuile(estSur, grille);
+          System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
         
                 String positionPossible = "";
-                if (!tuilesFin.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
-                        for(int k = 0; k < tuilesFin.size() - 1; k++){
-                            positionPossible += (tuilesFin.get(k).getNumLigne()+","+tuilesFin.get(k).getNumColonne()+" ou ");
+                if (!tuiles.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
+                        for(int k = 0; k < tuiles.size() - 1; k++){
+                            positionPossible += (tuiles.get(k).getNumLigne()+","+tuiles.get(k).getNumColonne()+" ou ");
                         }
-                    positionPossible += tuilesFin.get(tuilesFin.size()-1).getNumLigne()+","+tuilesFin.get(tuilesFin.size()-1).getNumColonne();
+                    positionPossible += tuiles.get(tuiles.size()-1).getNumLigne()+","+tuiles.get(tuiles.size()-1).getNumColonne();
                    
                 }else{
                     positionPossible = "Impossible de se déplacer";
                 }
                 System.out.println(positionPossible);
-      return tuilesFin;
      }
    
     

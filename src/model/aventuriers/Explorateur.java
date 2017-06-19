@@ -14,10 +14,13 @@ import model.grille.Tuile;
  * @author sarrasie
  */
 public class Explorateur extends Aventurier {
+    private Grille grille;
 
     public Explorateur(Tuile positionDepart) {
         super(roleAventuriers.explorateur, "capacite",positionDepart);
     }
+    
+    
 
     @Override
     public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
@@ -50,10 +53,31 @@ public class Explorateur extends Aventurier {
                 int lBDroite=l + 1;
                 tuilesExp.add(grille.getTuiles()[lBDroite][cBDroite]);
             }
-       
+      
     return tuilesExp;
     }
+
+    @Override
+    public void Afficher(ArrayList<Tuile> tuiles) {
+        tuiles=RecupererTuile(getEstSur(),grille);
+          System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
+        
+                String positionPossible = "";
+                if (!tuiles.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
+                        for(int k = 0; k < tuiles.size() - 1; k++){
+                            positionPossible += (tuiles.get(k).getNumLigne()+","+tuiles.get(k).getNumColonne()+" ou ");
+                        }
+                    positionPossible += tuiles.get(tuiles.size()-1).getNumLigne()+","+tuiles.get(tuiles.size()-1).getNumColonne();
+                   
+                }else{
+                    positionPossible = "Impossible de se déplacer";
+                }
+                System.out.println(positionPossible);
+     }
     }
+    
+    
+    
     
    
     
