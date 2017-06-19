@@ -22,19 +22,6 @@ public class Plongeur extends Aventurier{
 
     }
 
-    @Override
-    public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
-        ArrayList<Tuile> tuilesPlongeurFin = new ArrayList<>();
-        tuilesPlongeurFin = super.RecupererTuile(position, grille);
-        HashSet<Tuile> tuilesPlongeur = new HashSet<>();
-        deplacementPlongeur(position, position, tuilesPlongeur,grille);
-            
-            for (Tuile tuile : tuilesPlongeur){
-                if(!position.equals(tuile)) tuilesPlongeurFin.add(tuile);
-            }
-    
-            return tuilesPlongeurFin;
-        }
     
     public void deplacementPlongeur(Tuile anciennePosition,Tuile position, HashSet<Tuile> tuilesPlongeur,Grille grille){
         
@@ -79,6 +66,20 @@ public class Plongeur extends Aventurier{
             }
 
     }
+    @Override
+    public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
+       
+        ArrayList<Tuile> tuilesPlongeurFin = new ArrayList<>();
+        tuilesPlongeurFin = super.RecupererTuile(position, grille);
+        HashSet<Tuile> tuilesPlongeur = new HashSet<>();
+        deplacementPlongeur(position, position, tuilesPlongeur,grille);
+            
+            for (Tuile tuile : tuilesPlongeur){
+                if(!position.equals(tuile)) tuilesPlongeurFin.add(tuile);
+            }
+    
+            return tuilesPlongeurFin;
+        }
     
     
     

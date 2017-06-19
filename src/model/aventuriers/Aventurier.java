@@ -132,7 +132,7 @@ public abstract class Aventurier {
     }
 
     public void Afficher(ArrayList<Tuile> tuiles){
-        tuiles=new ArrayList<>();
+        
           System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
         
                 String positionPossible = "";
