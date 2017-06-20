@@ -29,6 +29,7 @@ public abstract class Aventurier {
         this.capacite = capacite;
         this.nbaction = 1;
         this.estSur = estSur;
+       
     }
     public String getNom(){
         return nomJ;
@@ -130,7 +131,7 @@ public abstract class Aventurier {
      return tuilesFin;
       
     }
-
+    ////////////////////////////////DEPLACER///////////////////////////////////////
     public void Afficher(ArrayList<Tuile> tuiles){
         
           System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
@@ -148,6 +149,7 @@ public abstract class Aventurier {
                 System.out.println(positionPossible);
                 
      }
+    ////////////////////////////////ASSECHER///////////////////////////////////////
     public ArrayList<Tuile> AssecherTuile(Tuile position,Grille grille){
         int l = position.getNumLigne();
         int c = position.getNumColonne();
@@ -191,7 +193,7 @@ public abstract class Aventurier {
    
         return tuilesFin;
 }
-    
+    ////////////////////////////////ASSECHER///////////////////////////////////////
     public void AfficherAssecher(ArrayList<Tuile> tuiles){
          System.out.println("Les tuiles que vous pouvez assécher : ");
                 
@@ -210,5 +212,7 @@ public abstract class Aventurier {
                 System.out.println(positionPossible);
         
     }
+
+    
 }
 

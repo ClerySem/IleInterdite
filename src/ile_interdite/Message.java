@@ -21,6 +21,7 @@ public class Message {
     private final  Utils.Tresor tresor ;
     private final Integer idTuile ;
     
+    
     public Message(Utils.Commandes commande, Integer idAventurier, Integer idCarte,  Utils.Tresor tresor, Integer idTuile) {
         this.commande = commande ;
         this.idAventurier = idAventurier ;

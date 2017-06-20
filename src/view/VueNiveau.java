@@ -18,47 +18,47 @@ import javax.swing.border.MatteBorder;
 import util.Parameters;
  
 public class VueNiveau {
-    
+   
     private Integer niveau ;
     private final JFrame window ;
     HashMap<Integer, JPanel> panelsGauches ;
     Integer cellWidth = 50 ;
     Integer cellHeight = (Parameters.HAUTEUR_AUTRES_VUES - 25 - (Parameters.UNDECORATED ? 0 : Parameters.DECORATION_HEIGHT)) / 10 ;
     private final JPanel mainPanel;
-        
+       
     public VueNiveau(Integer niveauInitial) {
         this.niveau = niveauInitial;
         panelsGauches = new HashMap<>();
 
         window = new JFrame() ;
-        window.setSize(cellWidth*2+Parameters.SWING_BORDERS_HEIGHT, Parameters.HAUTEUR_AUTRES_VUES);        
+        window.setSize(cellWidth*2+Parameters.SWING_BORDERS_HEIGHT, Parameters.HAUTEUR_AUTRES_VUES);       
         window.setLocation(30, Parameters.TOP_AUTRES_VUES);
         window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        
+       
         window.setUndecorated(Parameters.UNDECORATED);
         window.setResizable(Parameters.RESIZABLE);
-        
+       
         this.mainPanel = new JPanel() ;
         this.window.add(mainPanel);
         this.mainPanel.setLayout(new BorderLayout());
         this.mainPanel.setBackground(Color.WHITE);
         this.mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 2, false));
-        
+       
         JLabel labelTitre = new JLabel("Niveau", JLabel.CENTER);
         this.mainPanel.add(labelTitre, BorderLayout.NORTH);
         // labelTitre.setFont(labelTitre.getFont().deriveFont(Font.BOLD));
         labelTitre.setFont(new Font("Copperplate Gothic Bold", Font.BOLD, 14));
-        
+       
         JPanel panelNiveaux = new JPanel(new GridBagLayout());
         panelNiveaux.setOpaque(false);
         mainPanel.add(panelNiveaux, BorderLayout.CENTER);
-        
+       
         GridBagConstraints c = new GridBagConstraints();
         c.weightx = 2 ;
         c.weighty = 10 ;
         c.insets = new Insets(0, 0, 0, 0);
         c.fill = GridBagConstraints.VERTICAL ;
-        
+       
         // Insertion de la cellule gauche de niveauInitial 10
         for (int i=0; i < 10; i++) {
             c.gridx = 0 ;
@@ -83,7 +83,7 @@ public class VueNiveau {
             panelGauche.add(labelGauche);
             panelsGauches.put((10-i), panelGauche) ;
         }
-            
+           
         // Insertion de la cellule droite de niveauInitial 10
         for (int iPanel=0; iPanel < 4; iPanel++) {
             c.gridx = 1 ;
@@ -120,7 +120,7 @@ public class VueNiveau {
             panelDroit.add(labelDroit, gbc);
         }
         panelsGauches.get(niveauInitial).setBackground(Color.YELLOW);
-        this.window.setVisible(true);
+        this.window.setVisible(false);
     }
 
     public void setNiveau(Integer niveau) {
@@ -147,45 +147,52 @@ public class VueNiveau {
     private Color getBgColor(Integer niveau) {
         if (niveau <= 2)
             return new Color(169, 215, 226) ;
-        
+       
         if (niveau <= 5)
             return new Color(129, 194, 212) ;
-            
-        
+           
+       
         if (niveau <= 7)
             return new Color(67, 119, 204) ;
-        
+       
         return new Color(42, 76, 127) ;
     }
 
     private String getLibelle(int i) {
         switch (i) {
-            case 1 : 
+            case 1 :
                 return " novice" ;
-            case 2 : 
+            case 2 :
                 return " normal" ;
-            case 3 : 
+            case 3 :
                 return " élite" ;
-            case 4 : 
+            case 4 :
                 return " légendaire" ;
-            case 10 : 
+            case 10 :
                 return " mortel" ;
             default :
                 return "" ;
         }
     }
-    
-    public static void main(String[] args) {   
+   
+    public static void main(String[] args) {  
         VueNiveau vueNiveau = new VueNiveau(1);
 
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Pour passer au niveau 5, appuyer sur entrée");
-        String suite = scanner.nextLine();        
+        String suite = scanner.nextLine();       
         vueNiveau.setNiveau(5);
 
         System.out.println("Pour passer au niveau 5, appuyer sur entrée");
         suite = scanner.nextLine();
         vueNiveau.setNiveau(10);
-    }    
+    }  
+    public void close(){
+        window.setVisible(false);
+       
+    }
+    public void Affiche(){
+        window.setVisible(true);
+    }
 }

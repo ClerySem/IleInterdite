@@ -1,16 +1,9 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package view;
-
-/**
- *
- * @author semanazc
- */
-
-import java.util.Observable;
 
 import ile_interdite.Message;
 import ile_interdite.Observateur;
@@ -23,6 +16,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.Observer;
+import java.util.Observable;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -33,138 +28,138 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.MatteBorder;
-import model.aventuriers.Aventurier;
 import util.Utils;
 import util.Utils.Pion;
 
- 
-public class VueAventurier extends Observable {
-     
-    private final JPanel panelBoutons ;
-    private final JPanel panelCentre ;
-    private final JFrame window;
+public class VueAventurier2 extends JPanel {
+
+    private static class MyObservable extends Observable {
+
+        @Override
+        public void setChanged() {
+            super.setChanged();
+        }
+
+        @Override
+        public void clearChanged() {
+            super.clearChanged();
+        }
+    }
+    private final JPanel panelBoutons;
+    private final JPanel panelCentre;
     private final JPanel panelAventurier;
     private final JPanel mainPanel;
-    private final JButton btnAller  ;
+    private final JButton btnAller;
     private final JButton btnAssecher;
     private final JButton btnAutreAction;
     private final JButton btnTerminerTour;
     private final JTextField position;
-    private Observateur observateur;
-    
-    public VueAventurier (String nomJoueur, String nomAventurier, Color couleur){
+    private final MyObservable observable = new MyObservable();
 
-        this.window = new JFrame();
-        window.setSize(350, 200);
+    public VueAventurier2(String nomAventurier, Color couleur) {
 
-        window.setTitle(nomJoueur);
         mainPanel = new JPanel(new BorderLayout());
-        this.window.add(mainPanel);
 
         mainPanel.setBackground(new Color(230, 230, 230));
-        mainPanel.setBorder(BorderFactory.createLineBorder(couleur, 2)) ;
-        
-        window.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        mainPanel.setBorder(BorderFactory.createLineBorder(couleur, 2));
+        this.add(mainPanel);
 
         // =================================================================================
         // NORD : le titre = nom de l'aventurier + nom du joueur sur la couleurActive du pion
-
         this.panelAventurier = new JPanel();
         panelAventurier.setBackground(couleur);
-        panelAventurier.add(new JLabel(nomAventurier,SwingConstants.CENTER ));
+        panelAventurier.add(new JLabel(nomAventurier, SwingConstants.CENTER));
         mainPanel.add(panelAventurier, BorderLayout.NORTH);
-   
+
         // =================================================================================
         // CENTRE : 1 ligne pour position courante
         this.panelCentre = new JPanel(new GridLayout(2, 1));
         this.panelCentre.setOpaque(false);
         this.panelCentre.setBorder(new MatteBorder(0, 0, 2, 0, couleur));
         mainPanel.add(this.panelCentre, BorderLayout.CENTER);
-        
-        panelCentre.add(new JLabel ("Position", SwingConstants.CENTER));
-        position = new  JTextField(30);
+
+        panelCentre.add(new JLabel("Position", SwingConstants.CENTER));
+        position = new JTextField(50);
         position.setHorizontalAlignment(CENTER);
         panelCentre.add(position);
 
-
         // =================================================================================
         // SUD : les boutons
-        this.panelBoutons = new JPanel(new GridLayout(2,2));
+        this.panelBoutons = new JPanel(new GridLayout(2, 2));
         this.panelBoutons.setOpaque(false);
         mainPanel.add(this.panelBoutons, BorderLayout.SOUTH);
 
-        this.btnAller = new JButton("Aller") ;
-        this.btnAssecher = new JButton( "Assecher");
-        this.btnAutreAction = new JButton("AutreAction") ;
-        this.btnTerminerTour = new JButton("Terminer Tour") ;
-        
+        this.btnAller = new JButton("Aller");
+        this.btnAssecher = new JButton("Assecher");
+        this.btnAutreAction = new JButton("AutreAction");
+        this.btnTerminerTour = new JButton("Terminer Tour");
+
         this.panelBoutons.add(btnAller);
         this.panelBoutons.add(btnAssecher);
         this.panelBoutons.add(btnAutreAction);
         this.panelBoutons.add(btnTerminerTour);
 
-        this.window.setVisible(true);
         mainPanel.repaint();
-        
-        btnAller.addActionListener(new ActionListener(){
-            
+
+        btnAller.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message(Utils.Commandes.BOUGER, CENTER,CENTER, Utils.Tresor.PIERRE, CENTER);
-                setObservateur(observateur);
-                m.type = TypesMessages.Deplacer;
-                m.texte = position.getText();
-             
-                observateur.traiterMessage(m);
-            
-        }
-        });
-        
-        
-        
-        btnAutreAction.addActionListener(new ActionListener(){
-            
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Message m = new Message(Utils.Commandes.CHOISIR_CARTE, CENTER, CENTER, Utils.Tresor.PIERRE, CENTER);
-                m.type = TypesMessages.Autre;
-                m.texte = position.getText();
-                observateur.traiterMessage(m);
+                observable.setChanged();
+                Message m = new Message(Utils.Commandes.BOUGER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                observable.notifyObservers(m);
+                observable.clearChanged();
+                setPosition("Aller");
             }
-            
         });
-         
-        btnAssecher.addActionListener(new ActionListener(){
-            
+
+        btnAutreAction.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message(Utils.Commandes.ASSECHER, CENTER, CENTER, Utils.Tresor.PIERRE, CENTER);
-                setObservateur(observateur);
-                m.type = TypesMessages.Assecher;
-                m.texte = position.getText();
-                observateur.traiterMessage(m);
+
+                observable.setChanged();
+                Message m = new Message(Utils.Commandes.DONNER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                observable.notifyObservers(m);
+                observable.clearChanged();
+                setPosition("Autre");
+
             }
-            
+
         });
-         
-        btnTerminerTour.addActionListener(new ActionListener(){
-            
+
+        btnAssecher.addActionListener(new ActionListener() {
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                Message m = new Message(Utils.Commandes.TERMINER, CENTER, CENTER, Utils.Tresor.PIERRE, CENTER);
-                m.type = TypesMessages.Terminer;
-                observateur.traiterMessage(m);
+                observable.setChanged();
+                Message m = new Message(Utils.Commandes.ASSECHER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                observable.notifyObservers(m);
+                observable.clearChanged();
+                setPosition("Assecher");
             }
-            
+
         });
-        
-        
-        
-    }  
-      public void setObservateur(Observateur observateur){
-        this.observateur=observateur;
+
+        btnTerminerTour.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                observable.setChanged();
+                Message m = new Message(Utils.Commandes.TERMINER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                observable.notifyObservers(m);
+                observable.clearChanged();
+                setPosition("Terminer");
+            }
+
+        });
+
     }
 
+    public MyObservable getObservable() {
+        return observable;
+    }
+   
      public JButton getBtnAutreAction() {
         return btnAutreAction;
     }
@@ -179,7 +174,7 @@ public class VueAventurier extends Observable {
     public JButton getBtnAller() {
         return btnAller;
     }
-    
+   
     public JButton getBtnAssecher() {
         return btnAssecher;
     }
@@ -187,20 +182,9 @@ public class VueAventurier extends Observable {
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
- 
-    public void affiche(){
-        
-    }
-    
-    public void close(){
-        window.setVisible(false);
-        
-                
-    }
-    
-     public static void main(String [] args) {
-        // Instanciation de la fenêtre
-        VueAventurier vueAventurier = new VueAventurier ("Manon", "Explorateur",Pion.ROUGE.getCouleur() );
-        
-    }
+
 }
+
+
+
+
