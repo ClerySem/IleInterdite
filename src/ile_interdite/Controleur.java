@@ -26,13 +26,18 @@ import model.aventuriers.*;
  */
 public class Controleur implements Observateur {
     
-    private final VueAventurier vue;
+    private VueAventurier vue;
     private final HashMap<String,Aventurier> aventuriers;
     private Grille grille;
     private boolean premierClic;
     private ArrayList<Tuile> tuilesAutours;
     private ArrayList<Tuile> tuilesAutoursNonSeches;
     private boolean choixFinTour;
+    private String joueurCourant;
+    private ArrayList<String> joueurs;
+    private boolean finPartie;
+
+    
     
     public Controleur() {
         
@@ -42,6 +47,9 @@ public class Controleur implements Observateur {
         this.tuilesAutours = new ArrayList<>();
         this.tuilesAutoursNonSeches = new ArrayList<>();
         this.choixFinTour = false;
+        this.joueurs = new ArrayList<>();
+        this.finPartie = false;
+        this.joueurCourant = new String();
         /*
          --------------------------------------------------------------
          |                  Lancement de la partie                    |
@@ -53,7 +61,21 @@ public class Controleur implements Observateur {
             La ligne ci-dessous est à utiliser si l'on veut forcer un aventurier en particulier à une position particulière (/!\ Constructeur de pilote différent des autres)
         */
         //aventuriers.put("Gaspard", new Ingenieur(getGrille().getTuiles()[4][3]));
-        vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
+        
+        /* 
+        ----------------------------------------------------------
+        |    Affichage des différentes vu au fur et à mesure     |
+        ----------------------------------------------------------
+                        */
+        while (!finPartie){
+            
+            // on parcours la liste des joueurs, chacun éffectue son tour de jeux
+            for (int k = 0; k < getJoueurs().size(); k++){
+                setJoueurCourant(getJoueurs().get(k));
+                this.vue = new VueAventurier(getJoueurCourant(), aventuriers.get(getJoueurCourant()).getRole().getNom(), aventuriers.get(getJoueurCourant()).getRole().getPion().getCouleur());
+            }
+        }        
+        
         afficherGrilleConsole();
         vue.setObservateur(this);
         if(aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
@@ -282,10 +304,10 @@ public class Controleur implements Observateur {
         
         //to-do : récuperer les noms des différents joueurs, pour le moment je les aient initialisés à la main,
         ArrayList<String> joueurs = new ArrayList<>();
-        joueurs.add("Gaspard");
-        joueurs.add("Eddy");
-        joueurs.add("Clery");
-        joueurs.add("Sacha");
+        addJoueurs("Gaspard");
+        addJoueurs("Eddy");
+        addJoueurs("Clery");
+        addJoueurs("Sacha");
         
         //creation des aventuriers
         Explorateur explorateur = new Explorateur(getGrille().getTuiles()[2][4]);
@@ -307,7 +329,7 @@ public class Controleur implements Observateur {
         listeaventuriersjouables.add(navigateur);
         listeaventuriersjouables.add(pilote);
         listeaventuriersjouables.add(plongeur);
-        Collections.shuffle((List<?>) listeaventuriersjouables); //melange des aventuriers
+        listeaventuriersjouables = Utils.melangerAventuriers(listeaventuriersjouables); //melange des aventuriers
         
         
         for (int k = 0; k < 4; k++){ //comme il y a 4 joueurs on ajoute 4 aventuriers à notre collection aventuriers
@@ -355,4 +377,24 @@ public class Controleur implements Observateur {
     private void setPremierClic(boolean b) {
         this.premierClic = b;
     }
+
+    public ArrayList<String> getJoueurs() {
+        return joueurs;
+    }
+
+    public void addJoueurs(String joueurs) {
+        getJoueurs().add(joueur);
+    }
+
+    public void setJoueurCourant(String joueurCourant) {
+        this.joueurCourant = joueurCourant;
+    }
+
+    public String getJoueurCourant() {
+        return joueurCourant;
+    }
+    
+    
+    
+    
 }
