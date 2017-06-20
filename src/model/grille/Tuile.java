@@ -6,6 +6,7 @@
 package model.grille;
 
 import java.util.ArrayList;
+import javax.swing.JButton;
 import model.aventuriers.Aventurier;
 import util.Utils;
 import static util.Utils.EtatTuile.*;
@@ -16,7 +17,7 @@ import static util.Utils.EtatTuile.*;
  *
  * @author anthoing
  */
-public class Tuile {
+public class Tuile extends JButton {
     private String nom;
     private Utils.EtatTuile statut;
     private int numLigne;
@@ -30,6 +31,7 @@ public class Tuile {
        if (numLigne == 0 && numColonne ==2){
            this.nom = "Le Pont Des Abimes";
            this.statut = ASSECHEE;
+           
            
        }
        if (numLigne == 0 && numColonne ==3){

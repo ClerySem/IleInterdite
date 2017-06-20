@@ -28,10 +28,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import model.aventuriers.Aventurier;
+import model.aventuriers.*;
 import model.grille.Grille;
 import model.grille.Tuile;
 import util.Utils;
+
 
 /**
  *
@@ -40,18 +41,20 @@ import util.Utils;
 public class VuePlateau extends Observable implements Observer {
 
     private Grille grille;
+    private final Aventurier joueur;
  
-   
+   JFrame fenetre = new JFrame("Plateau de jeu");
 
-    public VuePlateau() {
-       
+    public VuePlateau(Aventurier joueur) {
+       this.joueur=joueur;
 
         /////////////////////////////////////
         //Instanciation de la fenêtre
-        JFrame fenetre = new JFrame("Plateau de jeu");
+        
         fenetre.setSize(1000, 1000);
         fenetre.setLayout(new BorderLayout());
         fenetre.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
+        
 
         /////////////////////////////////////
         //Creation de panel et ajout d'un titre
@@ -68,20 +71,26 @@ public class VuePlateau extends Observable implements Observer {
         panelNord.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // permet de centrer le texte au milieu du panel
         fenetre.add(panelNord, BorderLayout.NORTH);
 
-        fenetre.setVisible(true);
+        
 
         /////////////////////////////////////
         // Création des tuiles du plateau
         VueGrille tuileGrille = new VueGrille(grille);
         fenetre.add(tuileGrille, BorderLayout.CENTER);
+        
 
         /////////////////////////////////////
         //Création de la fenêtre de saisie et des boutons
        
+       VueAventurier2 aventurier = new VueAventurier2(joueur.getRole().getNom(),joueur.getRole().getPion().getCouleur());
        
-        JPanel panelSud = new JPanel(new GridLayout(1, 1));
+       
+        JPanel panelSud = new JPanel();
+       
+        
 
-        VueAventurier2 aventurier = new VueAventurier2("pilote",Color.BLACK);
+        
+        
         ((Observable) aventurier.getObservable()).addObserver(this);
         panelSud.add(aventurier);
 
@@ -105,30 +114,21 @@ public class VuePlateau extends Observable implements Observer {
               VueNiveau niveauEau = new VueNiveau(1);
             @Override
             public void mouseClicked(MouseEvent e) {
-                              
             }
-
             @Override
             public void mousePressed(MouseEvent e) {
                niveauEau.Affiche();
             }
-
             @Override
             public void mouseReleased(MouseEvent e) {
                niveauEau.close();
-               
             }
-
             @Override
             public void mouseEntered(MouseEvent e) {
-               
             }
-
             @Override
             public void mouseExited(MouseEvent e) {
-               
             }
-        
           
     });
                
@@ -205,23 +205,32 @@ public class VuePlateau extends Observable implements Observer {
                 clearChanged();
             }
         });*/
-      
+   
        
       
     }
+    public void close(){
+        fenetre.setVisible(false);
+    }
+    public void Affiche(){
+        fenetre.setVisible(true);
+    }
    
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // TODO code application logic here
  
        
         VuePlateau vueplateau = new VuePlateau();
-    }
+    }*/
 
     @Override
     public void update(Observable o, Object arg) {
         System.out.println("recu");
     }
+    
+    
+    
 
 }
 

@@ -16,7 +16,7 @@ import model.aventuriers.Ingenieur;
 import model.aventuriers.roleAventuriers;
 import model.grille.Grille;
 import model.grille.Tuile;
-import view.VueAventurier;
+import view.*;
 import util.Utils;
 import model.aventuriers.*;
 
@@ -60,7 +60,7 @@ public class Controleur implements Observateur {
             //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
             vue.close();
         }
-        vue.affiche();
+
     }
     @Override
     public void traiterMessage(Message msg) {

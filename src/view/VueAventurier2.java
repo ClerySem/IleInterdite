@@ -82,6 +82,7 @@ public class VueAventurier2 extends JPanel {
         position = new JTextField(50);
         position.setHorizontalAlignment(CENTER);
         panelCentre.add(position);
+        
 
         // =================================================================================
         // SUD : les boutons
@@ -98,7 +99,7 @@ public class VueAventurier2 extends JPanel {
         this.panelBoutons.add(btnAssecher);
         this.panelBoutons.add(btnAutreAction);
         this.panelBoutons.add(btnTerminerTour);
-
+       
         mainPanel.repaint();
 
         btnAller.addActionListener(new ActionListener() {
@@ -150,6 +151,7 @@ public class VueAventurier2 extends JPanel {
                 observable.notifyObservers(m);
                 observable.clearChanged();
                 setPosition("Terminer");
+                
             }
 
         });
