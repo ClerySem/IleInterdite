@@ -5,6 +5,7 @@
  */
 package ile_interdite;
 
+import java.util.ArrayList;
 import util.Utils;
 
 /**
@@ -20,7 +21,7 @@ public class Message {
     private final Integer idCarte ;
     private final  Utils.Tresor tresor ;
     private final Integer idTuile ;
-    
+    private final ArrayList<String> joueurs;
     
     public Message(Utils.Commandes commande, Integer idAventurier, Integer idCarte,  Utils.Tresor tresor, Integer idTuile) {
         this.commande = commande ;
@@ -28,8 +29,19 @@ public class Message {
         this.idCarte = idCarte ;
         this.tresor = tresor ;
         this.idTuile = idTuile ;
+        this.joueurs = null;
     }
 
+    public Message() {
+        this.commande = Utils.Commandes.VALIDER_JOUEURS ;
+        this.idAventurier = null ;
+        this.idCarte = null ;
+        this.tresor = null ;
+        this.idTuile = null ;
+        this.joueurs = new ArrayList<>();
+    }
+    
+    
     /**
      * @return the commande
      */
@@ -80,6 +92,16 @@ public class Message {
         return idTuile;
     }
     
+    public void addJoueur(String joueur) {
+        getJoueurs().add(joueur);
+    }
+    
+    public ArrayList<String> getJoueurs() {
+        return joueurs;
+    }
+    
+    
+    
     @Override
     public String toString() {
         String txt = "" ;
@@ -98,4 +120,5 @@ public class Message {
         }
         return txt ;
     }
+    
 }
