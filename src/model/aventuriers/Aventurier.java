@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import model.grille.Grille;
 import util.Utils;
 import model.grille.Tuile;
+import util.Utils.*;
 
 /**
  *
@@ -21,6 +22,7 @@ public abstract class Aventurier {
     private Tuile estSur;
     private int nbaction;
     private Grille grille;
+    private ArrayList<Tresor> tresors;
     
 
     
@@ -212,7 +214,15 @@ public abstract class Aventurier {
                 System.out.println(positionPossible);
         
     }
-
+    public ArrayList<Tresor> getTresors(){
+        return tresors;
+    }
+    public void recupererTresor(){
+        Tuile position = this.getEstSur();
+        if ((position.getNumLigne() == 0 && position.getNumColonne() == 2) || (position.getNumLigne() == 0 && position.getNumColonne() == 3)){
+            
+        }
+    }
     
 }
 
