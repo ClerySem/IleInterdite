@@ -19,6 +19,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.BorderFactory;
@@ -77,12 +78,16 @@ public class VuePlateau extends Observable implements Observer {
         // Création des tuiles du plateau
         VueGrille tuileGrille = new VueGrille(grille);
         fenetre.add(tuileGrille, BorderLayout.CENTER);
+       
+       
+        ArrayList<Tuile> tuiles = new ArrayList<>();
+        //tuiles = tuileGrille.getGrille().getTuiles();
         
 
         /////////////////////////////////////
         //Création de la fenêtre de saisie et des boutons
        
-       VueAventurier2 aventurier = new VueAventurier2(joueur.getRole().getNom(),joueur.getRole().getPion().getCouleur());
+       VueAventurier2 aventurier = new VueAventurier2(joueur.getRole().getNom(),joueur.getRole().getPion().getCouleur(), tuileGrille);
        
        
         JPanel panelSud = new JPanel();

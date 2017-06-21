@@ -54,7 +54,7 @@ public class Controleur2 implements Observateur {
         /*
             La ligne ci-dessous est à utiliser si l'on veut forcer un aventurier en particulier à une position particulière (/!\ Constructeur de pilote différent des autres)
         */
-        //aventuriers.put("Gaspard", new Ingenieur(getGrille().getTuiles()[4][3]));
+        aventuriers.put("Gaspard", new Pilote(getGrille().getTuiles()[4][3],false));
         //vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
         vueP = new VuePlateau(aventuriers.get("Gaspard"));

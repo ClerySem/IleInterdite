@@ -31,8 +31,13 @@ import javax.swing.border.MatteBorder;
 import util.Utils;
 import util.Utils.Pion;
 
-public class VueAventurier2 extends JPanel {
-
+public class VueAventurier2 extends JPanel implements Observer {
+  
+    @Override
+    public void update(Observable o, Object arg) {
+        MessageVue m = (MessageVue) arg;
+        setPosition(m.texte);
+    }
     private static class MyObservable extends Observable {
 
         @Override
@@ -56,8 +61,9 @@ public class VueAventurier2 extends JPanel {
     private final JTextField position;
     private final MyObservable observable = new MyObservable();
 
-    public VueAventurier2(String nomAventurier, Color couleur) {
-
+    public VueAventurier2(String nomAventurier, Color couleur, VueGrille vGrille) {
+        
+        ((Observable) vGrille.getObservable()).addObserver(this);
         mainPanel = new JPanel(new BorderLayout());
 
         mainPanel.setBackground(new Color(230, 230, 230));
@@ -153,9 +159,11 @@ public class VueAventurier2 extends JPanel {
                 setPosition("Terminer");
                 
             }
-
+            
         });
-
+        
+        
+        
     }
 
     public MyObservable getObservable() {

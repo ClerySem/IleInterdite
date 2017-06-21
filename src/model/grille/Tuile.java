@@ -175,6 +175,8 @@ public class Tuile extends JButton {
         return possede;
     }
     
+   
+    
 
     /**
      * @param numColonne the numColonne to set
