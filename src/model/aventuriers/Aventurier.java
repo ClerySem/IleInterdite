@@ -6,6 +6,10 @@
 package model.aventuriers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Stack;
+import model.cards.CarteInondation;
+import model.cards.CarteTirage;
 import model.grille.Grille;
 import util.Utils;
 import model.grille.Tuile;
@@ -22,8 +26,9 @@ public abstract class Aventurier {
     private int nbaction;
     private Grille grille;
     
-
+    private ArrayList<CarteTirage> cartesMainAventurier;
     
+    //constructeur
     public Aventurier(roleAventuriers role ,String capacite, Tuile estSur){
         this.role = role;
         this.capacite = capacite;
@@ -31,6 +36,7 @@ public abstract class Aventurier {
         this.estSur = estSur;
        
     }
+    
     public String getNom(){
         return nomJ;
     }
@@ -213,6 +219,25 @@ public abstract class Aventurier {
         
     }
 
+    
+    //methodes concernant les cartes 
+
+    public ArrayList<CarteTirage> getCartesMainAventurier() {
+        return cartesMainAventurier;
+    }
+    
+    //permet de piocher une carte
+    public void piocherCarteTirage(Stack<CarteTirage> carteTirage){
+        //si la main de l'aventurier n'est pas pleine 
+        if(getCartesMainAventurier().size()<8){
+            getCartesMainAventurier().add(carteTirage.pop());
+            //alors on ajoute la carte de la pile à la main
+        }
+        else{
+            System.err.println("Votre main est pleine, la limte est de 9 cartes");
+        }
+    }
+    
     
 }
 
