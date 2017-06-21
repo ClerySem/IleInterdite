@@ -24,6 +24,4 @@ public class CarteTirage {
     public void setType(typeCarte type) {
         this.type = type;
     }
-    
-    
 }

@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Stack;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -20,6 +21,8 @@ import model.grille.Tuile;
 import view.*;
 import util.Utils;
 import model.aventuriers.*;
+import model.cards.CarteInondation;
+import model.cards.CarteTirage;
 
 /**
  *
@@ -36,6 +39,20 @@ public class Controleur2 implements Observateur {
     private ArrayList<Tuile> tuilesAutoursNonSeches;
     private boolean choixFinTour;
     
+    //attributs pour les cartes
+    
+    //les cartes tirage contiennent les tresors et la montee des eaux
+    private Stack<CarteTirage> cartesTiragePioche;
+    private Stack<CarteTirage> cartesTirageDefausse;
+    
+    //lees cartes innondations changent l'Etat des tuiles
+    private Stack<CarteInondation> cartesInondationPioche;
+    private Stack<CarteInondation> cartesInondationDefausse;
+    private ArrayList<CarteInondation> cartesInondationEnJeu;
+    
+    int niveauEau;
+    
+    //constructeur
     public Controleur2() {
         
         //initialisation des attributs
@@ -68,6 +85,7 @@ public class Controleur2 implements Observateur {
       
 
     }
+    
     @Override
     public void traiterMessage(Message msg) {
         Exception AucunePositionEntreeException = new Exception();
@@ -361,4 +379,54 @@ public class Controleur2 implements Observateur {
     private void setPremierClic(boolean b) {
         this.premierClic = b;
     }
+    
+    
+    //manipuler niveau d'eau
+    public int getNiveauEau() {
+        return niveauEau;
+    }
+
+    /*
+     * methodes permettant de manipuler les cartes
+     */
+    //pioche de cartes Inondation
+    public Stack<CarteInondation> getPiocheInondation() {
+        return cartesInondationPioche;
+    }
+    
+    //defausse cartes inondation
+    public Stack<CarteInondation> getPiocheInondationDefausse() {
+        return cartesInondationDefausse;
+    }
+
+    //pioche de cartes tirage(tresor et montee des eaux)
+    public Stack<CarteTirage> getPiocheTirage() {
+        return cartesTiragePioche;
+    }
+    
+    //defausse de cartes tirage(tresor et montee des eaux)
+    public Stack<CarteTirage> getDefausseTirage() {
+        return cartesTirageDefausse;
+    }
+    
+    //permet de melanger une collection de cartes
+    public void melangerCartes(Stack pile){
+        Collections.shuffle(pile);
+    }
+    
+    //liste des cartes inondation jouées
+    public ArrayList<CarteInondation> getCartesInondationEnJeu() {
+        return cartesInondationEnJeu;
+    }
+    
+    
+    //permet de piocher deux cartes inondation s'execute pour chaque debut de tour de chaque aventurier
+    public void piocherCarteinondation(Stack<CarteInondation> cartesInondation){
+        //pioche deux cartes de la pioche de cartes inondation
+        for (int i = 0; i < 2; i++) {
+            getCartesInondationEnJeu().add(cartesInondation.pop());
+        }
+    }
+    
+    
 }
