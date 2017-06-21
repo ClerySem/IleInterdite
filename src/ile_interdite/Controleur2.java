@@ -61,7 +61,6 @@ public class Controleur2 implements Observer {
     //constructeur
     public Controleur2() {
        
-        
         //initialisation des attributs
         this.aventuriers = new HashMap<>();
         this.premierClic = true;
@@ -91,12 +90,7 @@ public class Controleur2 implements Observer {
             //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
             vueP.close();
         }
-      
-
     }
-    
-    
-   
     
     public final void demarrerPartie() {
         this.grille = new Grille();
@@ -181,8 +175,6 @@ public class Controleur2 implements Observer {
         return vueP;
     }
     
-    
-    
     public Observable getObservable() {
         return observable;
     }
@@ -241,7 +233,6 @@ public class Controleur2 implements Observer {
                 //vueP.setPosition(""); //clear de la zone de texte de la vue
             break;
            case ASSECHER:
-                
                 /*try {*/
                     if (premierClic){
                         tuilesAutoursNonSeches = aventuriers.get("Gaspard").AssecherTuile(aventuriers.get("Gaspard").getEstSur(),grille);
@@ -269,11 +260,9 @@ public class Controleur2 implements Observer {
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
                                 premierClic = true;
-                                
                                 //getVueP().getTuileGrille().updateGrille();
                             }
                             
-
                         }else {
                             System.err.println("Aucune position entrée");
                             //throw AucunePositionEntreeException;
@@ -288,7 +277,6 @@ public class Controleur2 implements Observer {
                 //vue.setPosition(""); //clear de la zone de texte de la vue
             break;
             case DONNER:
-               
                 
              ////////////////////////////////////////////////////////////////////////////
             //////////////////////////////Pilote////////////////////////////////////////
@@ -363,7 +351,6 @@ public class Controleur2 implements Observer {
                                 System.err.println("Assechement impossible");
                                 throw AssechementImpossibleException;
                             }else{ //on finalise la procédure d'asséchement
-
                                 ((Ingenieur)aventuriers.get("Gaspard")).assecher2Tuiles(getGrille().getTuiles()[position[0]][position[1]],getGrille().getTuiles()[position[2]][position[3]]);
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
@@ -371,7 +358,6 @@ public class Controleur2 implements Observer {
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[2]][position[3]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[2]][position[3]].getNumColonne() + " est " + getGrille().getTuiles()[position[2]][position[3]].getStatut().toString());
                                 premierClic = true;
-                                
                             }
 
                         }else {
@@ -385,7 +371,6 @@ public class Controleur2 implements Observer {
                     setPremierClic(true);
                 }
       }
-                    
                 //vue.setPosition("");
                 //...
             break;

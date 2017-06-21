@@ -42,7 +42,6 @@ public class Grille {
                 }
             }
         }
-        
     }
     
     public Tuile[][] getTuiles(){

@@ -6,16 +6,12 @@
 package view;
 
 import ile_interdite.Message;
-import ile_interdite.Observateur;
-import ile_interdite.TypesMessages;
 import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Observer;
 import java.util.Observable;
 
@@ -28,9 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.MatteBorder;
-import model.grille.Tuile;
 import util.Utils;
-import util.Utils.Pion;
 
 public class VueAventurier2 extends JPanel implements Observer {
   
@@ -39,6 +33,7 @@ public class VueAventurier2 extends JPanel implements Observer {
         MessageVue m = (MessageVue) arg;
         setPosition(m.texte);
     }
+    /////////////////////////VUEAVENTURIER2 DEVIENT OBSERVABLE//////////////////////
     private static class MyObservable extends Observable {
 
         @Override
@@ -60,7 +55,6 @@ public class VueAventurier2 extends JPanel implements Observer {
     private final JButton btnAutreAction;
     private final JButton btnTerminerTour;
     private final JTextField position;
-    private Observateur observateur;
     private final MyObservable observable = new MyObservable();
 
     public VueAventurier2(String nomAventurier, Color couleur, VueGrille vGrille) {
@@ -110,7 +104,7 @@ public class VueAventurier2 extends JPanel implements Observer {
        
         mainPanel.repaint();
         
-
+////////////////////////////AJOUTE LISTENER ALLER///////////////////////////////////////////////////////
         btnAller.addActionListener(new ActionListener() {
 
             @Override
@@ -121,10 +115,9 @@ public class VueAventurier2 extends JPanel implements Observer {
                 observable.notifyObservers(m);
                 observable.clearChanged();
                 vGrille.repaint();
-                
             }
         });
-
+////////////////////////////AJOUTE LISTENER AUTRE///////////////////////////////////////////////////////
         btnAutreAction.addActionListener(new ActionListener() {
 
             @Override
@@ -137,9 +130,8 @@ public class VueAventurier2 extends JPanel implements Observer {
                 setPosition("Autre");
                 vGrille.repaint();
             }
-
         });
-
+////////////////////////////AJOUTE LISTENER ASSECHER///////////////////////////////////////////////////////
         btnAssecher.addActionListener(new ActionListener() {
 
             @Override
@@ -152,9 +144,8 @@ public class VueAventurier2 extends JPanel implements Observer {
                 setPosition("Assecher"); 
                 vGrille.repaint();
             }
-
         });
-
+////////////////////////////AJOUTE LISTENER TERMINER///////////////////////////////////////////////////////
         btnTerminerTour.addActionListener(new ActionListener() {
 
             @Override
@@ -164,43 +155,37 @@ public class VueAventurier2 extends JPanel implements Observer {
                 observable.notifyObservers(m);
                 observable.clearChanged();
                 setPosition("Terminer");
-                
             }
-            
         });
-        
-        
-        
+      
     }
 
-    public MyObservable getObservable() {
-        return observable;
-    }
-   
+///////////////////////GET_BOUTONS/////////////////////////////////////////////
      public JButton getBtnAutreAction() {
         return btnAutreAction;
-    }
-
-    public void setPosition(String pos) {
-        this.position.setText(pos);
     }
     public String getTexte(){
         return this.position.getText();
     }
-
     public JButton getBtnAller() {
         return btnAller;
     }
-   
     public JButton getBtnAssecher() {
         return btnAssecher;
     }
-
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
-  
+///////////////////////////////////////////////////////////////////////////////
 
+    
+   public void setPosition(String pos) {
+        this.position.setText(pos);
+    }
+   
+   public MyObservable getObservable() {
+        return observable;
+    }
 }
 
 

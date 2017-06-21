@@ -15,8 +15,6 @@ public class Ile_Interdite2 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
         Controleur2 controleur = new Controleur2();
-        
     }
 }

@@ -20,17 +20,11 @@ public class Ingenieur extends Aventurier {
         super(roleAventuriers.ingenieur, "capacite",positionDepart);
     }
   
+    /////////////////////CAPACITE INGENIEUR//////////////////////////////////
         public void assecher2Tuiles(Tuile tuile1,Tuile tuile2){
             tuile1.setStatut(Utils.EtatTuile.ASSECHEE);
             tuile2.setStatut(Utils.EtatTuile.ASSECHEE);
             setNbaction(getNbaction()+1);
         }
-
-    @Override
-    public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
-        return super.RecupererTuile(position, grille); //To change body of generated methods, choose Tools | Templates.
-    }
-        
-        
   }
 

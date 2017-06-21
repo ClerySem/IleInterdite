@@ -31,8 +31,6 @@ public class Tuile extends JButton {
        if (numLigne == 0 && numColonne ==2){
            this.nom = "Le Pont Des Abimes";
            this.statut = ASSECHEE;
-           
-           
        }
        if (numLigne == 0 && numColonne ==3){
            this.nom = "La Porte De Bronze";
@@ -89,7 +87,6 @@ public class Tuile extends JButton {
        if (numLigne == 3 && numColonne ==2){
            this.nom = "Le Marais Brumeux";
            this.statut = COULEE;
-           
        }
        if (numLigne == 3 && numColonne ==3){
            this.nom = "Observatoire";
@@ -131,74 +128,62 @@ public class Tuile extends JButton {
        
     }
 
-    /**
-     * @return the nom
-     */
-    public String getNom() {
+   
+    //////////////////////GET_SET_NOM//////////////////////
+     public String getNom() {
         return nom;
     }
-
-    /**
-     * @param nom the nom to set
-     */
     public void setNom(String nom) {
         this.nom = nom;
     }
-
-    public void setStatut(Utils.EtatTuile statut) {
-        this.statut = statut;
-    }
     
-
-    /**
-     * @return the numLigne
-     */
+    
+    //////////////////////GET_SET_LIGNE/////////////////////
     public int getNumLigne() {
         return numLigne;
     }
-
-    /**
-     * @param numLigne the numLigne to set
-     */
     public void setNumLigne(int numLigne) {
         this.numLigne = numLigne;
     }
 
-    /**
-     * @return the numColonne
-     */
+    
+    //////////////////////GET_SET_COLONNE/////////////////////
     public int getNumColonne() {
         return numColonne;
     }
-
-    public ArrayList<Aventurier> getPossede() {
-        return possede;
-    }
-    
-   
-    
-
-    /**
-     * @param numColonne the numColonne to set
-     */
     public void setNumColonne(int numColonne) {
         this.numColonne = numColonne;
     }
+
     
+    
+    
+    //////////////////////GET_SET_STATUT/////////////////////
+    public Utils.EtatTuile getStatut() {
+        return statut;
+    }
+    public void setStatut(Utils.EtatTuile statut) {
+        this.statut = statut;
+    }
+
+    
+    
+   /////////////////////// TUILE SECHE? /////////////////////
     public boolean EstSeche(){
             return this.getStatut() == ASSECHEE;    
     }
     
+    
+    ////////////////////AJOUTER UN AVENTURIER A UNE LISTE///////////////////////
     public void ajouterAventurier(Aventurier aventurier){
         getPossede().add(aventurier);
     }
-
-    /**
-     * @return the statut
-     */
-    public Utils.EtatTuile getStatut() {
-        return statut;
+    //////////////////RETOURNE ARRAYLIST AVENTURIER////////////////////////////////////////////////
+    public ArrayList<Aventurier> getPossede() {
+        return possede;
     }
+
+    
     
 }
 

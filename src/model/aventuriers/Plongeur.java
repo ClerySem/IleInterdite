@@ -19,15 +19,13 @@ public class Plongeur extends Aventurier{
 
     public Plongeur(Tuile positionDepart) {
         super(roleAventuriers.plongeur, "capacite",positionDepart);
-
     }
 
     
+    ///////////////////////////DEPLACEMENT/CAPACITE////////////////////////////////////////////
     public void deplacementPlongeur(Tuile anciennePosition,Tuile position, HashSet<Tuile> tuilesPlongeur,Grille grille){
-        
         int l = position.getNumLigne();
         int c = position.getNumColonne();
-        
         ArrayList<Tuile> tuiles = new ArrayList<>();
         
         //tuile dessus//
@@ -66,6 +64,8 @@ public class Plongeur extends Aventurier{
             }
 
     }
+    
+    //////////////////////DEPLACEMENT/CAPACITE//////////////////////////////////////
     @Override
     public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
        

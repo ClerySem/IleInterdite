@@ -22,7 +22,7 @@ public class Explorateur extends Aventurier {
     }
     
     
-
+///////////////////////////DEPLACER+DIAGONALES//////////////////////////////////////
     @Override
     public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille) {
         ArrayList<Tuile> tuilesExp = new ArrayList<>();
@@ -62,26 +62,10 @@ public class Explorateur extends Aventurier {
             }
       }
     return tuilesFin;
-    
       }
 
-    @Override
-    public void Afficher(ArrayList<Tuile> tuiles) {
-          System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
-        
-                String positionPossible = "";
-                if (!tuiles.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
-                        for(int k = 0; k < tuiles.size() - 1; k++){
-                            positionPossible += (tuiles.get(k).getNumLigne()+","+tuiles.get(k).getNumColonne()+" ou ");
-                        }
-                    positionPossible += tuiles.get(tuiles.size()-1).getNumLigne()+","+tuiles.get(tuiles.size()-1).getNumColonne();
-                   
-                }else{
-                    positionPossible = "Impossible de se déplacer";
-                }
-                System.out.println(positionPossible);
-     }
     
+    //////////////////////////////ASSECHER+DIAGONALES//////////////////////////////////////
     @Override
     public ArrayList<Tuile> AssecherTuile(Tuile position,Grille grille){  
          ArrayList<Tuile> tuilesExp = new ArrayList<>();
@@ -120,7 +104,6 @@ public class Explorateur extends Aventurier {
             }
          }
             return tuilesFin;
-    
     }
 }
     

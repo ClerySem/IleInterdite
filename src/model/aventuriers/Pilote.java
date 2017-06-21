@@ -24,29 +24,23 @@ public class Pilote extends Aventurier {
         this.avole = avole;
 
     }
-
+    ///////////////////////////////CAPACITE PILOTE////////////////////////////
     public void voler(Tuile tuile) {
         setEstSur(tuile);
         tuile.ajouterAventurier(this);
         setNbaction(getNbaction() + 1);
     }
 
-    /**
-     * @return the avole
-     */
+    /////////////////////////GET_SET_AVOLE/////////////////////////////
     public boolean getAvole() {
         return avole;
     }
-
-    /**
-     * @param avole the avole to set
-     */
     public void setAvole(boolean avole) {
         this.avole = avole;
     }
+    
     @Override
     public ArrayList<Tuile> RecupererTuile(Tuile position, Grille grille){
-        
         ArrayList<Tuile> tuilespilote = new ArrayList<>();
         ArrayList<Tuile> tuilesFin = new ArrayList<>();
 
@@ -67,37 +61,22 @@ public class Pilote extends Aventurier {
           
         }else if (getAvole()&&getVeutVoler()) {
             System.err.println("Erreur vous avez déjà volé");
-            
         }else{
             tuilesFin= super.RecupererTuile(position, grille);
         }
-       
         
-        /*System.out.println("les tuiles dispo sont : ");
-        for (Tuile tuile : tuilespilote) {
-            System.out.println(tuile.getNom());
-        }*/
         setVeutVoler(false);
         return tuilesFin;
     }
 
     
-
-    /**
-     * @return the veutVoler
-     */
+    ////////////////////GET_SET_VEUTVOLER///////////////////////////////////////
     public boolean getVeutVoler() {
         return veutVoler;
     }
-
-    /**
-     * @param veutVoler the veutVoler to set
-     */
     public void setVeutVoler(boolean veutVoler) {
         this.veutVoler = veutVoler;
     }
-    
-    
 }
 
 

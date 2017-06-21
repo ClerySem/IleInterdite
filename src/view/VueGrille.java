@@ -27,6 +27,7 @@ public class VueGrille extends JPanel{
     private Grille grille;
     private Tuile tuile;
     
+    //////////////////////////VUEGRILLE DEVIENT OBSEVABLE//////////////////////
     private static class MyObservable extends Observable {
         
         @Override
@@ -42,7 +43,6 @@ public class VueGrille extends JPanel{
     private MyObservable observable = new MyObservable();
     
     public VueGrille(Grille grille) {
-        
         this.setLayout(new GridLayout(6,6,5,5));//creation d'une grille 6*6 avec des espaces entre chaque bouton de la grille
       
         this.tuiles = new Tuile [6][6];
@@ -65,23 +65,22 @@ public class VueGrille extends JPanel{
                     this.add(new JLabel(""));
                 } else {          // les tuiles non vide
                     
-                    tuile = grille.getTuile(i,j);
+                   Tuile tuile = new Tuile(i,j);
                     tuile.setText(tuile.getNom());
                     // modifie la couleur de la bordure
                     this.add((JButton) tuile);
+               
+                ////////////////////////////LISTENER BOUTON TUILE///////////////////////////
                     tuile.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            
                             observable.setChanged();
                             MessageVue m = new MessageVue(tuile.getNumLigne() + "," + tuile.getNumColonne());
                             observable.notifyObservers(m);
                             observable.clearChanged();
-                            
-                            
-                            
                         }
                     });
+                    
                     
                     if (tuile.getStatut()==Utils.EtatTuile.COULEE){
                         tuile.setBackground(Color.DARK_GRAY);
@@ -98,9 +97,9 @@ public class VueGrille extends JPanel{
                     }
    
                   
-                   
+                   //////////////////////MODIFIER COULEUR TUILE SUR LAQUELLE EST L'AVENTURIER//////////////////
+                ///////MAIS CA MARCHE PAS////////
                        for(Aventurier avent : tuile.getPossede()){
-                           
                         System.out.println("111");
                         if(avent.getRole() == roleAventuriers.pilote){
                             avent.getEstSur().setBackground(avent.getRole().getPion().getCouleur());
@@ -110,18 +109,17 @@ public class VueGrille extends JPanel{
                             System.out.println("bbb");
                         }
                     }
+               /////////////////////
                     
                 }
             }
-
-        }
-          repaint();
+          }
         }
 
-    public MyObservable getObservable() {
-        return observable;
-    }
     
+    
+    ///////ACTUALISER LA GRILLE//////////////////////////////////////////////////////////////////////////////////////////
+/////MARCHE PAS/////
     public void updateGrille(Grille grille){
         this.removeAll();
 this.setLayout(new GridLayout(6,6,5,5));//creation d'une grille 6*6 avec des espaces entre chaque bouton de la grille
@@ -146,7 +144,7 @@ this.setLayout(new GridLayout(6,6,5,5));//creation d'une grille 6*6 avec des esp
                     this.add(new JLabel(""));
                 } else {          // les tuiles non vide
                     
-                    Tuile tuile = grille.getTuile(i, j);
+                   // Tuile tuile = grille.getTuile(i, j);
                     tuile.setText(tuile.getNom());
               
                     // modifie la couleur de la bordure
@@ -154,14 +152,10 @@ this.setLayout(new GridLayout(6,6,5,5));//creation d'une grille 6*6 avec des esp
                     tuile.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
-                            
                             observable.setChanged();
                             MessageVue m = new MessageVue(tuile.getNumLigne() + "," + tuile.getNumColonne());
                             observable.notifyObservers(m);
                             observable.clearChanged();
-                            
-                            
-                            
                         }
                     });
                     
@@ -184,6 +178,7 @@ this.setLayout(new GridLayout(6,6,5,5));//creation d'une grille 6*6 avec des esp
           
           System.out.println(grille.getTuiles()[5][3].getStatut().toString());
     }
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         
         public void setTuileColor(Tuile tuile, Color couleur){
             tuile.setBackground(couleur);
@@ -192,10 +187,10 @@ this.setLayout(new GridLayout(6,6,5,5));//creation d'une grille 6*6 avec des esp
         public Grille getGrille(){
             return grille;
         }
-
         
-       
-       
+    public MyObservable getObservable() {
+        return observable;
+    }
     }
 
 

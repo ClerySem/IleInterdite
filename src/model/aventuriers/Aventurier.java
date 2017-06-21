@@ -28,7 +28,7 @@ public abstract class Aventurier {
     
     private ArrayList<CarteTirage> cartesMainAventurier;
     
-    //constructeur
+    //////////CONSTRUCTEUR///////
     public Aventurier(roleAventuriers role ,String capacite, Tuile estSur){
         this.role = role;
         this.capacite = capacite;
@@ -36,67 +36,65 @@ public abstract class Aventurier {
         this.estSur = estSur;
        
     }
-    
+    ////////////GET_SET_NOM////////////////////////
     public String getNom(){
         return nomJ;
     }
-
-    public Tuile getEstSur() {
-        return estSur;
-    }
-
-    public int getNbaction() {
-        return nbaction;
-    }
-
-    public roleAventuriers getRole() {
-        return role;
-    }
-
-    
-    
-    private int getTuile(){
-       return (estSur.getNumLigne()+estSur.getNumColonne());
-    }    
-    
     public void setNom (String nom){
         this.nomJ = nom;
     }
 
+    
+    ///////////GET_SET_ESTSUR/////////////////////
+    public Tuile getEstSur() {
+        return estSur;
+    }
     public void setEstSur(Tuile estSur) {
         this.estSur = estSur;
     }
 
+    
+    //////////GET_SET_ROLE////////////////////////
+    public roleAventuriers getRole() {
+        return role;
+    }
+    public void setRole(roleAventuriers role) {
+        this.role = role;
+    }
+    
+    
+    /////////GET_SET_NBACTION////////////////////
+    public int getNbaction() {
+        return nbaction;
+    }
     public void setNbaction(int nbaction) {
         this.nbaction = nbaction;
     }
     
-    //Les methodes qui suivent sont les actions réalisées par l'aventurier
     
+    /////////GET_LIGNE_COLONNE_TUILE//////////////
+    private int getTuile(){
+       return (estSur.getNumLigne()+estSur.getNumColonne());
+    }    
+    
+    
+    //Les methodes qui suivent sont les actions réalisées par l'aventurier
     public void assecherTuile(Tuile tuile){
         tuile.setStatut(Utils.EtatTuile.ASSECHEE);
         setNbaction(getNbaction() + 1);
     }
     
     public void seDeplacer(Tuile tuile){
-              
         setEstSur(tuile);
         tuile.ajouterAventurier(this);
         setNbaction(getNbaction() + 1);
-   
-    
     }
     public void donnerCarteJoueur(){
         
     }
 
-    public void setRole(roleAventuriers role) {
-        this.role = role;
-    }
-    
-    //rend un arraylist des tuiles sur lesquelles on peut se deplacer
+    //////////////////////DEPLACER//////////////////////////////////////////
      public ArrayList<Tuile> RecupererTuile(Tuile position,Grille grille){
-        
         int l = position.getNumLigne();
         int c = position.getNumColonne();
         System.out.println("Vous etes en "+ l +","+ c);
@@ -127,17 +125,14 @@ public abstract class Aventurier {
             int lDroite=l;
             tuiles.add(grille.getTuiles()[lDroite][cDroite]);
         }
-        
       for (Tuile tuile : tuiles) { //on ajoute toutes les tuiles sèche à tuilesFin
             if (tuile!=null && tuile.getStatut()==Utils.EtatTuile.ASSECHEE ){
                 tuilesFin.add(tuile);
             }
         }
-      
      return tuilesFin;
-      
     }
-    ////////////////////////////////DEPLACER///////////////////////////////////////
+    ////////////////////////////////AFFICHER_DEPLACER///////////////////////////////////////
     public void Afficher(ArrayList<Tuile> tuiles){
         
           System.out.println("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
@@ -199,11 +194,12 @@ public abstract class Aventurier {
    
         return tuilesFin;
 }
-    ////////////////////////////////ASSECHER///////////////////////////////////////
+    
+    
+    ////////////////////////////////AFFICHER_ASSECHER///////////////////////////////////////
     public void AfficherAssecher(ArrayList<Tuile> tuiles){
          System.out.println("Les tuiles que vous pouvez assécher : ");
                 
-               
                 String positionPossible = "";
                 if (!tuiles.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
                     for(int k = 0; k < tuiles.size() - 1; k++){
@@ -214,14 +210,15 @@ public abstract class Aventurier {
                 } else {
                     positionPossible = "Impossible d'assecher";
                 }
-                
                 System.out.println(positionPossible);
-        
     }
 
     
-    //methodes concernant les cartes 
-
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////METHODES CARTES////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
     public ArrayList<CarteTirage> getCartesMainAventurier() {
         return cartesMainAventurier;
     }
