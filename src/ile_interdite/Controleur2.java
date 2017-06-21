@@ -372,8 +372,14 @@ public class Controleur2 implements Observateur {
     }
     
     public boolean partieTerminer(){
-        if(aventuriers.get(getAventurierCourant()).getRole() != roleAventuriers.plongeur){
-        
+        boolean resultat = false;
+        if(aventuriers.get(getAventurierCourant()).getRole() != roleAventuriers.plongeur 
+                && aventuriers.get(getAventurierCourant()).RecupererTuile(aventuriers.get(getAventurierCourant()).getEstSur(), grille).isEmpty()
+                && aventuriers.get(getAventurierCourant()).AssecherTuile(aventuriers.get(getAventurierCourant()).getEstSur(), grille).isEmpty()){
+                //rajouté pas de carte helico
+            resultat = true;
         }
+        
+        return resultat;
     }
 }
