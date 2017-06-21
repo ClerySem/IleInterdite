@@ -116,26 +116,31 @@ public class VuePlateau extends Observable implements Observer {
        
        
         niveau.addMouseListener(new MouseListener() {
-              VueNiveau niveauEau = new VueNiveau(1);
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            }
-            @Override
-            public void mousePressed(MouseEvent e) {
+            VueNiveau niveauEau = new VueNiveau(1);
+           @Override
+           public void mouseClicked(MouseEvent e) {
+           }
+
+           @Override
+           public void mousePressed(MouseEvent e) {
+           }
+
+           @Override
+           public void mouseReleased(MouseEvent e) {
+           }
+
+           @Override
+           public void mouseEntered(MouseEvent e) {
                niveauEau.Affiche();
-            }
-            @Override
-            public void mouseReleased(MouseEvent e) {
+               System.out.println("afficher niveau eau");
+           }
+
+           @Override
+           public void mouseExited(MouseEvent e) {
                niveauEau.close();
-            }
-            @Override
-            public void mouseEntered(MouseEvent e) {
-            }
-            @Override
-            public void mouseExited(MouseEvent e) {
-            }
-          
-    });
+               System.out.println("fermer niveau eau");
+           }
+       });
                
         /*JPanel grilleSud = new JPanel(new GridLayout(3, 2, 5, 5)); // permet de creer une grille avec des espaces entre les différents boutons
         grilleSud.setPreferredSize(new Dimension(0, 80));
