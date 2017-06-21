@@ -35,6 +35,8 @@ public class Controleur2 implements Observateur {
     private ArrayList<Tuile> tuilesAutours;
     private ArrayList<Tuile> tuilesAutoursNonSeches;
     private boolean choixFinTour;
+    private ArrayList<String> joueurs= new ArrayList<>();
+    private String aventurierCourant;
     
     public Controleur2() {
         
@@ -57,6 +59,9 @@ public class Controleur2 implements Observateur {
         //aventuriers.put("Gaspard", new Ingenieur(getGrille().getTuiles()[4][3]));
         //vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
+        // loop tant que partie pas fini
+        
+        
         vueP = new VuePlateau(aventuriers.get("Gaspard"));
         vueP.Affiche();
     
@@ -64,7 +69,7 @@ public class Controleur2 implements Observateur {
         if(aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
             //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
             vueP.close();
-        }
+        } 
       
 
     }
@@ -287,7 +292,7 @@ public class Controleur2 implements Observateur {
         this.grille = new Grille();
         
         //to-do : récuperer les noms des différents joueurs, pour le moment je les aient initialisés à la main,
-        ArrayList<String> joueurs = new ArrayList<>();
+        
         joueurs.add("Gaspard");
         joueurs.add("Eddy");
         joueurs.add("Clery");
@@ -360,5 +365,15 @@ public class Controleur2 implements Observateur {
 
     private void setPremierClic(boolean b) {
         this.premierClic = b;
+    }
+    
+    public String getAventurierCourant(){
+        return aventurierCourant;
+    }
+    
+    public boolean partieTerminer(){
+        if(aventuriers.get(getAventurierCourant()).getRole() != roleAventuriers.plongeur){
+        
+        }
     }
 }
