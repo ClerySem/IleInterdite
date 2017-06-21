@@ -126,12 +126,12 @@ public class VuePlateau extends Observable implements Observer {
 
            @Override
            public void mouseEntered(MouseEvent e) {
-               
+               niveauEau.Affiche();
            }
 
            @Override
            public void mouseExited(MouseEvent e) {
-               niveauEau.Affiche();
+               niveauEau.close();
            }
        });
                
