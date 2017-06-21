@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import static javax.swing.SwingConstants.CENTER;
 import javax.swing.border.MatteBorder;
+import model.grille.Tuile;
 import util.Utils;
 import util.Utils.Pion;
 
@@ -59,6 +60,7 @@ public class VueAventurier2 extends JPanel implements Observer {
     private final JButton btnAutreAction;
     private final JButton btnTerminerTour;
     private final JTextField position;
+    private Observateur observateur;
     private final MyObservable observable = new MyObservable();
 
     public VueAventurier2(String nomAventurier, Color couleur, VueGrille vGrille) {
@@ -107,6 +109,7 @@ public class VueAventurier2 extends JPanel implements Observer {
         this.panelBoutons.add(btnTerminerTour);
        
         mainPanel.repaint();
+        
 
         btnAller.addActionListener(new ActionListener() {
 
@@ -114,9 +117,11 @@ public class VueAventurier2 extends JPanel implements Observer {
             public void actionPerformed(ActionEvent e) {
                 observable.setChanged();
                 Message m = new Message(Utils.Commandes.BOUGER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                m.texte = position.getText();
                 observable.notifyObservers(m);
                 observable.clearChanged();
-                setPosition("Aller");
+                vGrille.repaint();
+                
             }
         });
 
@@ -124,13 +129,13 @@ public class VueAventurier2 extends JPanel implements Observer {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 observable.setChanged();
                 Message m = new Message(Utils.Commandes.DONNER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                m.texte = position.getText();
                 observable.notifyObservers(m);
                 observable.clearChanged();
                 setPosition("Autre");
-
+                vGrille.repaint();
             }
 
         });
@@ -141,9 +146,11 @@ public class VueAventurier2 extends JPanel implements Observer {
             public void actionPerformed(ActionEvent e) {
                 observable.setChanged();
                 Message m = new Message(Utils.Commandes.ASSECHER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                m.texte = position.getText();
                 observable.notifyObservers(m);
                 observable.clearChanged();
-                setPosition("Assecher");
+                setPosition("Assecher"); 
+                vGrille.repaint();
             }
 
         });
@@ -192,6 +199,7 @@ public class VueAventurier2 extends JPanel implements Observer {
     public JButton getBtnTerminerTour() {
         return btnTerminerTour;
     }
+  
 
 }
 

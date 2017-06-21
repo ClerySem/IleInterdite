@@ -6,12 +6,15 @@
 package ile_interdite;
 import static ile_interdite.TypesMessages.Deplacer;
 import java.awt.Color;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Stack;
+import java.util.Observable;
+import java.util.Observer;
 import model.aventuriers.Aventurier;
 import model.aventuriers.Explorateur;
 import model.aventuriers.Ingenieur;
@@ -24,11 +27,12 @@ import model.aventuriers.*;
 import model.cards.CarteInondation;
 import model.cards.CarteTirage;
 
+
 /**
  *
  * @author semanazc
  */
-public class Controleur2 implements Observateur {
+public class Controleur2 implements Observer {
     
     //private final VueAventurier vue;
     private final VuePlateau vueP;
@@ -38,6 +42,8 @@ public class Controleur2 implements Observateur {
     private ArrayList<Tuile> tuilesAutours;
     private ArrayList<Tuile> tuilesAutoursNonSeches;
     private boolean choixFinTour;
+    private Observable observable;
+   
     
     //attributs pour les cartes
     
@@ -54,6 +60,7 @@ public class Controleur2 implements Observateur {
     
     //constructeur
     public Controleur2() {
+       
         
         //initialisation des attributs
         this.aventuriers = new HashMap<>();
@@ -74,10 +81,12 @@ public class Controleur2 implements Observateur {
         aventuriers.put("Gaspard", new Pilote(getGrille().getTuiles()[4][3],false));
         //vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
-        vueP = new VuePlateau(aventuriers.get("Gaspard"));
+        this.vueP = new VuePlateau(aventuriers.get("Gaspard"));
+        
+        getVueP().addObserver(this);
+     
         vueP.Affiche();
-    
-        //vue.setObservateur(this);
+       
         if(aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
             //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
             vueP.close();
@@ -86,15 +95,107 @@ public class Controleur2 implements Observateur {
 
     }
     
-    @Override
-    public void traiterMessage(Message msg) {
+    
+   
+    
+    public final void demarrerPartie() {
+        this.grille = new Grille();
+        
+        //to-do : récuperer les noms des différents joueurs, pour le moment je les aient initialisés à la main,
+        ArrayList<String> joueurs = new ArrayList<>();
+        joueurs.add("Gaspard");
+        joueurs.add("Eddy");
+        joueurs.add("Clery");
+        joueurs.add("Sacha");
+        
+        //creation des aventuriers
+        Explorateur explorateur = new Explorateur(getGrille().getTuiles()[2][4]);
+        
+        Ingenieur ingenieur = new Ingenieur(getGrille().getTuiles()[0][3]);
+        
+        Messager messager = new Messager(getGrille().getTuiles()[1][3]);
+        
+        Navigateur navigateur = new Navigateur(getGrille().getTuiles()[1][3]);
+        
+        Pilote pilote = new Pilote(getGrille().getTuiles()[2][1],false);
+        
+        Plongeur plongeur = new Plongeur(getGrille().getTuiles()[1][2]);
+        
+        ArrayList<Aventurier> listeaventuriersjouables = new ArrayList();
+        listeaventuriersjouables.add(explorateur);
+        listeaventuriersjouables.add(ingenieur);
+        listeaventuriersjouables.add(messager);
+        listeaventuriersjouables.add(navigateur);
+        listeaventuriersjouables.add(pilote);
+        listeaventuriersjouables.add(plongeur);
+        Collections.shuffle((List<?>) listeaventuriersjouables); //melange des aventuriers
+        
+        
+        for (int k = 0; k < 4; k++){ //comme il y a 4 joueurs on ajoute 4 aventuriers à notre collection aventuriers
+              listeaventuriersjouables.get(k).setNom(joueurs.get(k)); // on donne un nom à l'aventurier
+            getAventuriers().put(joueurs.get(k), listeaventuriersjouables.get(k)); // on l'ajoute à aventuriers
+        }
+    }
+    
+    public Tuile getPosition(Aventurier aventurier){
+        Tuile position = aventurier.getEstSur();
+        return position;
+    }
+    
+    public int getLigne(Tuile position){
+       int l =position.getNumLigne();
+       return l;
+    }
+    
+     public int getColonne(Tuile position){
+       int c =position.getNumColonne();
+       return c;
+    }
+
+    public Grille getGrille() {
+        return grille;
+    }
+    
+     public void afficherGrilleConsole(){
+         for (int i = 0; i <6; i ++) {
+             for (int k = 0; k <6; k++) {
+                 if(grille.getTuiles()[i][k] != null){
+                     System.out.print(" |" + i + ","+ k + "| ");
+                 } else {
+                     System.out.print( " |   | ");
+                 }
+            }
+             System.out.print("\n");
+         }
+     }
+
+    public HashMap<String, Aventurier> getAventuriers() {
+        return aventuriers;
+    }
+
+    private void setPremierClic(boolean b) {
+        this.premierClic = b;
+    }
+
+    public VuePlateau getVueP() {
+        return vueP;
+    }
+    
+    
+    
+    public Observable getObservable() {
+        return observable;
+    }
+     @Override
+    public void update(Observable o, Object arg) {
+    Message msg = (Message) arg;
         Exception AucunePositionEntreeException = new Exception();
         Exception AssechementImpossibleException = new Exception();
         Exception DeplacementImpossibleException = new Exception();
          
-        switch(msg.type){
+        switch(msg.getCommande()){
  
-            case Deplacer:
+            case BOUGER:
                 
                 try{if(aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
             //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
@@ -135,13 +236,13 @@ public class Controleur2 implements Observateur {
                }catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
-                }      
+                }    
                 
                 //vueP.setPosition(""); //clear de la zone de texte de la vue
             break;
-           case Assecher:
+           case ASSECHER:
                 
-                try {
+                /*try {*/
                     if (premierClic){
                         tuilesAutoursNonSeches = aventuriers.get("Gaspard").AssecherTuile(aventuriers.get("Gaspard").getEstSur(),grille);
                         aventuriers.get("Gaspard").AfficherAssecher(tuilesAutoursNonSeches);
@@ -161,30 +262,32 @@ public class Controleur2 implements Observateur {
                             
                             if (!tuilesAutoursNonSeches.contains(grille.getTuiles()[position[0]][position[1]])){
                                 System.err.println("Assechement impossible");
-                                throw AssechementImpossibleException;
+                                //throw AssechementImpossibleException;
                             }else{ //on finalise la procédure d'asséchement
 
                                 aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
                                 premierClic = true;
+                                
+                                //getVueP().getTuileGrille().updateGrille();
                             }
+                            
 
                         }else {
                             System.err.println("Aucune position entrée");
-                            throw AucunePositionEntreeException;
+                            //throw AucunePositionEntreeException;
                         }
-
                     }
-                }catch(Exception e){
+                /*}catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
-                }
+                }*/
                
                 
                 //vue.setPosition(""); //clear de la zone de texte de la vue
             break;
-            case Autre:
+            case DONNER:
                
                 
              ////////////////////////////////////////////////////////////////////////////
@@ -286,7 +389,7 @@ public class Controleur2 implements Observateur {
                 //vue.setPosition("");
                 //...
             break;
-            case Terminer:
+            case TERMINER:
                 //vue.setPosition("Tour terminer, joueur suivant");
                 choixFinTour = true;
             break;
@@ -300,86 +403,8 @@ public class Controleur2 implements Observateur {
         }
          System.out.println("Action n°"+ aventuriers.get("Gaspard").getNbaction());
     }
-    
-    public final void demarrerPartie() {
-        this.grille = new Grille();
-        
-        //to-do : récuperer les noms des différents joueurs, pour le moment je les aient initialisés à la main,
-        ArrayList<String> joueurs = new ArrayList<>();
-        joueurs.add("Gaspard");
-        joueurs.add("Eddy");
-        joueurs.add("Clery");
-        joueurs.add("Sacha");
-        
-        //creation des aventuriers
-        Explorateur explorateur = new Explorateur(getGrille().getTuiles()[2][4]);
-        
-        Ingenieur ingenieur = new Ingenieur(getGrille().getTuiles()[0][3]);
-        
-        Messager messager = new Messager(getGrille().getTuiles()[1][3]);
-        
-        Navigateur navigateur = new Navigateur(getGrille().getTuiles()[1][3]);
-        
-        Pilote pilote = new Pilote(getGrille().getTuiles()[2][1],false);
-        
-        Plongeur plongeur = new Plongeur(getGrille().getTuiles()[1][2]);
-        
-        ArrayList<Aventurier> listeaventuriersjouables = new ArrayList();
-        listeaventuriersjouables.add(explorateur);
-        listeaventuriersjouables.add(ingenieur);
-        listeaventuriersjouables.add(messager);
-        listeaventuriersjouables.add(navigateur);
-        listeaventuriersjouables.add(pilote);
-        listeaventuriersjouables.add(plongeur);
-        Collections.shuffle((List<?>) listeaventuriersjouables); //melange des aventuriers
-        
-        
-        for (int k = 0; k < 4; k++){ //comme il y a 4 joueurs on ajoute 4 aventuriers à notre collection aventuriers
-              listeaventuriersjouables.get(k).setNom(joueurs.get(k)); // on donne un nom à l'aventurier
-            getAventuriers().put(joueurs.get(k), listeaventuriersjouables.get(k)); // on l'ajoute à aventuriers
-        }
-    }
-    
-    public Tuile getPosition(Aventurier aventurier){
-        Tuile position = aventurier.getEstSur();
-        return position;
-    }
-    
-    public int getLigne(Tuile position){
-       int l =position.getNumLigne();
-       return l;
-    }
-    
-     public int getColonne(Tuile position){
-       int c =position.getNumColonne();
-       return c;
-    }
 
-    public Grille getGrille() {
-        return grille;
-    }
-    
-     public void afficherGrilleConsole(){
-         for (int i = 0; i <6; i ++) {
-             for (int k = 0; k <6; k++) {
-                 if(grille.getTuiles()[i][k] != null){
-                     System.out.print(" |" + i + ","+ k + "| ");
-                 } else {
-                     System.out.print( " |   | ");
-                 }
-            }
-             System.out.print("\n");
-         }
-     }
-
-    public HashMap<String, Aventurier> getAventuriers() {
-        return aventuriers;
-    }
-
-    private void setPremierClic(boolean b) {
-        this.premierClic = b;
-    }
-    
+ 
     
     //manipuler niveau d'eau
     public int getNiveauEau() {
@@ -428,5 +453,5 @@ public class Controleur2 implements Observateur {
         }
     }
     
-    
+
 }

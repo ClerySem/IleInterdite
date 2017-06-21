@@ -5,7 +5,9 @@
  */
 package view;
 
+import ile_interdite.Controleur2;
 import ile_interdite.Message;
+import ile_interdite.Observateur;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -43,12 +45,15 @@ public class VuePlateau extends Observable implements Observer {
 
     private Grille grille;
     private final Aventurier joueur;
- 
+    private Observable observable;
+    private VueGrille tuileGrille;
+    
    JFrame fenetre = new JFrame("Plateau de jeu");
 
     public VuePlateau(Aventurier joueur) {
        this.joueur=joueur;
 
+       
         /////////////////////////////////////
         //Instanciation de la fenêtre
         
@@ -76,9 +81,9 @@ public class VuePlateau extends Observable implements Observer {
 
         /////////////////////////////////////
         // Création des tuiles du plateau
-        VueGrille tuileGrille = new VueGrille(grille);
+        this.tuileGrille = new VueGrille(grille);
         fenetre.add(tuileGrille, BorderLayout.CENTER);
-       
+        tuileGrille.repaint();
        
         ArrayList<Tuile> tuiles = new ArrayList<>();
         //tuiles = tuileGrille.getGrille().getTuiles();
@@ -91,11 +96,8 @@ public class VuePlateau extends Observable implements Observer {
        
        
         JPanel panelSud = new JPanel();
-       
-        
+   
 
-        
-        
         ((Observable) aventurier.getObservable()).addObserver(this);
         panelSud.add(aventurier);
 
@@ -132,13 +134,13 @@ public class VuePlateau extends Observable implements Observer {
            @Override
            public void mouseEntered(MouseEvent e) {
                niveauEau.Affiche();
-               System.out.println("afficher niveau eau");
+              
            }
 
            @Override
            public void mouseExited(MouseEvent e) {
                niveauEau.close();
-               System.out.println("fermer niveau eau");
+               
            }
        });
                
@@ -224,8 +226,27 @@ public class VuePlateau extends Observable implements Observer {
     }
     public void Affiche(){
         fenetre.setVisible(true);
+        fenetre.repaint();
     }
-   
+
+    public JFrame getFenetre() {
+        return fenetre;
+    }
+
+    public VueGrille getTuileGrille() {
+        return tuileGrille;
+    }
+
+    public void setTuileGrille(VueGrille tuileGrille) {
+        this.tuileGrille = tuileGrille;
+    }
+    
+    public void updateGrille() {
+        getTuileGrille().removeAll();
+        fenetre.add(tuileGrille, BorderLayout.CENTER);
+        
+    }
+    
 
     /*public static void main(String[] args) {
         // TODO code application logic here
@@ -236,8 +257,19 @@ public class VuePlateau extends Observable implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("recu");
+        
+        setChanged(); 
+        Message m = (Message) arg;
+        System.out.println(m.texte);
+        notifyObservers(m);
+        clearChanged();
+              
+        
     }
+
+    
+
+    
     
     
     
