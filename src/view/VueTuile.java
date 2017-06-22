@@ -23,6 +23,7 @@ public final class VueTuile extends JPanel {
             case COULEE:
                 getBoutonTuile().setBackground(Color.DARK_GRAY);
                 getBoutonTuile().setBorder(BorderFactory.createLineBorder(Color.WHITE));
+                
                 repaint();
                 break;
             case INONDEE:

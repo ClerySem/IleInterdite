@@ -36,7 +36,6 @@ import model.grille.Grille;
 import model.grille.Tuile;
 import util.Utils;
 
-
 /**
  *
  * @author sarrasie
@@ -91,7 +90,7 @@ public class VuePlateau extends Observable implements Observer {
         fenetre.add(panelSud, BorderLayout.SOUTH);
         fenetre.add(panelEast,BorderLayout.EAST);
         
-        ///BOUTON NIVEAU///
+       ///BOUTON NIVEAU///
         for(int i = 0; i < 21;i++){
             if(i==11){
                 panelEast.add(niveau);
@@ -144,9 +143,10 @@ public class VuePlateau extends Observable implements Observer {
     
     
     
-    public void updateGrille() {
-        getTuileGrille().removeAll();
-        fenetre.add(tuileGrille, BorderLayout.CENTER);
+    public void updateGrille(Grille grille) {
+        tuileGrille.setVisible(false);
+        VueGrille vueGrille = new VueGrille(grille);
+        fenetre.add(vueGrille, BorderLayout.CENTER);
     }
     
     
@@ -169,6 +169,7 @@ public class VuePlateau extends Observable implements Observer {
         fenetre.setVisible(true);
         fenetre.repaint();
     }
+    
 
 }
 

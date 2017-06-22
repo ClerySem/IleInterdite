@@ -269,6 +269,8 @@ public class Controleur2 implements Observer {
                         }
                         
                         getVueP().getTuileGrille().updateGrille(grille);
+                        getVueP().updateGrille(grille);
+                        
                     }
                 /*}catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
