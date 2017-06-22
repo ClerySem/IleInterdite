@@ -114,7 +114,7 @@ public class VueAventurier2 extends JPanel implements Observer {
                 m.texte = position.getText();
                 observable.notifyObservers(m);
                 observable.clearChanged();
-                vGrille.repaint();
+                setPosition("Deplacer");
             }
         });
 ////////////////////////////AJOUTE LISTENER AUTRE///////////////////////////////////////////////////////
@@ -128,7 +128,6 @@ public class VueAventurier2 extends JPanel implements Observer {
                 observable.notifyObservers(m);
                 observable.clearChanged();
                 setPosition("Autre");
-                vGrille.repaint();
             }
         });
 ////////////////////////////AJOUTE LISTENER ASSECHER///////////////////////////////////////////////////////
@@ -142,7 +141,6 @@ public class VueAventurier2 extends JPanel implements Observer {
                 observable.notifyObservers(m);
                 observable.clearChanged();
                 setPosition("Assecher"); 
-                vGrille.repaint();
             }
         });
 ////////////////////////////AJOUTE LISTENER TERMINER///////////////////////////////////////////////////////

@@ -57,9 +57,7 @@ public class VueGrille extends JPanel {
 
     public final void creationGrille(Grille grille) {
         
-        System.out.println("Procédure de creation de la grille");
         this.setLayout(new GridLayout(6, 6, 5, 5));//creation d'une grille 6*6 avec des espaces entre chaque bouton de la grille
-        System.out.println("test1");
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 6; j++) {
                 if (i == 0 && j == 0
@@ -79,11 +77,9 @@ public class VueGrille extends JPanel {
                 } else {          // les tuiles non vide
 
                     Tuile tuile = grille.getTuiles()[i][j];
-                    VueTuile vTuile = new VueTuile(tuile);
-                    JButton btnTuile = vTuile.getBoutonTuile();
+                    VueTuile btnTuile = new VueTuile(tuile);
                     // modifie la couleur de la bordure
                     this.add(btnTuile);
-                    System.out.println("ajout bouton tuile");
                     ////////////////////////////LISTENER BOUTON TUILE///////////////////////////
                     btnTuile.addActionListener(new ActionListener() {
                         @Override

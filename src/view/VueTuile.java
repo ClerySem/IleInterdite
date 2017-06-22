@@ -7,34 +7,32 @@ import javax.swing.JPanel;
 import model.grille.Tuile;
 import util.Utils;
 
-public final class VueTuile extends JPanel {
+public final class VueTuile extends JButton {
 
-    private JButton boutonTuile;
+
     private Tuile tuile;
 
     public VueTuile(Tuile tuile) {
         this.tuile = tuile;
-        this.boutonTuile = new JButton();
 
-        getBoutonTuile().setText(tuile.getNom());
-        add(boutonTuile);
+        setText(tuile.getNom());
 
         if (tuile.getStatut() != null) switch (tuile.getStatut()) {
             case COULEE:
-                getBoutonTuile().setBackground(Color.DARK_GRAY);
-                getBoutonTuile().setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                
+                setBackground(Color.DARK_GRAY);
+                setBorder(BorderFactory.createLineBorder(Color.WHITE));
                 repaint();
+                
                 break;
             case INONDEE:
-                getBoutonTuile().setBackground(Color.CYAN);
-                getBoutonTuile().setBorder(BorderFactory.createLineBorder(Color.BLACK));
+                setBackground(Color.CYAN);
+                setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 repaint();
                 break;
             case ASSECHEE:
-                getBoutonTuile().setBackground(Color.ORANGE);
-                getBoutonTuile().setBorder(BorderFactory.createLineBorder(Color.RED));
-                repaint();
+                setBackground(Color.ORANGE);
+               setBorder(BorderFactory.createLineBorder(Color.RED));
+               repaint();
                 break;
             default:
                 break;
@@ -42,8 +40,6 @@ public final class VueTuile extends JPanel {
 
     }
 
-    public JButton getBoutonTuile() {
-        return boutonTuile;
-    }
+
 
 }

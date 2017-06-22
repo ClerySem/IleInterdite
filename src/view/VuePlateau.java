@@ -145,8 +145,8 @@ public class VuePlateau extends Observable implements Observer {
     
     public void updateGrille(Grille grille) {
         tuileGrille.setVisible(false);
-        VueGrille vueGrille = new VueGrille(grille);
-        fenetre.add(vueGrille, BorderLayout.CENTER);
+        fenetre.add(tuileGrille, BorderLayout.CENTER);
+        tuileGrille.setVisible(true);
     }
     
     
