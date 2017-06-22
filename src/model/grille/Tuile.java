@@ -23,6 +23,7 @@ public class Tuile extends JButton {
     private int numLigne;
     private int numColonne;
     private ArrayList<Aventurier> possede;
+    private boolean possedeTresor = false;
 
     public Tuile(int numLigne , int numColonne) {
        
@@ -39,6 +40,8 @@ public class Tuile extends JButton {
        if (numLigne == 1 && numColonne ==1){
            this.nom = "La Caverne Des Ombres";
            this.statut = ASSECHEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        if (numLigne == 1 && numColonne ==2){
            this.nom = "La Porte De Fer";
@@ -55,6 +58,8 @@ public class Tuile extends JButton {
        if (numLigne == 2 && numColonne ==0){
            this.nom = "Le Palais De Corail";
            this.statut = ASSECHEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        if (numLigne == 2 && numColonne ==1){
            this.nom = "La Porte d'Argent";
@@ -75,6 +80,8 @@ public class Tuile extends JButton {
        if (numLigne == 2 && numColonne ==5){
            this.nom = "Le Jardin Des Hurlements";
            this.statut = ASSECHEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        if (numLigne == 3 && numColonne ==0){
            this.nom = "La Foret Pourpre";
@@ -99,18 +106,26 @@ public class Tuile extends JButton {
        if (numLigne == 3 && numColonne ==5){
            this.nom = "La Caverne Du Brasier";
            this.statut = INONDEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        if (numLigne == 4 && numColonne ==1){
            this.nom = "Le Temple Du Soleil";
            this.statut = ASSECHEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        if (numLigne == 4 && numColonne ==2){
            this.nom = "Le Temple De La Lune";
            this.statut = COULEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        if (numLigne == 4 && numColonne ==3){
            this.nom = "Le Palais Des Marais";
            this.statut = ASSECHEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        if (numLigne == 4 && numColonne ==4){
            this.nom = "Le Val Du Crepuscule";
@@ -123,6 +138,8 @@ public class Tuile extends JButton {
        if (numLigne == 5 && numColonne ==3){
            this.nom = "Le Jardin Des Murmures";
            this.statut = INONDEE;
+           //a un tresor
+           this.possedeTresor= true;
        }
        this.possede = new ArrayList<>();
        
