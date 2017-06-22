@@ -9,6 +9,8 @@ package model.cards;
  *
  * @author khelifza
  */
+
+//enumeration permettant d'identifier les différents types de cartes Tirage
 public enum typeCarte {
     
     Carte_Tresor,

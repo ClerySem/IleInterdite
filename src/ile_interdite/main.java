@@ -3,19 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.cards;
+package ile_interdite;
 
 /**
  *
  * @author khelifza
  */
-public class CarteHelicoptere extends CarteTirage{
-
+public class main {
     
-    //constructeur
-    public CarteHelicoptere() {
-        super(typeCarte.Carte_Helicoptere);
+    public static void main(String[] args) {
+        Controleur3 c = new Controleur3();
+        System.out.println(c.getAventuriers().get("Eddy").getRole().toString());
+        c.test();
     }
-    
-    
 }

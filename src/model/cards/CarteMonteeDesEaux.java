@@ -11,6 +11,7 @@ package model.cards;
  */
 public class CarteMonteeDesEaux extends CarteTirage{
 
+    //constructeur
     public CarteMonteeDesEaux() {
         super(typeCarte.carte_Montee_Des_Eaux);
     }

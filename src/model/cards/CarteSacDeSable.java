@@ -11,6 +11,7 @@ package model.cards;
  */
 public class CarteSacDeSable extends CarteTirage{
 
+    //constructeur
     public CarteSacDeSable() {
         super(typeCarte.Carte_Sac_De_Sable);
     }

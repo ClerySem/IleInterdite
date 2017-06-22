@@ -5,6 +5,7 @@
  */
 package model.cards;
 
+import model.grille.Tuile;
 import util.NomTuileEnum;
 
 /**
@@ -14,17 +15,29 @@ import util.NomTuileEnum;
 public class CarteInondation {
     
     private util.NomTuileEnum nomCarte;
+    
 
+    
+    //constructeur
     public CarteInondation(NomTuileEnum nomCarte) {
+        /*
         this.nomCarte = nomCarte;
+        this.tuile = tuile;
+        */
+        setNomCarte(nomCarte);
+       
     }
 
+    //rend nom des cartes
     public NomTuileEnum getNomCarte() {
         return nomCarte;
     }
-
+    
+    //setter du nom des cartes
     public void setNomCarte(NomTuileEnum nomCarte) {
         this.nomCarte = nomCarte;
     }
+
+    
     
 }

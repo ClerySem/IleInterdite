@@ -13,17 +13,20 @@ import util.Utils;
  */
 public class CarteTresor extends CarteTirage{
     
-    private Utils.Tresor tresor;
+    private Utils.Tresor tresor;//identifier les 4 différents types de tresor
 
+    //constructeur
     public CarteTresor(Utils.Tresor typetresor, typeCarte type) {
         super(type);
         this.tresor = typetresor;
     }
 
+    //rend le type de tresor
     public Utils.Tresor getTresor() {
         return tresor;
     }
 
+    //setter du tresor
     public void setTresor(Utils.Tresor tresor) {
         this.tresor = tresor;
     }

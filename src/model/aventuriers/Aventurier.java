@@ -11,6 +11,7 @@ import java.util.Stack;
 import model.cards.CarteInondation;
 import model.cards.CarteTirage;
 import model.cards.CarteTresor;
+import model.cards.typeCarte;
 import model.grille.Grille;
 import util.Utils;
 import model.grille.Tuile;
@@ -36,12 +37,14 @@ public abstract class Aventurier {
     private int nbZephyr = 0;
     private int nbCristal = 0;
     
+    
     //////////CONSTRUCTEUR///////
     public Aventurier(roleAventuriers role ,String capacite, Tuile estSur){
         this.role = role;
         this.capacite = capacite;
         this.nbaction = 1;
         this.estSur = estSur;
+        this.cartesMainAventurier = new ArrayList<>();
         estSur.ajouterAventurier(this);
        
     }
@@ -99,9 +102,7 @@ public abstract class Aventurier {
         tuile.ajouterAventurier(this);
         setNbaction(getNbaction() + 1);
     }
-    public void donnerCarteJoueur(){
-        
-    }
+   
 
     //////////////////////DEPLACER//////////////////////////////////////////
      public ArrayList<Tuile> RecupererTuile(Tuile position,Grille grille){
@@ -268,19 +269,9 @@ public abstract class Aventurier {
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
    
     
-     //permet de piocher une carte
-    public void piocherCarteTirage(Stack<CarteTirage> carteTirage){
-        //si la main de l'aventurier n'est pas pleine 
-        if(getCartesMainAventurier().size()<8){
-            getCartesMainAventurier().add(carteTirage.pop());
-            //alors on ajoute la carte de la pile à la main
-        }
-        else{
-            System.err.println("Votre main est pleine, la limte est de 9 cartes");
-        }
-    }
     
     public ArrayList<CarteTirage> getCartesMainAventurier() {
+        
         return cartesMainAventurier;
     }
 // Methode:
@@ -334,6 +325,7 @@ public int getNbPierre() {
             // positions des tuiles tresors Pierre
             if (nbPierre >3 ){
                 tresors.add(Tresor.PIERRE);
+                
             }
         }
         if((position.getNumLigne()==5 && position.getNumColonne() == 3 )||(position.getNumLigne()==2 && position.getNumColonne() == 5 )){
@@ -359,6 +351,10 @@ public int getNbPierre() {
         }
     }
     
-    
+    public void afficherCartesMain(){
+        for (CarteTirage carte : getCartesMainAventurier()) {
+            System.out.println(carte.getType().toString());
+        }
+    }
 }
 
