@@ -50,9 +50,9 @@ public class VuePlateau extends Observable implements Observer {
     
    JFrame fenetre = new JFrame("Plateau de jeu");
 
-    public VuePlateau(Aventurier joueur) {
+    public VuePlateau(Aventurier joueur, Grille grille) {
        this.joueur=joueur;
-
+       this.grille = grille;
        
         /////////////////////////////////////
         //Instanciation de la fenêtre

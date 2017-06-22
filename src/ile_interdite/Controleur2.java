@@ -80,7 +80,7 @@ public class Controleur2 implements Observer {
         aventuriers.put("Gaspard", new Pilote(getGrille().getTuiles()[4][3],false));
         //vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
-        this.vueP = new VuePlateau(aventuriers.get("Gaspard"));
+        this.vueP = new VuePlateau(aventuriers.get("Gaspard"), getGrille());
         
         getVueP().addObserver(this);
      
@@ -260,13 +260,15 @@ public class Controleur2 implements Observer {
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
                                 premierClic = true;
-                                //getVueP().getTuileGrille().updateGrille();
+                                System.out.println("test");
                             }
                             
                         }else {
                             System.err.println("Aucune position entrée");
                             //throw AucunePositionEntreeException;
                         }
+                        
+                        getVueP().getTuileGrille().updateGrille(grille);
                     }
                 /*}catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
