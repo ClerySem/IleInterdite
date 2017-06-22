@@ -5,16 +5,23 @@
  */
 package model.cards;
 
+import util.Utils;
+
 /**
  *
  * @author khelifza
  */
 public class CarteTirage {
-    
+   
     private typeCarte type;
+    private Utils.Tresor typeTresor;
 
     public CarteTirage(typeCarte type) {
         this.type = type;
+    }
+    public CarteTirage(Utils.Tresor typeTresor) {
+        this.type = typeCarte.Carte_Tresor;
+        this.typeTresor = typeTresor;
     }
 
     public typeCarte getType() {
@@ -24,4 +31,5 @@ public class CarteTirage {
     public void setType(typeCarte type) {
         this.type = type;
     }
+   
 }

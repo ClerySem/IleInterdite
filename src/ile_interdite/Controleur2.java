@@ -26,6 +26,8 @@ import util.Utils;
 import model.aventuriers.*;
 import model.cards.CarteInondation;
 import model.cards.CarteTirage;
+import model.cards.CarteTresor;
+import model.cards.typeCarte;
 
 
 /**
@@ -33,7 +35,8 @@ import model.cards.CarteTirage;
  * @author semanazc
  */
 public class Controleur2 implements Observer {
-    
+    //Attributs Controleur2:
+private String aventurierCourant;
     //private final VueAventurier vue;
     private final VuePlateau vueP;
     private final HashMap<String,Aventurier> aventuriers;
@@ -53,10 +56,11 @@ public class Controleur2 implements Observer {
     
     //lees cartes innondations changent l'Etat des tuiles
     private Stack<CarteInondation> cartesInondationPioche;
-    private Stack<CarteInondation> cartesInondationDefausse;
+    private Stack<CarteInondation> cartesDefausseInondation;
     private ArrayList<CarteInondation> cartesInondationEnJeu;
     
     int niveauEau;
+    
     
     //constructeur
     public Controleur2() {
@@ -196,12 +200,14 @@ public class Controleur2 implements Observer {
                     if (premierClic){
                         tuilesAutours = aventuriers.get("Gaspard").RecupererTuile(aventuriers.get("Gaspard").getEstSur(),grille);
                        aventuriers.get("Gaspard").Afficher(tuilesAutours);
+                       vueP.setInformation(vueP.getInformation(),aventuriers.get("Gaspard").getAfficher(tuilesAutours));
                         setPremierClic(false);
                     }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
                         if (!msg.texte.equals("")){ //si la case message à été remplie
                             String texte = msg.texte;
 
                             System.out.println("Deplacement en cours");
+                             vueP.setInformation(vueP.getInformation(),"Deplacement en cours");
 
                             String[] positionString;
                             positionString = texte.split(","); //parsing des coordonnées
@@ -211,40 +217,47 @@ public class Controleur2 implements Observer {
                             
                             if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){
                                 System.err.println("Deplacement impossible");
+                                vueP.setInformation(vueP.getInformation(),"Deplacement impossible");
                                 throw DeplacementImpossibleException;
                             }else{ //on finalise la procédure de déplacement
 
                                 aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
                                 System.out.println("Deplacement bien effectué, vous êtes maintenant en : " + aventuriers.get("Gaspard").getEstSur().getNumLigne()+ "," + aventuriers.get("Gaspard").getEstSur().getNumColonne());
+                                vueP.setInformation(vueP.getInformation(),"Deplacement bien effectué, vous êtes maintenant sur la tuile : " + aventuriers.get("Gaspard").getEstSur().getNom());
                                 premierClic = true;
                             }  
 
                         }else {
                             System.err.println("Aucune position entrée");
+                            vueP.setInformation(vueP.getInformation(),"Aucune position entrée");
                            throw AucunePositionEntreeException;
                         }
 
                     }    
                }catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
+                    vueP.setInformation(vueP.getInformation(),"Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
                 }    
                 
                 //vueP.setPosition(""); //clear de la zone de texte de la vue
             break;
            case ASSECHER:
-                /*try {*/
+                try {
                     if (premierClic){
                         tuilesAutoursNonSeches = aventuriers.get("Gaspard").AssecherTuile(aventuriers.get("Gaspard").getEstSur(),grille);
+                        vueP.setInformation(vueP.getInformation(), aventuriers.get("Gaspard").getAfficherAssecher(tuilesAutoursNonSeches));
                         aventuriers.get("Gaspard").AfficherAssecher(tuilesAutoursNonSeches);
+                      
                         setPremierClic(false);
                     }else { //on entamme la procédure d'asséchement
                         System.out.println("Vous avez choisit de sécher une case : \n ");
+                        vueP.setInformation(vueP.getInformation(),"Vous avez choisit\nde sécher une case : \n ");
                         if (!msg.texte.equals("")){ //si la case message à été remplie
                             String texte = msg.texte;
 
                             System.out.println("Assechement en cours");
-
+                            vueP.setInformation(vueP.getInformation(),"Assechement en cours");
                             String[] positionString;
                             positionString = texte.split(","); //parsing des coordonnées
                             int[] position = new int[2];
@@ -253,34 +266,41 @@ public class Controleur2 implements Observer {
                             
                             if (!tuilesAutoursNonSeches.contains(grille.getTuiles()[position[0]][position[1]])){
                                 System.err.println("Assechement impossible");
-                                //throw AssechementImpossibleException;
+                                vueP.setInformation(vueP.getInformation(),"Assechement impossible");
+                                throw AssechementImpossibleException;
                             }else{ //on finalise la procédure d'asséchement
 
                                 aventuriers.get("Gaspard").assecherTuile(getGrille().getTuiles()[position[0]][position[1]]);
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
                                 premierClic = true;
-                                System.out.println("test");
+                                
+                                vueP.setInformation(vueP.getInformation(),"Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
+                                        + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
+                                
+                         
                             }
                             
                         }else {
                             System.err.println("Aucune position entrée");
-                            //throw AucunePositionEntreeException;
+                            vueP.setInformation(vueP.getInformation(),"Aucune position entrée");
+                            throw AucunePositionEntreeException;
                         }
                         
                         getVueP().getTuileGrille().updateGrille(grille);
                         getVueP().updateGrille(grille);
                         
                     }
-                /*}catch(Exception e){
+                }catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
+                    vueP.setInformation(vueP.getInformation(),"Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
-                }*/
+                }
                
                 
                 //vue.setPosition(""); //clear de la zone de texte de la vue
             break;
-            case DONNER:
+            case CAPACITE:
                 
              ////////////////////////////////////////////////////////////////////////////
             //////////////////////////////Pilote////////////////////////////////////////
@@ -293,12 +313,13 @@ public class Controleur2 implements Observer {
                             
                             tuilesAutours = aventuriers.get("Gaspard").RecupererTuile(aventuriers.get("Gaspard").getEstSur(),grille);
                             aventuriers.get("Gaspard").Afficher(tuilesAutours);
+                            vueP.setInformation(vueP.getInformation(),aventuriers.get("Gaspard").getAfficher(tuilesAutours));
                             setPremierClic(false);
                         }else { // on va entamer la procédure de deplacement du joueur sur les coordonnées entrées
                             if (!msg.texte.equals("")){ //si la case message à été remplie
                                 String texte = msg.texte;
                                 System.out.println("Deplacement en cours");
-
+                                vueP.setInformation(vueP.getInformation(),"Deplacement en cours");
                                 String[] positionString;
                                 positionString = texte.split(","); //parsing des coordonnées
                                 int[] position = new int[2];
@@ -307,22 +328,26 @@ public class Controleur2 implements Observer {
 
                                 if (!tuilesAutours.contains(grille.getTuiles()[position[0]][position[1]])){
                                     System.err.println("Deplacement impossible");
+                                    vueP.setInformation(vueP.getInformation(),"Deplacement impossible");
                                     throw DeplacementImpossibleException;
 
                                 }else{ //on finalise la procédure de déplacement
 
                                     aventuriers.get("Gaspard").seDeplacer(getGrille().getTuiles()[position[0]][position[1]]);
                                     System.out.println("Deplacement bien effectué, vous êtes maintenant en : " + aventuriers.get("Gaspard").getEstSur().getNumLigne()+ "," + aventuriers.get("Gaspard").getEstSur().getNumColonne());
+                                    vueP.setInformation(vueP.getInformation(),"Deplacement bien effectué, vous êtes maintenant en : " + aventuriers.get("Gaspard").getEstSur().getNom());
                                     premierClic = true;
                                 }  
                             }else {
                                 System.err.println("Aucune position entrée");
+                                vueP.setInformation(vueP.getInformation(),"Aucune position entrée");
                                throw AucunePositionEntreeException;
                             }
                         }
                     }
                 } catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
+                    vueP.setInformation(vueP.getInformation(),"Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);                    
                 }
                 
@@ -335,14 +360,16 @@ public class Controleur2 implements Observer {
                     if (premierClic){
                         tuilesAutoursNonSeches = aventuriers.get("Gaspard").AssecherTuile(aventuriers.get("Gaspard").getEstSur(),grille);
                         aventuriers.get("Gaspard").AfficherAssecher(tuilesAutoursNonSeches);
+                        vueP.setInformation(vueP.getInformation(),aventuriers.get("Gaspard").getAfficherAssecher(tuilesAutoursNonSeches));
                         setPremierClic(false);
                     }else { //on entamme la procédure d'asséchement
                         System.out.println("Vous avez choisit de sécher une case : \n ");
+                        vueP.setInformation(vueP.getInformation(),"Vous avez choisit de sécher une case : \n ");
                         if (!msg.texte.equals("")){ //si la case message à été remplie
                             String texte = msg.texte;
 
                             System.out.println("Assechement en cours");
-
+                            vueP.setInformation(vueP.getInformation(),"Assechement en cours");
                             String[] positionString;
                             positionString = texte.split(","); //parsing des coordonnées
                             int[] position = new int[4];
@@ -353,25 +380,29 @@ public class Controleur2 implements Observer {
                             
                             if(!tuilesAutoursNonSeches.contains(grille.getTuiles()[position[0]][position[1]]) || (!tuilesAutoursNonSeches.contains(grille.getTuiles()[position[2]][position[3]]))){
                                 System.err.println("Assechement impossible");
+                                vueP.setInformation(vueP.getInformation(),"Assechement impossible");
                                 throw AssechementImpossibleException;
                             }else{ //on finalise la procédure d'asséchement
                                 ((Ingenieur)aventuriers.get("Gaspard")).assecher2Tuiles(getGrille().getTuiles()[position[0]][position[1]],getGrille().getTuiles()[position[2]][position[3]]);
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[0]][position[1]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[0]][position[1]].getNumColonne() + " est " + getGrille().getTuiles()[position[0]][position[1]].getStatut().toString());
-                                
+                                 vueP.setInformation(vueP.getInformation(),"Assechement bien effectué, vous êtes maintenant en : " + aventuriers.get("Gaspard").getEstSur().getNom());
                                 System.out.println("Asséchement bien effectué,la tuile : " + getGrille().getTuiles()[position[2]][position[3]].getNumLigne()+ ","
                                         + getGrille().getTuiles()[position[2]][position[3]].getNumColonne() + " est " + getGrille().getTuiles()[position[2]][position[3]].getStatut().toString());
                                 premierClic = true;
+                                 vueP.setInformation(vueP.getInformation(),"Assechement bien effectué, vous êtes maintenant en : " + aventuriers.get("Gaspard").getEstSur().getNom());
                             }
 
                         }else {
                             System.err.println("Aucune position entrée");
+                            vueP.setInformation(vueP.getInformation(),"Aucune position entrée");
                             throw AucunePositionEntreeException;
                         }
 
                     }
                 }catch(Exception e){
                     System.err.println("Une erreur c'est produite merci de recommencer");
+                    vueP.setInformation(vueP.getInformation(),"Une erreur c'est produite merci de recommencer");
                     setPremierClic(true);
                 }
       }
@@ -386,16 +417,18 @@ public class Controleur2 implements Observer {
         
         if (aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
             System.out.println("fin du tour");
+            vueP.setInformation(vueP.getInformation(),"fin du tour");
             //vue.close();
             aventuriers.get("Gaspard").setNbaction(1);
             System.exit(0);
         }
          System.out.println("Action n°"+ aventuriers.get("Gaspard").getNbaction());
+         vueP.setInformation(vueP.getInformation(),"Action n°"+ aventuriers.get("Gaspard").getNbaction());
     }
 
  
     
-    //manipuler niveau d'eau
+   //manipuler niveau d'eau
     public int getNiveauEau() {
         return niveauEau;
     }
@@ -407,38 +440,115 @@ public class Controleur2 implements Observer {
     public Stack<CarteInondation> getPiocheInondation() {
         return cartesInondationPioche;
     }
-    
+
     //defausse cartes inondation
-    public Stack<CarteInondation> getPiocheInondationDefausse() {
-        return cartesInondationDefausse;
+    public Stack<CarteInondation> getDefausseInondation() {
+        return cartesDefausseInondation;
     }
 
     //pioche de cartes tirage(tresor et montee des eaux)
     public Stack<CarteTirage> getPiocheTirage() {
         return cartesTiragePioche;
     }
-    
-    //defausse de cartes tirage(tresor et montee des eaux)
+
+    //defausse de cartes tijoueursrage(tresor et montee des eaux)
     public Stack<CarteTirage> getDefausseTirage() {
         return cartesTirageDefausse;
     }
-    
+
     //permet de melanger une collection de cartes
-    public void melangerCartes(Stack pile){
+    public void melangerCartes(Stack pile) {
         Collections.shuffle(pile);
     }
-    
+
     //liste des cartes inondation jouées
     public ArrayList<CarteInondation> getCartesInondationEnJeu() {
         return cartesInondationEnJeu;
     }
-    
-    
+
     //permet de piocher deux cartes inondation s'execute pour chaque debut de tour de chaque aventurier
-    public void piocherCarteinondation(Stack<CarteInondation> cartesInondation){
-        //pioche deux cartes de la pioche de cartes inondation
-        for (int i = 0; i < 2; i++) {
+    public void piocherCarteinondation(Stack<CarteInondation> cartesInondation) {
+       
+       
+        //pour savoir combien de cartes inondation sont a piocher
+        int nombrecartespiochées = 0;
+        if (getNiveauEau() == 1 || getNiveauEau() == 2) {
+            nombrecartespiochées = 2;
+        }
+        if (getNiveauEau() == 3 || getNiveauEau() == 4 || getNiveauEau() == 5) {
+            nombrecartespiochées = 3;
+        }
+        if (getNiveauEau() == 6 || getNiveauEau() == 7) {
+            nombrecartespiochées = 4;
+        }
+        if (getNiveauEau() == 8 || getNiveauEau() == 9) {
+            nombrecartespiochées = 5;
+        }
+       
+       
+       
+        for (int i = 0; i < nombrecartespiochées; i++) {
+
             getCartesInondationEnJeu().add(cartesInondation.pop());
+            if (cartesInondation.isEmpty()) {
+                Collections.shuffle(getDefausseInondation());
+            }   
+            for (CarteInondation carteInondation : getDefausseInondation()) {
+                getPiocheInondation().add(carteInondation);
+                getDefausseInondation().remove(carteInondation);
+               
+            }
+        }
+    }
+
+    public void donnerCarte(CarteTresor carteTresor, Aventurier j2) {
+        if (j2.getCartesMainAventurier().size() < 8) {
+            j2.getCartesTresorMainAventurier().add(carteTresor);
+            aventuriers.get(aventurierCourant).getCartesTresorMainAventurier().remove(carteTresor);
+            aventuriers.get(aventurierCourant).getCartesMainAventurier().remove(carteTresor);
+        } else {
+            System.out.println("le joueur ne peut pas recevoir de carte, sa main est pleine.");
+        }
+
+    }
+
+    public boolean partieTreminee() {
+        boolean resultat = false;
+        if(getNiveauEau() ==10){
+            resultat = true;
+        }
+        return resultat;
+    }
+    public void initialiserCartesTirage(){
+        for (int i = 0; i < 5; i++) {
+            cartesTiragePioche.add(new CarteTirage(Utils.Tresor.PIERRE));
+            cartesTiragePioche.add(new CarteTirage(Utils.Tresor.CALICE));
+            cartesTiragePioche.add(new CarteTirage(Utils.Tresor.CRISTAL));
+            cartesTiragePioche.add(new CarteTirage(Utils.Tresor.ZEPHYR));
+        }
+        cartesTiragePioche.add(new CarteTirage(typeCarte.carte_Montee_Des_Eaux));
+        cartesTiragePioche.add(new CarteTirage(typeCarte.carte_Montee_Des_Eaux));
+        Collections.shuffle(cartesTiragePioche);
+       
+    }
+    public void piocherCarteTirage(Stack<CarteTirage> carteTirage){
+        //si la main de l'aventurier n'est pas pleine
+        if(aventuriers.get(aventurierCourant).getCartesMainAventurier().size()<8){
+            CarteTirage nouvelleCarte = carteTirage.pop();
+            aventuriers.get(aventurierCourant).getCartesMainAventurier().add(nouvelleCarte);
+            if(nouvelleCarte.getType() == typeCarte.Carte_Tresor){
+                aventuriers.get(aventurierCourant).getCartesTresorMainAventurier().add((CarteTresor) nouvelleCarte);
+            }
+            //alors on ajoute la carte de la pile à la main
+            if (carteTirage.isEmpty()){
+                Collections.shuffle(cartesTirageDefausse);
+                for (CarteTirage carteTirage1 : cartesTirageDefausse) {
+                    cartesTiragePioche.add(carteTirage1);                 
+                }
+            }
+        }
+        else{
+            System.err.println("Votre main est pleine, la limte est de 9 cartes");
         }
     }
     

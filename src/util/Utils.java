@@ -15,6 +15,7 @@ public class Utils {
     
     public static enum Commandes {
         VALIDER_JOUEURS("Valider l'inscription des joueurs"),
+        CAPACITE("Utilisation de la capacité de l'aventurier"),
         BOUGER("Déplacer son pion"),
         ASSECHER("Assécher une tuile"),
         DONNER("Donner une carte à un autre joueur"),

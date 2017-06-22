@@ -10,9 +10,11 @@ import java.util.Collections;
 import java.util.Stack;
 import model.cards.CarteInondation;
 import model.cards.CarteTirage;
+import model.cards.CarteTresor;
 import model.grille.Grille;
 import util.Utils;
 import model.grille.Tuile;
+import util.Utils.Tresor;
 
 /**
  *
@@ -26,7 +28,13 @@ public abstract class Aventurier {
     private int nbaction;
     private Grille grille;
     
+    private ArrayList<Tresor> tresors = new ArrayList<Tresor>();
     private ArrayList<CarteTirage> cartesMainAventurier;
+    private ArrayList<CarteTresor> cartesTresorMainAventurier;
+    private int nbPierre =0;
+    private int nbCalice =0;
+    private int nbZephyr = 0;
+    private int nbCristal = 0;
     
     //////////CONSTRUCTEUR///////
     public Aventurier(roleAventuriers role ,String capacite, Tuile estSur){
@@ -214,16 +222,51 @@ public abstract class Aventurier {
     }
 
     
-    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
+    
+    ////////////////////////////////ASTRING_DEPLACER///////////////////////////////////////
+    public String getAfficher(ArrayList<Tuile> tuiles){
+        String texte;
+          texte =("Les tuiles sur lesquels vous pouvez vous déplacer sont : ");
+        
+                if (!tuiles.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
+                        for(int k = 0; k < tuiles.size() - 1; k++){
+                            texte = texte +  (tuiles.get(k).getNom() +" ou ");
+                        }
+                    texte =texte + tuiles.get(tuiles.size()-1).getNom();
+                   
+                }else{
+                    texte = "Impossible de se déplacer";
+                }
+    return texte;                 
+     }
+    
+    ////////////////////////////////////STRING_TUILES_POSSIBLES///////////////////////////////////////////////
+    public String getAfficherAssecher(ArrayList<Tuile> tuiles){
+        String texte;
+         texte = ("Les tuiles que vous pouvez assécher : ");
+                
+                String positionPossible = "";
+                if (!tuiles.isEmpty()){ //Si il y a des tuiles sur lesquels ont peut se déplacer
+                    for(int k = 0; k < tuiles.size() - 1; k++){
+                        texte = texte +(tuiles.get(k).getNom()+" ou ");
+                    }
+                    texte = texte +(tuiles.get(tuiles.size()-1).getNom());
+                   
+                } else {
+                    texte = "Impossible d'assecher";
+                }
+               
+                return texte;
+    }
+    
+     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////METHODES CARTES////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+   
     
-    public ArrayList<CarteTirage> getCartesMainAventurier() {
-        return cartesMainAventurier;
-    }
-    
-    //permet de piocher une carte
+     //permet de piocher une carte
     public void piocherCarteTirage(Stack<CarteTirage> carteTirage){
         //si la main de l'aventurier n'est pas pleine 
         if(getCartesMainAventurier().size()<8){
@@ -232,6 +275,85 @@ public abstract class Aventurier {
         }
         else{
             System.err.println("Votre main est pleine, la limte est de 9 cartes");
+        }
+    }
+    
+    public ArrayList<CarteTirage> getCartesMainAventurier() {
+        return cartesMainAventurier;
+    }
+// Methode:
+public ArrayList<CarteTresor> getCartesTresorMainAventurier() {
+        return cartesTresorMainAventurier;
+    }
+public int getNbPierre() {
+        return nbPierre;
+    }
+
+    public int getNbCalice() {
+        return nbCalice;
+    }
+
+    public int getNbZephyr() {
+        return nbZephyr;
+    }
+
+    public int getNbCristal() {
+        return nbCristal;
+    }
+   
+    //permet de piocher une carte
+   
+    public ArrayList<Tresor> getTresors(){
+        return tresors;
+    }
+   
+    public void recupererTresor(){
+        Tuile position = this.getEstSur();
+       
+
+       
+        for (CarteTresor carteTresor : cartesTresorMainAventurier) {
+            if (carteTresor.getTresor() == Tresor.PIERRE){
+                nbPierre = nbPierre +1;
+            }
+            if (carteTresor.getTresor() == Tresor.CALICE){
+                nbCalice = nbCalice +1;
+            }
+            if (carteTresor.getTresor() == Tresor.CRISTAL){
+                nbCristal = nbCristal +1;
+            }
+            else{
+                nbZephyr = nbZephyr +1;
+            }
+          
+        }
+           
+        if(position.getNumLigne()==4 && (position.getNumColonne() == 1 ||position.getNumColonne() == 2 )){
+            // positions des tuiles tresors Pierre
+            if (nbPierre >3 ){
+                tresors.add(Tresor.PIERRE);
+            }
+        }
+        if((position.getNumLigne()==5 && position.getNumColonne() == 3 )||(position.getNumLigne()==2 && position.getNumColonne() == 5 )){
+            // positions des tuiles tresors Zephyr
+            if (nbZephyr >3 ){
+                tresors.add(Tresor.ZEPHYR);
+            }
+        }
+        if((position.getNumLigne()==1 && position.getNumColonne() == 1 )||(position.getNumLigne()==3 && position.getNumColonne() == 5 )){
+            // positions des tuiles tresors Cristal
+            if (nbCristal >3){
+                tresors.add(Tresor.CRISTAL);
+            }
+        }
+        if((position.getNumLigne()==2 && position.getNumColonne() == 0 )||(position.getNumLigne()==4 && position.getNumColonne() == 3 )){
+            // positions des tuiles tresors Calice
+            if (nbCalice >3 ){
+                tresors.add(Tresor.CALICE);
+            }
+        }
+        else{
+            System.out.println("l'aventurier n'est pas sur une tuile trésor");
         }
     }
     

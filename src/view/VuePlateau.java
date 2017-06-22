@@ -30,6 +30,9 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import model.aventuriers.*;
 import model.grille.Grille;
@@ -46,19 +49,20 @@ public class VuePlateau extends Observable implements Observer {
     private final Aventurier joueur;
     private Observable observable;
     private VueGrille tuileGrille;
-    
-   JFrame fenetre = new JFrame("Plateau de jeu");
+    private JTextArea information;
+
+    JFrame fenetre = new JFrame("Plateau de jeu");
 
     public VuePlateau(Aventurier joueur, Grille grille) {
-       this.joueur=joueur;
-       this.grille = grille;
-       
+        this.joueur = joueur;
+        this.grille = grille;
+
         /////////////////////////////////////
         //Instanciation de la fenêtre
         fenetre.setSize(1000, 1000);
         fenetre.setLayout(new BorderLayout());
         fenetre.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        
+
         /////////////////////////////////////
         //Creation de panel et ajout d'un titre
         JPanel panelNord = new JPanel();
@@ -71,63 +75,75 @@ public class VuePlateau extends Observable implements Observer {
         panelNord.add(titre);
         panelNord.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // permet de centrer le texte au milieu du panel
         fenetre.add(panelNord, BorderLayout.NORTH);
-        
+
         /////////////////////////////////////
         // Création des tuiles du plateau
         this.tuileGrille = new VueGrille(grille);
         fenetre.add(tuileGrille, BorderLayout.CENTER);
-        tuileGrille.repaint();
-       
 
+        //////////////////////COULEUR TUILES POSSIBLES//////////////////////////////////////////
         /////////////////////////////////////
         //Création de la fenêtre de saisie et des boutons
-        VueAventurier2 aventurier = new VueAventurier2(joueur.getRole().getNom(),joueur.getRole().getPion().getCouleur(), tuileGrille);
+        VueAventurier2 aventurier = new VueAventurier2(joueur.getRole().getNom(), joueur.getRole().getPion().getCouleur(), tuileGrille);
         JPanel panelSud = new JPanel();
-        JPanel panelEast = new JPanel(new GridLayout(7,3));
+        JPanel panelEast = new JPanel(new GridLayout(7, 1));
         JButton niveau = new JButton("Niveau d'eau");
 
         panelSud.add(aventurier);
         fenetre.add(panelSud, BorderLayout.SOUTH);
-        fenetre.add(panelEast,BorderLayout.EAST);
-        
-       ///BOUTON NIVEAU///
-        for(int i = 0; i < 21;i++){
-            if(i==11){
+        fenetre.add(panelEast, BorderLayout.EAST);
+
+        JPanel panelOuest = new JPanel(new GridLayout(7, 1));
+
+        information = new JTextArea(15,15);
+        information.setLineWrap(true);
+        information.setEditable(false);
+        panelOuest.add(information);
+        fenetre.add(panelOuest, BorderLayout.WEST);
+
+        ///BOUTON NIVEAU///
+        for (int i = 0; i < 7; i++) {
+            if (i == 3) {
                 panelEast.add(niveau);
-            }else{
+                panelOuest.add(information);
+            } else {
                 panelEast.add(new JLabel(""));
+                panelOuest.add(new JLabel(""));
             }
         }
         ////////////////////
-        
+
         ///LISTENER BOUTON NIVEAU///
         niveau.addMouseListener(new MouseListener() {
             VueNiveau niveauEau = new VueNiveau(1);
-           @Override
-           public void mouseClicked(MouseEvent e) {
-           }
-           @Override
-           public void mousePressed(MouseEvent e) {
-           }
-           @Override
-           public void mouseReleased(MouseEvent e) {
-           }
-           @Override
-           public void mouseEntered(MouseEvent e) {
-               niveauEau.Affiche();
-           }
 
-           @Override
-           public void mouseExited(MouseEvent e) {
-               niveauEau.close();
-           }
-       });
-       ////////////////////////
-       // Observable
-       ((Observable) aventurier.getObservable()).addObserver(this);
-    
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                niveauEau.Affiche();
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                niveauEau.close();
+            }
+        });
+        ////////////////////////
+        // Observable
+        ((Observable) aventurier.getObservable()).addObserver(this);
+
     }
-  
 
     public JFrame getFenetre() {
         return fenetre;
@@ -137,40 +153,45 @@ public class VuePlateau extends Observable implements Observer {
     public VueGrille getTuileGrille() {
         return tuileGrille;
     }
+
     public void setTuileGrille(VueGrille tuileGrille) {
         this.tuileGrille = tuileGrille;
     }
-    
-    
-    
+
     public void updateGrille(Grille grille) {
         tuileGrille.setVisible(false);
         fenetre.add(tuileGrille, BorderLayout.CENTER);
         tuileGrille.setVisible(true);
+
     }
-    
-    
-    
+
     //////////////TRANSFERT DU MESSAGE DE LA VUE AVENTURIER AU CONTROLEUR///////////////
     @Override
     public void update(Observable o, Object arg) {
-        setChanged(); 
+        setChanged();
         Message m = (Message) arg;
         System.out.println(m.texte);
         notifyObservers(m);
         clearChanged();
     }
-    
+
     /////////////////////AFFICHER/FERMER_FENETRE/////////////////////////////////
-     public void close(){
+    public void close() {
         fenetre.setVisible(false);
     }
-    public void Affiche(){
+
+    public void Affiche() {
         fenetre.setVisible(true);
         fenetre.repaint();
     }
-    
+
+    ///////////////////GET_SET_TEXTEAREA/////////////////////////////////////////
+    public JTextArea getInformation() {
+        return information;
+    }
+
+    public void setInformation(JTextArea information, String texte) {
+        information.setText(texte);
+    }
 
 }
-
-

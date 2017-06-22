@@ -21,19 +21,19 @@ public final class VueTuile extends JButton {
             case COULEE:
                 setBackground(Color.DARK_GRAY);
                 setBorder(BorderFactory.createLineBorder(Color.WHITE));
-                repaint();
-                
+                setForeground(Color.white);
                 break;
+                
             case INONDEE:
                 setBackground(Color.CYAN);
                 setBorder(BorderFactory.createLineBorder(Color.BLACK));
-                repaint();
                 break;
+                
             case ASSECHEE:
                 setBackground(Color.ORANGE);
                setBorder(BorderFactory.createLineBorder(Color.RED));
-               repaint();
                 break;
+                
             default:
                 break;
         }

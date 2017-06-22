@@ -51,9 +51,7 @@ public class VueGrille extends JPanel {
     }
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void setTuileColor(Tuile tuile, Color couleur) {
-        tuile.setBackground(couleur);
-    }
+   
 
     public final void creationGrille(Grille grille) {
         
@@ -91,19 +89,6 @@ public class VueGrille extends JPanel {
                         }
                     });
 
-                    //////////////////////MODIFIER COULEUR TUILE SUR LAQUELLE EST L'AVENTURIER//////////////////
-                    ///////MAIS CA MARCHE PAS////////
-                    /*for(Aventurier avent : tuile.getPossede()){
-                        System.out.println("111");
-                        if(avent.getRole() == roleAventuriers.pilote){
-                            avent.getEstSur().setBackground(avent.getRole().getPion().getCouleur());
-                            System.out.println("aaa");
-                        }else{
-                            tuile.setBackground(Color.red);
-                            System.out.println("bbb");
-                        }
-                    }*/
-                    /////////////////////
                 }
             }
         }
@@ -112,4 +97,6 @@ public class VueGrille extends JPanel {
     public MyObservable getObservable() {
         return observable;
     }
+    
+   
 }
