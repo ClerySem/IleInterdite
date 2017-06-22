@@ -182,7 +182,10 @@ public class Tuile extends JButton {
     public ArrayList<Aventurier> getPossede() {
         return possede;
     }
-
+    
+    public void removeAventurier(Aventurier aventurier){
+        getPossede().remove(aventurier);
+    }
     
     
 }

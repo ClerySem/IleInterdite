@@ -42,6 +42,7 @@ public abstract class Aventurier {
         this.capacite = capacite;
         this.nbaction = 1;
         this.estSur = estSur;
+        estSur.ajouterAventurier(this);
        
     }
     ////////////GET_SET_NOM////////////////////////
@@ -93,6 +94,7 @@ public abstract class Aventurier {
     }
     
     public void seDeplacer(Tuile tuile){
+        getEstSur().removeAventurier(this);
         setEstSur(tuile);
         tuile.ajouterAventurier(this);
         setNbaction(getNbaction() + 1);

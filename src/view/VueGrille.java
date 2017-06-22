@@ -75,9 +75,10 @@ public class VueGrille extends JPanel {
                 } else {          // les tuiles non vide
 
                     Tuile tuile = grille.getTuiles()[i][j];
-                    VueTuile btnTuile = new VueTuile(tuile);
+                    VueTuile vTuile = new VueTuile(tuile);
+                    JButton btnTuile = vTuile.getBoutonTuile();
                     // modifie la couleur de la bordure
-                    this.add(btnTuile);
+                    this.add(vTuile);
                     ////////////////////////////LISTENER BOUTON TUILE///////////////////////////
                     btnTuile.addActionListener(new ActionListener() {
                         @Override
