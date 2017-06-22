@@ -123,7 +123,7 @@ public class VueAventurier2 extends JPanel implements Observer {
             @Override
             public void actionPerformed(ActionEvent e) {
                 observable.setChanged();
-                Message m = new Message(Utils.Commandes.DONNER, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
+                Message m = new Message(Utils.Commandes.CAPACITE, CENTER, WIDTH, Utils.Tresor.PIERRE, WIDTH);
                 m.texte = position.getText();
                 observable.notifyObservers(m);
                 observable.clearChanged();

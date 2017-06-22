@@ -14,8 +14,13 @@ import model.grille.Tuile;
  * @author sarrasie
  */
 public class Navigateur extends Aventurier {
+    
 
     public Navigateur(Tuile positionDepart) {
         super(roleAventuriers.navigateur, "capacite",positionDepart);
+        setNbaction(0);
+        
     }
+
+    
 }

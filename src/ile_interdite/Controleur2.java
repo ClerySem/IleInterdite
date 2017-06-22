@@ -81,7 +81,7 @@ private String aventurierCourant;
         /*
             La ligne ci-dessous est à utiliser si l'on veut forcer un aventurier en particulier à une position particulière (/!\ Constructeur de pilote différent des autres)
         */
-        aventuriers.put("Gaspard", new Pilote(getGrille().getTuiles()[4][3],false));
+        //aventuriers.put("Gaspard", new Navigateur(getGrille().getTuiles()[4][3]));
         //vue = new VueAventurier("Gaspard", aventuriers.get("Gaspard").getRole().getNom(), aventuriers.get("Gaspard").getRole().getPion().getCouleur());
         afficherGrilleConsole();
         this.vueP = new VuePlateau(aventuriers.get("Gaspard"), getGrille());
@@ -190,9 +190,8 @@ private String aventurierCourant;
         Exception DeplacementImpossibleException = new Exception();
          
         switch(msg.getCommande()){
- 
+            
             case BOUGER:
-                
                 try{if(aventuriers.get("Gaspard").getNbaction() > 3 || choixFinTour){
             //fermeture de la fenêtre et ouverture de celle du nouvel aventurier
             vueP.close();
@@ -423,7 +422,6 @@ private String aventurierCourant;
             System.exit(0);
         }
          System.out.println("Action n°"+ aventuriers.get("Gaspard").getNbaction());
-         vueP.setInformation(vueP.getInformation(),"Action n°"+ aventuriers.get("Gaspard").getNbaction());
     }
 
  

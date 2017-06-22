@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 import model.aventuriers.*;
 import model.grille.Grille;
 import model.grille.Tuile;
@@ -87,27 +88,44 @@ public class VuePlateau extends Observable implements Observer {
         VueAventurier2 aventurier = new VueAventurier2(joueur.getRole().getNom(), joueur.getRole().getPion().getCouleur(), tuileGrille);
         JPanel panelSud = new JPanel();
         JPanel panelEast = new JPanel(new GridLayout(7, 1));
+        panelEast.setBorder(new EmptyBorder(0,10,0,0));//rajoute un adding à gauche du bouton
         JButton niveau = new JButton("Niveau d'eau");
 
         panelSud.add(aventurier);
         fenetre.add(panelSud, BorderLayout.SOUTH);
         fenetre.add(panelEast, BorderLayout.EAST);
-
-        JPanel panelOuest = new JPanel(new GridLayout(7, 1));
-
-        information = new JTextArea(15,15);
-        information.setLineWrap(true);
-        information.setEditable(false);
-        panelOuest.add(information);
+        
+        /////////////////////////////CREATION PANEL OUEST POUR INFORMATION///////////////////////////////////
+                
+        JPanel panelOuest = new JPanel(new GridLayout(3, 1));//JPanel Ouest 
+        JPanel panelOuestCentre = new JPanel(new BorderLayout());//Centrer le JPanel dans le panelOuest
+        panelOuestCentre.setBorder(new EmptyBorder(0,2,2,2));//rajoute un padding à droite de la zone d'information
+        
+        panelOuestCentre.setBackground(joueur.getRole().getPion().getCouleur());//Modifie la couleur en faonction du type d'aventurier 
+        
+        JLabel titreInfo = new JLabel("information",SwingConstants.CENTER);//Création du titre
+        information = new JTextArea(30,15);
+        information.setLineWrap(true);//retour  à la ligne selon le nbr de caractère sur la ligne
+        information.setEditable(false);// impossible de modifier manuellement le texteArea
+        panelOuestCentre.add(titreInfo,BorderLayout.NORTH);
+        panelOuest.add(panelOuestCentre);
+        panelOuestCentre.add(information,BorderLayout.CENTER);
+     
         fenetre.add(panelOuest, BorderLayout.WEST);
 
         ///BOUTON NIVEAU///
         for (int i = 0; i < 7; i++) {
             if (i == 3) {
                 panelEast.add(niveau);
-                panelOuest.add(information);
             } else {
                 panelEast.add(new JLabel(""));
+            }
+        }
+        
+            for (int i = 0; i < 3; i++) {
+            if (i == 1) {
+                panelOuest.add(panelOuestCentre);
+            } else {
                 panelOuest.add(new JLabel(""));
             }
         }
